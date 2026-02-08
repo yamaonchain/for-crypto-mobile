@@ -312,8 +312,79 @@ function Cosell() {
     </View>
   );
 }
-function Assets() { return <View />; }
-function BackedNetwork() { return <View />; }
+function Assets() {
+  return (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Sales Assets</Text>
+      <Text style={styles.sectionDescription}>
+        Upload logos, videos, and creative assets. Cosellers unlock them when they create a contract.
+        Give your network the tools they need to sell effectively.
+      </Text>
+      
+      <View style={styles.assetsGrid}>
+        <View style={styles.assetItem}>
+          <View style={styles.assetIcon}>
+            <Ionicons name="image" size={24} color="#525252" />
+          </View>
+          <Text style={styles.assetTitle}>Product Images</Text>
+          <Text style={styles.assetDescription}>High-res photos and screenshots</Text>
+        </View>
+        
+        <View style={styles.assetItem}>
+          <View style={styles.assetIcon}>
+            <Ionicons name="videocam" size={24} color="#525252" />
+          </View>
+          <Text style={styles.assetTitle}>Demo Videos</Text>
+          <Text style={styles.assetDescription}>Show your product in action</Text>
+        </View>
+        
+        <View style={styles.assetItem}>
+          <View style={styles.assetIcon}>
+            <Ionicons name="document-text" size={24} color="#525252" />
+          </View>
+          <Text style={styles.assetTitle}>Copy & Messaging</Text>
+          <Text style={styles.assetDescription}>Ready-to-use sales copy</Text>
+        </View>
+        
+        <View style={styles.assetItem}>
+          <View style={styles.assetIcon}>
+            <Ionicons name="color-palette" size={24} color="#525252" />
+          </View>
+          <Text style={styles.assetTitle}>Brand Assets</Text>
+          <Text style={styles.assetDescription}>Logos, colors, and style guides</Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+function BackedNetwork() {
+  return (
+    <View style={styles.networkSection}>
+      <Text style={[styles.sectionTitle, { color: "#fff" }]}>Built on Base</Text>
+      <Text style={[styles.sectionDescription, { color: "#a3a3a3" }]}>
+        Powered by Coinbase's Layer 2 network. Fast, cheap transactions with USDC - 
+        a digital dollar that's always worth $1.
+      </Text>
+      
+      <View style={styles.networkFeatures}>
+        <View style={styles.networkFeature}>
+          <Text style={styles.networkFeatureTitle}>Instant Settlements</Text>
+          <Text style={styles.networkFeatureDescription}>Payments confirm in seconds, not days</Text>
+        </View>
+        
+        <View style={styles.networkFeature}>
+          <Text style={styles.networkFeatureTitle}>Low Fees</Text>
+          <Text style={styles.networkFeatureDescription}>Pennies per transaction vs traditional payment processing</Text>
+        </View>
+        
+        <View style={styles.networkFeature}>
+          <Text style={styles.networkFeatureTitle}>Global Access</Text>
+          <Text style={styles.networkFeatureDescription}>Anyone with a wallet can participate</Text>
+        </View>
+      </View>
+    </View>
+  );
+}
 function FAQSection() { return <View />; }
 
 const styles = StyleSheet.create({
@@ -439,4 +510,18 @@ const styles = StyleSheet.create({
   },
   stepNumber: { fontSize: 14, fontWeight: "600", color: "#fff" },
   stepText: { fontSize: 16, color: "#525252", lineHeight: 24, flex: 1 },
+
+  // Assets Section
+  assetsGrid: { flexDirection: "row", flexWrap: "wrap", gap: 16, marginTop: 8 },
+  assetItem: { flex: 1, minWidth: "45%", alignItems: "center", padding: 20, backgroundColor: "#fafafa", borderRadius: 8 },
+  assetIcon: { marginBottom: 12 },
+  assetTitle: { fontSize: 16, fontWeight: "600", color: "#000", marginBottom: 4, textAlign: "center" },
+  assetDescription: { fontSize: 14, color: "#737373", textAlign: "center", lineHeight: 20 },
+
+  // Network Section
+  networkSection: { padding: 24, paddingVertical: 40, backgroundColor: "#000" },
+  networkFeatures: { gap: 20, marginTop: 16 },
+  networkFeature: { alignItems: "center" },
+  networkFeatureTitle: { fontSize: 18, fontWeight: "600", color: "#fff", marginBottom: 4, textAlign: "center" },
+  networkFeatureDescription: { fontSize: 16, color: "#a3a3a3", textAlign: "center", lineHeight: 24 },
 });
