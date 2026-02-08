@@ -277,17 +277,6 @@ export default function ProductDetailScreen() {
     );
   };
 
-  const handleCosell = () => {
-    Alert.alert(
-      "Become a Coseller",
-      `Earn ${post?.commission}% commission on every sale through your link.`,
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Create Link", onPress: () => console.log("Create cosell link") }
-      ]
-    );
-  };
-
   if (loading) {
     return (
       <View style={styles.container}>

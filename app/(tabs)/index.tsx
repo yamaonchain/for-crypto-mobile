@@ -145,10 +145,10 @@ function Hero() {
         <Pressable 
           style={styles.buttonOutline}
           onPress={() => {
-            console.log("Learn More button pressed!");
+            console.log("Browse button pressed!");
           }}
         >
-          <Text style={styles.buttonOutlineText}>Learn More</Text>
+          <Text style={styles.buttonOutlineText}>Browse</Text>
         </Pressable>
         <Link href="/posts/new" asChild>
           <Pressable style={styles.buttonFilled}>
