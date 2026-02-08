@@ -19,7 +19,7 @@ function CartIcon({ focused, color }: { focused: boolean; color: string }) {
           position: "absolute",
           top: -6,
           right: -8,
-          backgroundColor: "#000",
+          backgroundColor: "#fff",
           borderRadius: 10,
           minWidth: 18,
           height: 18,
@@ -27,7 +27,7 @@ function CartIcon({ focused, color }: { focused: boolean; color: string }) {
           alignItems: "center",
         }} pointerEvents="none">
           <Text style={{
-            color: "#fff",
+            color: "#000",
             fontSize: 10,
             fontWeight: "600",
             textAlign: "center",
@@ -45,22 +45,22 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarStyle: { 
-          backgroundColor: "#fff", 
-          borderTopColor: "#e5e5e5",
+          backgroundColor: "#000", 
+          borderTopColor: "#333",
           borderTopWidth: 1,
           height: 84,
           paddingBottom: 20,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: "#000",
-        tabBarInactiveTintColor: "#737373",
+        tabBarActiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#888",
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "500",
           marginTop: 4,
         },
-        headerStyle: { backgroundColor: "#fff" },
-        headerTintColor: "#000",
+        headerStyle: { backgroundColor: "#000" },
+        headerTintColor: "#fff",
         headerShadowVisible: false,
       }}
     >

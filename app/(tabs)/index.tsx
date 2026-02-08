@@ -522,12 +522,12 @@ function AssetCard({ title, description, icon }: { title: string; description: s
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#FFFDFC" },
+  container: { flex: 1, backgroundColor: "#000" },
   content: { paddingBottom: 40 },
 
   // Hero
   hero: { paddingTop: 40, paddingBottom: 20, alignItems: "center" },
-  heroTitle: { fontSize: 32, fontWeight: "700", textAlign: "center", color: "#000", lineHeight: 40 },
+  heroTitle: { fontSize: 32, fontWeight: "700", textAlign: "center", color: "#fff", lineHeight: 40 },
   heroSubtitle: {
     fontSize: 16,
     color: "#737373",
@@ -537,10 +537,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   heroButtons: { flexDirection: "row", gap: 12, marginTop: 24, paddingHorizontal: 24, width: "100%" },
-  buttonOutline: { flex: 1, borderWidth: 1, borderColor: "#000", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
-  buttonOutlineText: { fontSize: 16, fontWeight: "500", color: "#000" },
-  buttonFilled: { flex: 1, backgroundColor: "#000", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
-  buttonFilledText: { fontSize: 16, fontWeight: "500", color: "#fff" },
+  buttonOutline: { flex: 1, borderWidth: 1, borderColor: "#fff", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
+  buttonOutlineText: { fontSize: 16, fontWeight: "500", color: "#fff" },
+  buttonFilled: { flex: 1, backgroundColor: "#fff", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
+  buttonFilledText: { fontSize: 16, fontWeight: "500", color: "#000" },
 
   // Carousel
   carouselContainer: { marginTop: 32, width: "100%" },
