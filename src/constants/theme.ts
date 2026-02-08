@@ -1,14 +1,14 @@
 // Design tokens matching for-crypto.vercel.app
 export const colors = {
-  background: "#000",
-  surface: "#111",
-  surfaceAlt: "#1a1a1a",
-  border: "#222",
-  text: "#fff",
-  textSecondary: "#888",
-  textMuted: "#666",
-  accent: "#fff",
-  error: "#ef4444",
+  background: "#ffffff",
+  surface: "#ffffff",
+  surfaceAlt: "#f2f2f2",
+  border: "#e5e5e5",
+  text: "#151515",
+  textSecondary: "#525252",
+  textMuted: "#888888",
+  accent: "#ff6000",
+  error: "#dc2626",
   success: "#22c55e",
 } as const;
 
