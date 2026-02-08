@@ -66,7 +66,6 @@ export default function HomeScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Hero />
       <BotQuickStart />
-      <FeaturedListings />
       <Why />
       <How />
       <Cosell />
@@ -86,6 +85,53 @@ function Hero() {
     const index = Math.round(offset / (SLIDE_WIDTH + SLIDE_SPACING));
     setActiveIndex(index);
   }, []);
+
+  const handleDotPress = (index: number) => {
+    flatListRef.current?.scrollToIndex({ index, animated: true });
+  };
+
+  const handleBuyPress = (listing: any) => {
+    console.log("Example listing only - Browse real listings in Search or create your own.");
+  };
+
+  const renderSlide = ({ item: slide, index }: { item: any; index: number }) => (
+    <View style={[styles.slide, { width: SLIDE_WIDTH }]}>
+      <View style={styles.slideCard}>
+        <View style={styles.exampleLabel}>
+          <Text style={styles.exampleLabelText}>Example Listing</Text>
+        </View>
+        
+        {/* Placeholder for video/image - using gray background */}
+        <View style={styles.slideImage} />
+        
+        <View style={styles.slideFooter}>
+          <View style={styles.cosellInfo}>
+            <Text style={styles.cosellTitle}>Cosell For Crypto.</Text>
+            <Text style={styles.cosellCommission}>{slide.commission}% Commission</Text>
+          </View>
+          <View style={styles.divider} />
+          <Pressable style={styles.becomeCoseller}>
+            <Text style={styles.becomeCosellerText}>Become a Coseller</Text>
+          </Pressable>
+        </View>
+        
+        <Pressable style={styles.buyButton} onPress={() => handleBuyPress(slide)}>
+          <Text style={styles.buyButtonText}>Buy Now</Text>
+        </Pressable>
+        
+        <View style={styles.priceSection}>
+          <Text style={styles.price}>{slide.price} USDC</Text>
+        </View>
+        
+        <View style={styles.slideContent}>
+          <Text style={styles.slideTitle}>{slide.title}</Text>
+          <Text style={styles.slideDescription} numberOfLines={3}>
+            {slide.description}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
 
   return (
     <View style={styles.hero}>
@@ -109,6 +155,36 @@ function Hero() {
             <Text style={styles.buttonFilledText}>Sell</Text>
           </Pressable>
         </Link>
+      </View>
+
+      {/* Featured Listings Carousel */}
+      <View style={styles.carouselSection}>
+        <FlatList
+          ref={flatListRef}
+          data={REAL_LISTINGS}
+          renderItem={renderSlide}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={SLIDE_WIDTH + SLIDE_SPACING}
+          decelerationRate="fast"
+          contentContainerStyle={styles.carouselContainer}
+          onScroll={onScroll}
+          scrollEventThrottle={16}
+        />
+        
+        {/* Dot Indicators */}
+        <View style={styles.dotContainer}>
+          {REAL_LISTINGS.map((_, index) => (
+            <Pressable
+              key={index}
+              style={[
+                styles.dot,
+                { backgroundColor: index === activeIndex ? '#000' : '#ccc' }
+              ]}
+              onPress={() => handleDotPress(index)}
+            />
+          ))}
+        </View>
       </View>
     </View>
   );
@@ -155,82 +231,6 @@ function BotQuickStart() {
           </View>
           <Text style={styles.stepText}>Start earning</Text>
         </View>
-      </View>
-    </View>
-  );
-}
-
-function FeaturedListings() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const flatListRef = useRef<FlatList>(null);
-
-  const onScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const offset = e.nativeEvent.contentOffset.x;
-    const index = Math.round(offset / (SLIDE_WIDTH + SLIDE_SPACING));
-    setActiveIndex(index);
-  }, []);
-
-  return (
-    <View style={styles.carouselContainer}>
-      <FlatList
-        ref={flatListRef}
-        data={REAL_LISTINGS}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled={false}
-        snapToInterval={SLIDE_WIDTH + SLIDE_SPACING}
-        snapToAlignment="start"
-        decelerationRate="fast"
-        contentContainerStyle={styles.carouselContent}
-        onScroll={onScroll}
-        scrollEventThrottle={16}
-        renderItem={({ item, index }) => (
-          <View style={[styles.slide, { width: SLIDE_WIDTH }]}>
-            <View style={styles.slideLabel}>
-              <Text style={styles.slideLabelText}>Example Listing</Text>
-            </View>
-            
-            <View style={styles.slideImage}>
-              <Ionicons name="image-outline" size={60} color="#d4d4d4" />
-            </View>
-            
-            <View style={styles.slideCosellBar}>
-              <View style={styles.slideCosellInfo}>
-                <Text style={styles.slideCosellLabel}>Cosell For Crypto.</Text>
-                <Text style={styles.slideCosellCommission}>{item.commission}% Commission</Text>
-              </View>
-              <View style={styles.slideDivider} />
-              <Pressable style={styles.cosellButton}>
-                <Text style={styles.cosellButtonText}>Become a Coseller</Text>
-              </Pressable>
-            </View>
-            
-            <Pressable style={styles.slideBuyButton}>
-              <Text style={styles.slideBuyText}>Buy Now</Text>
-            </Pressable>
-            
-            <View style={styles.slidePrice}>
-              <Text style={styles.slidePriceText}>{item.price} USDC</Text>
-            </View>
-            
-            <View style={styles.slideContent}>
-              <Text style={styles.slideTitle}>{item.title}</Text>
-              <Text style={styles.slideDescription}>{item.description}</Text>
-            </View>
-          </View>
-        )}
-      />
-      
-      <View style={styles.dots}>
-        {REAL_LISTINGS.map((_, index) => (
-          <View
-            key={index}
-            style={[
-              styles.dot,
-              index === activeIndex ? styles.dotActive : styles.dotInactive,
-            ]}
-          />
-        ))}
       </View>
     </View>
   );
@@ -295,16 +295,20 @@ const styles = StyleSheet.create({
   stepArrow: { fontSize: 14, color: "#525252" },
 
   // Carousel
-  carouselContainer: { marginTop: 40, width: "100%" },
-  carouselContent: { paddingHorizontal: 24, gap: SLIDE_SPACING },
+  carouselSection: { marginTop: 40, width: "100%" },
+  carouselContainer: { paddingHorizontal: 24 },
   slide: {
     backgroundColor: "#fff",
-    borderRadius: 12,
+    borderRadius: 0,
     borderWidth: 1,
     borderColor: "#e5e5e5",
     overflow: "hidden",
+    marginRight: SLIDE_SPACING,
   },
-  slideLabel: {
+  slideCard: {
+    position: "relative",
+  },
+  exampleLabel: {
     position: "absolute",
     top: 12,
     left: 12,
@@ -314,38 +318,36 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 4,
   },
-  slideLabelText: { fontSize: 11, color: "#fff", fontWeight: "500" },
+  exampleLabelText: { fontSize: 11, color: "#fff", fontWeight: "500" },
   slideImage: {
     aspectRatio: 16 / 9,
     backgroundColor: "#f5f5f5",
     alignItems: "center",
     justifyContent: "center",
   },
-  slideCosellBar: {
+  slideFooter: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: "#f5f5f5",
-    gap: 8,
+    backgroundColor: "#e5e5e5",
   },
-  slideCosellInfo: { flex: 1, alignItems: "center" },
-  slideCosellLabel: { fontSize: 14, fontWeight: "500", color: "#000", marginBottom: 2 },
-  slideCosellCommission: { fontSize: 12, color: "#737373" },
-  slideDivider: { width: 1, height: 24, backgroundColor: "#e5e5e5" },
-  cosellButton: { flex: 1, alignItems: "center" },
-  cosellButtonText: { fontSize: 12, fontWeight: "500", color: "#000" },
-  slideBuyButton: { backgroundColor: "#000", paddingVertical: 14, alignItems: "center" },
-  slideBuyText: { fontSize: 16, fontWeight: "600", color: "#fff" },
-  slidePrice: { paddingVertical: 12, alignItems: "center", borderBottomWidth: 1, borderBottomColor: "#f5f5f5" },
-  slidePriceText: { fontSize: 15, color: "#000" },
+  cosellInfo: { flex: 1, alignItems: "center" },
+  cosellTitle: { fontSize: 14, fontWeight: "500", color: "#000", marginBottom: 2 },
+  cosellCommission: { fontSize: 12, color: "#737373" },
+  divider: { width: 1, height: 24, backgroundColor: "#e5e5e5" },
+  becomeCoseller: { flex: 1, alignItems: "center" },
+  becomeCosellerText: { fontSize: 12, fontWeight: "500", color: "#000" },
+  buyButton: { backgroundColor: "#000", paddingVertical: 14, alignItems: "center" },
+  buyButtonText: { fontSize: 16, fontWeight: "600", color: "#fff" },
+  priceSection: { paddingVertical: 12, alignItems: "center", borderBottomWidth: 1, borderBottomColor: "#e5e5e5" },
+  price: { fontSize: 15, color: "#000" },
   slideContent: { padding: 24, alignItems: "center" },
-  slideTitle: { fontSize: 22, fontWeight: "600", color: "#000", textAlign: "center", marginBottom: 8 },
+  slideTitle: { fontSize: 22, fontWeight: "600", color: "#000", textAlign: "center", marginBottom: 8, lineHeight: 28 },
   slideDescription: { fontSize: 16, color: "#737373", textAlign: "center", lineHeight: 24 },
-  dots: { flexDirection: "row", justifyContent: "center", gap: 10, marginTop: 16 },
+  dotContainer: { flexDirection: "row", justifyContent: "center", gap: 10, marginTop: 16 },
   dot: { width: 14, height: 14, borderRadius: 7 },
-  dotActive: { backgroundColor: "#000" },
-  dotInactive: { backgroundColor: "#e5e5e5" },
+  // Removed duplicate styles - using carousel styles in Hero section
 
   // Sections
   section: { padding: 24, paddingVertical: 40 },
