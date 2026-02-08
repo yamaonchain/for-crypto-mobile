@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Pressable, FlatList, ScrollView, Alert } from "
 import { Link } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { colors, spacing, fontSize } from "../../src/constants/theme";
 
 // Mock user data matching web app structure exactly
 const MOCK_USER = {
@@ -108,7 +109,7 @@ export default function ProfileScreen() {
       <View style={styles.container}>
         <View style={styles.connectSection}>
           <View style={styles.walletIconCircle}>
-            <Ionicons name="wallet-outline" size={40} color="#000" />
+            <Ionicons name="wallet-outline" size={40} color={colors.text} />
           </View>
           <Text style={styles.connectTitle}>Connect Wallet</Text>
           <Text style={styles.connectSubtitle}>
@@ -165,14 +166,14 @@ export default function ProfileScreen() {
           {/* Profile Toolbar - matching web app */}
           <View style={styles.profileToolbar}>
             <Pressable style={styles.moreButton} onPress={handleMoreOptions}>
-              <Ionicons name="ellipsis-horizontal" size={24} color="#000" />
+              <Ionicons name="ellipsis-horizontal" size={24} color={colors.text} />
             </Pressable>
           </View>
 
           {/* Banner Section - matching web app */}
           {user.bannerUrl && (
             <View style={styles.bannerContainer}>
-              <Ionicons name="image-outline" size={60} color="#d4d4d4" />
+              <Ionicons name="image-outline" size={60} color={colors.border} />
             </View>
           )}
 
@@ -181,7 +182,7 @@ export default function ProfileScreen() {
             <View style={styles.profileContent}>
               {/* Avatar */}
               <View style={styles.avatar}>
-                <Ionicons name="person" size={40} color="#737373" />
+                <Ionicons name="person" size={40} color={colors.textSecondary} />
               </View>
               
               {/* Name */}
@@ -196,7 +197,7 @@ export default function ProfileScreen() {
                       key={i}
                       name={i < Math.floor(user.meta.ratings.average) ? "star" : "star-outline"}
                       size={20}
-                      color={i < Math.floor(user.meta.ratings.average) ? "#000" : "#737373"}
+                      color={i < Math.floor(user.meta.ratings.average) ? colors.text : colors.textSecondary}
                     />
                   ))}
                   <Text style={styles.ratingText}>{user.meta.ratings.total} Total Ratings</Text>
@@ -217,17 +218,17 @@ export default function ProfileScreen() {
               <View style={styles.socialSection}>
                 {user.website && (
                   <Pressable style={styles.socialButton}>
-                    <Ionicons name="globe-outline" size={20} color="#000" />
+                    <Ionicons name="globe-outline" size={20} color={colors.text} />
                   </Pressable>
                 )}
                 {user.socials.x && (
                   <Pressable style={styles.socialButton}>
-                    <Ionicons name="logo-twitter" size={20} color="#000" />
+                    <Ionicons name="logo-twitter" size={20} color={colors.text} />
                   </Pressable>
                 )}
                 {user.socials.instagram && (
                   <Pressable style={styles.socialButton}>
-                    <Ionicons name="logo-instagram" size={20} color="#000" />
+                    <Ionicons name="logo-instagram" size={20} color={colors.text} />
                   </Pressable>
                 )}
               </View>
@@ -298,7 +299,7 @@ function PostList({ items }: { items: any[] }) {
   if (items.length === 0) {
     return (
       <View style={styles.emptyState}>
-        <Ionicons name="grid-outline" size={48} color="#e5e5e5" />
+        <Ionicons name="grid-outline" size={48} color={colors.border} />
         <Text style={styles.emptyTitle}>No items</Text>
         <Text style={styles.emptyDescription}>Nothing to show here yet.</Text>
       </View>
@@ -319,7 +320,7 @@ function PostCard({ item }: { item: any }) {
     <Link href={`/product/${item.id}`} asChild>
       <Pressable style={styles.postCard}>
         <View style={styles.postImage}>
-          <Ionicons name="image-outline" size={40} color="#d4d4d4" />
+          <Ionicons name="image-outline" size={40} color={colors.border} />
         </View>
         <View style={styles.postContent}>
           <Text style={styles.postTitle} numberOfLines={1}>{item.title}</Text>
@@ -347,7 +348,7 @@ function PostCard({ item }: { item: any }) {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    backgroundColor: "#FFFDFC" 
+    backgroundColor: colors.background 
   },
   
   // Scroll view
@@ -360,7 +361,7 @@ const styles = StyleSheet.create({
   
   // Header background - matching web app
   headerBackground: {
-    backgroundColor: "#FFFDFC",
+    backgroundColor: colors.background,
   },
   
   // Breadcrumb - matching web app
@@ -371,7 +372,7 @@ const styles = StyleSheet.create({
   },
   breadcrumbText: {
     fontSize: 16,
-    color: "#000",
+    color: colors.text,
     fontWeight: "500",
   },
   
@@ -392,7 +393,7 @@ const styles = StyleSheet.create({
   // Banner container - matching web app
   bannerContainer: {
     aspectRatio: 16/4,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 20,
@@ -401,9 +402,9 @@ const styles = StyleSheet.create({
   // Profile section - centered like web app
   profileSection: {
     borderWidth: 1,
-    borderColor: "#f5f5f5",
+    borderColor: colors.border,
     marginHorizontal: 20,
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     paddingHorizontal: 32,
     paddingVertical: 40,
   },
@@ -416,11 +417,11 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: colors.border,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: colors.text,
     marginBottom: 20,
   },
   
@@ -428,7 +429,7 @@ const styles = StyleSheet.create({
   nickname: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
     marginBottom: 20,
   },
   
@@ -446,18 +447,18 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
     marginLeft: 12,
   },
   salesText: {
     fontSize: 16,
-    color: "#000",
+    color: colors.text,
   },
   
   // Bio - matching web app
   bio: {
     fontSize: 16,
-    color: "#737373",
+    color: colors.textSecondary,
     textAlign: "center",
     lineHeight: 24,
     marginBottom: 20,
@@ -472,7 +473,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -481,7 +482,7 @@ const styles = StyleSheet.create({
   tabNavigation: {
     flexDirection: "row",
     borderWidth: 1,
-    borderColor: "#f5f5f5",
+    borderColor: colors.border,
     borderTopWidth: 0,
     marginHorizontal: 20,
   },
@@ -489,25 +490,25 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 16,
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     borderRightWidth: 1,
-    borderRightColor: "#f5f5f5",
+    borderRightColor: colors.border,
   },
   tabActive: {
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
   },
   tabText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#737373",
+    color: colors.textSecondary,
   },
   tabTextActive: {
-    color: "#fff",
+    color: "#ffffff",
   },
   
   // Content sections
   contentSection: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
   },
   
   // About section - matching web app
@@ -518,7 +519,7 @@ const styles = StyleSheet.create({
   },
   aboutText: {
     fontSize: 16,
-    color: "#000",
+    color: colors.text,
     lineHeight: 24,
     padding: 20,
   },
@@ -531,19 +532,19 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     paddingHorizontal: 40,
     paddingVertical: 32,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: colors.surfaceAlt,
     borderRadius: 12,
     alignItems: "center",
   },
   emptyAboutTitle: {
     fontSize: 18,
     fontWeight: "500",
-    color: "#404040",
+    color: colors.text,
     marginBottom: 8,
   },
   emptyAboutDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     textAlign: "center",
   },
   
@@ -556,15 +557,15 @@ const styles = StyleSheet.create({
   },
   postCard: {
     width: "48%",
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: colors.border,
     borderRadius: 8,
     overflow: "hidden",
   },
   postImage: {
     aspectRatio: 16/9,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -574,12 +575,12 @@ const styles = StyleSheet.create({
   postTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginBottom: 4,
   },
   postBio: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     lineHeight: 18,
     marginBottom: 8,
   },
@@ -591,17 +592,30 @@ const styles = StyleSheet.create({
   postPrice: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   postCategory: {
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     borderRadius: 12,
   },
   postCategoryText: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
+  },
+  listingCommission: {
+    backgroundColor: colors.border,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    alignSelf: "flex-start",
+    marginTop: 8,
+  },
+  listingCommissionText: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: colors.text,
   },
   
   // Empty state
@@ -614,13 +628,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#404040",
+    color: colors.text,
     marginTop: 16,
     marginBottom: 8,
   },
   emptyDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     textAlign: "center",
     lineHeight: 20,
   },
@@ -636,7 +650,7 @@ const styles = StyleSheet.create({
     width: 80, 
     height: 80, 
     borderRadius: 40, 
-    backgroundColor: "#f5f5f5", 
+    backgroundColor: colors.surfaceAlt, 
     alignItems: "center", 
     justifyContent: "center", 
     marginBottom: 24 
@@ -644,19 +658,19 @@ const styles = StyleSheet.create({
   connectTitle: { 
     fontSize: 24, 
     fontWeight: "600", 
-    color: "#000", 
+    color: colors.text, 
     marginBottom: 8 
   },
   connectSubtitle: { 
     fontSize: 16, 
-    color: "#737373", 
+    color: colors.textSecondary, 
     textAlign: "center", 
     lineHeight: 24, 
     marginBottom: 32, 
     maxWidth: 300 
   },
   connectButton: { 
-    backgroundColor: "#000", 
+    backgroundColor: colors.accent, 
     paddingHorizontal: 32, 
     paddingVertical: 16, 
     borderRadius: 6, 
@@ -666,11 +680,11 @@ const styles = StyleSheet.create({
   connectButtonText: { 
     fontSize: 16, 
     fontWeight: "600", 
-    color: "#fff" 
+    color: "#ffffff" 
   },
   connectNote: { 
     fontSize: 13, 
-    color: "#a3a3a3", 
+    color: colors.textMuted, 
     textAlign: "center", 
     marginTop: 16, 
     maxWidth: 260 
