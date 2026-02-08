@@ -1,10 +1,30 @@
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
-import { MOCK_POSTS } from "../../src/api/mock-data";
+import { useState, useEffect } from "react";
+import { api } from "../../src/api/client";
+import type { Post } from "../../src/api/types";
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const post = MOCK_POSTS.find((p) => p.id === id);
+  const [post, setPost] = useState<Post | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (id) {
+      api.getPost(id).then((p) => {
+        setPost(p);
+        setLoading(false);
+      });
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { alignItems: "center", justifyContent: "center" }]}>
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
 
   if (!post) {
     return (

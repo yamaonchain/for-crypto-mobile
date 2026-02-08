@@ -3,7 +3,7 @@
  * Replace with real API calls once the REST API is built.
  */
 
-import type { Category, PostListItem } from "./types";
+import type { Category, CategoryTag, PostListItem } from "./types";
 
 export const MOCK_CATEGORIES: Category[] = [
   { id: "cat_product", name: "Product", description: "Digital files, templates, tools", position: 1 },
@@ -11,6 +11,14 @@ export const MOCK_CATEGORIES: Category[] = [
   { id: "cat_experience", name: "Experience", description: "Live sessions, workshops, classes", position: 3 },
   { id: "cat_media", name: "Media & Content", description: "Videos, audio, writing", position: 4 },
   { id: "cat_experimental", name: "Experimental", description: "Ideas, early concepts", position: 5 },
+];
+
+export const MOCK_TAGS: CategoryTag[] = [
+  { id: "tag1", name: "Templates", slug: "templates", categoryId: "cat_product" },
+  { id: "tag2", name: "Presets", slug: "presets", categoryId: "cat_media" },
+  { id: "tag3", name: "Courses", slug: "courses", categoryId: "cat_product" },
+  { id: "tag4", name: "Tools", slug: "tools", categoryId: "cat_product" },
+  { id: "tag5", name: "Gaming", slug: "gaming", categoryId: "cat_experimental" },
 ];
 
 export const MOCK_POSTS: PostListItem[] = [

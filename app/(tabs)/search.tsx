@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, ScrollView, Pressable, Image, FlatList } from "react-native";
 import { Link } from "expo-router";
-import { useState } from "react";
-import { MOCK_CATEGORIES, MOCK_POSTS } from "../../src/api/mock-data";
-import type { PostListItem, SortOption } from "../../src/api/types";
+import { useState, useEffect } from "react";
+import { api } from "../../src/api/client";
+import type { PostListItem, Category, SortOption } from "../../src/api/types";
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "newest", label: "Newest" },
@@ -14,8 +14,21 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 export default function SearchScreen() {
   const [categoryId, setCategoryId] = useState<string | undefined>();
   const [sortBy, setSortBy] = useState<SortOption>("newest");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [posts, setPosts] = useState<PostListItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredPosts = MOCK_POSTS.filter((p) => !categoryId || p.categoryId === categoryId);
+  useEffect(() => {
+    api.getCategories().then(setCategories);
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    api.searchPosts({ categoryId, sortBy }).then((result) => {
+      setPosts(result.items);
+      setLoading(false);
+    });
+  }, [categoryId, sortBy]);
 
   return (
     <View style={styles.container}>
@@ -34,7 +47,7 @@ export default function SearchScreen() {
             All
           </Text>
         </Pressable>
-        {MOCK_CATEGORIES.map((cat) => (
+        {categories.map((cat) => (
           <Pressable
             key={cat.id}
             style={[styles.filterPill, categoryId === cat.id && styles.filterPillActive]}
@@ -69,7 +82,7 @@ export default function SearchScreen() {
 
       {/* Post list */}
       <FlatList
-        data={filteredPosts}
+        data={posts}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => <PostCard item={item} />}
