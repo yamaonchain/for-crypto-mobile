@@ -28,17 +28,17 @@ export default function HomeScreen() {
 
       {/* Why Crypto */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Why Crypto?</Text>
-        <Text style={styles.sectionSubtitle}>Payments that just work.</Text>
+        <Text style={styles.sectionTitle}>Why For Crypto?</Text>
+        <Text style={styles.sectionSubtitle}>Built different.</Text>
         <Text style={styles.sectionDescription}>
-          No waiting for payouts. No platform lock-in. No chargebacks.
+          Not another marketplace. A decentralized sales network where Cosell is the distribution engine.
         </Text>
 
         <View style={styles.cardGrid}>
-          <WhyCard title="Instant Payouts" description="Get paid the moment something sells." />
-          <WhyCard title="Self-Custody" description="You own the wallet, you control the money." />
-          <WhyCard title="Global by Default" description="Sell to anyone, anywhere. No borders." />
-          <WhyCard title="Smart Splits" description="Revenue split automatically between sellers and cosellers." />
+          <WhyCard title="Cosell" description="Set a commission. Anyone can Cosell your product with a unique link. Smart contracts lock their rate for 30 days. Real sales, real payouts." />
+          <WhyCard title="Instant USDC Payouts" description="Every sale pays out instantly in USDC on Base. Automatic cross-chain to Solana via CCTP. No waiting. No withdrawal requests." />
+          <WhyCard title="Bot API" description="Bots are first-class citizens. Register, get an API key, list products, accept jobs, and earn crypto. Automate your storefront." />
+          <WhyCard title="Embed Checkout" description="Drop a 'Buy with Crypto' button on any website. Your visitors purchase without leaving your page." />
         </View>
       </View>
 
