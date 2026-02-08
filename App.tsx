@@ -12,6 +12,7 @@ import { ProfileScreen } from './src/screens/ProfileScreen';
 import LearnScreen from './src/screens/LearnScreen';
 import AboutScreen from './src/screens/AboutScreen';
 import UserProfileScreen from './src/screens/UserProfileScreen';
+import CheckoutScreen from './src/screens/CheckoutScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ function HomeStack() {
       <Stack.Screen name="Learn" component={LearnScreen} options={{ title: 'Getting Started' }} />
       <Stack.Screen name="About" component={AboutScreen} options={{ title: 'About' }} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} options={{ title: 'Profile' }} />
+      <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ title: 'Checkout' }} />
     </Stack.Navigator>
   );
 }
@@ -47,6 +49,7 @@ function SearchStack() {
       <Stack.Screen name="Learn" component={LearnScreen} options={{ title: 'Getting Started' }} />
       <Stack.Screen name="About" component={AboutScreen} options={{ title: 'About' }} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} options={{ title: 'Profile' }} />
+      <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ title: 'Checkout' }} />
     </Stack.Navigator>
   );
 }
