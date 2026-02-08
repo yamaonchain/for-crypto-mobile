@@ -1,0 +1,85 @@
+/**
+ * Mock data for development. Mirrors real data shapes from the web app.
+ * Replace with real API calls once the REST API is built.
+ */
+
+import type { Category, PostListItem } from "./types";
+
+export const MOCK_CATEGORIES: Category[] = [
+  { id: "cat_product", name: "Product", description: "Digital files, templates, tools", position: 1 },
+  { id: "cat_service", name: "Service", description: "Consulting, coaching, creative work", position: 2 },
+  { id: "cat_experience", name: "Experience", description: "Live sessions, workshops, classes", position: 3 },
+  { id: "cat_media", name: "Media & Content", description: "Videos, audio, writing", position: 4 },
+  { id: "cat_experimental", name: "Experimental", description: "Ideas, early concepts", position: 5 },
+];
+
+export const MOCK_POSTS: PostListItem[] = [
+  {
+    id: "1",
+    title: "No School 4 Week Bootcamp",
+    bio: "A 5-step video-based mindset reset for anyone building instead of waiting for permission.",
+    price: "875",
+    categoryId: "cat_product",
+    categoryName: "Product",
+    userId: "user1",
+    nickname: "creator1",
+    avatarUrl: "https://via.placeholder.com/40",
+    thumbnailUrl: "https://via.placeholder.com/400x225",
+    commission: "10",
+    createdAt: new Date().toISOString(),
+    isDraft: false,
+    isActive: true,
+    payoutChain: "base",
+  },
+  {
+    id: "2",
+    title: "Together Daily Spark",
+    bio: "A daily drop of connection for couples who want to stay close and curious.",
+    price: "7",
+    categoryId: "cat_product",
+    categoryName: "Product",
+    userId: "user2",
+    nickname: "together",
+    avatarUrl: "https://via.placeholder.com/40",
+    thumbnailUrl: "https://via.placeholder.com/400x225",
+    commission: "20",
+    createdAt: new Date().toISOString(),
+    isDraft: false,
+    isActive: true,
+    payoutChain: "base",
+  },
+  {
+    id: "3",
+    title: "Community Intake Kit for Divvvy",
+    bio: "Collect wallet addresses and percentage distributions at scale.",
+    price: "2",
+    categoryId: "cat_product",
+    categoryName: "Product",
+    userId: "user3",
+    nickname: "divvvy",
+    avatarUrl: "https://via.placeholder.com/40",
+    thumbnailUrl: "https://via.placeholder.com/400x225",
+    commission: "20",
+    createdAt: new Date().toISOString(),
+    isDraft: false,
+    isActive: true,
+    payoutChain: "base",
+  },
+  {
+    id: "4",
+    title: "Freckle Fade Lightroom Presets",
+    bio: "Natural-looking freckles and warm tones in one click.",
+    price: "6500",
+    categoryId: "cat_media",
+    categoryName: "Media & Content",
+    userId: "user4",
+    nickname: "frecklefade",
+    avatarUrl: "https://via.placeholder.com/40",
+    thumbnailUrl: "https://via.placeholder.com/400x225",
+    commission: "15",
+    createdAt: new Date().toISOString(),
+    isDraft: false,
+    isActive: true,
+    payoutChain: "base",
+  },
+];

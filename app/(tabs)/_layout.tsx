@@ -11,17 +11,19 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarStyle: { backgroundColor: "#000", borderTopColor: "#222" },
-        tabBarActiveTintColor: "#fff",
-        tabBarInactiveTintColor: "#666",
-        headerStyle: { backgroundColor: "#000" },
-        headerTintColor: "#fff",
+        tabBarStyle: { backgroundColor: "#fff", borderTopColor: "#f5f5f5" },
+        tabBarActiveTintColor: "#000",
+        tabBarInactiveTintColor: "#a3a3a3",
+        headerStyle: { backgroundColor: "#fff" },
+        headerTintColor: "#000",
+        headerShadowVisible: false,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
+          headerTitle: "For Crypto",
           tabBarIcon: ({ focused }) => <TabIcon label="🏠" focused={focused} />,
         }}
       />

@@ -4,18 +4,19 @@ import { StatusBar } from "expo-status-bar";
 export default function RootLayout() {
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: "#000" },
-          headerTintColor: "#fff",
-          contentStyle: { backgroundColor: "#000" },
+          headerStyle: { backgroundColor: "#fff" },
+          headerTintColor: "#000",
+          contentStyle: { backgroundColor: "#fff" },
+          headerShadowVisible: false,
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="product/[id]"
-          options={{ title: "Product", presentation: "card" }}
+          options={{ title: "Listing", presentation: "card" }}
         />
       </Stack>
     </>
