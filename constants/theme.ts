@@ -1,14 +1,14 @@
-// Theme constants matching For Crypto website
+// Theme constants matching For Crypto website - LIGHT THEME with ORANGE ACCENTS
 export const Colors = {
-  primary: '#ff6000',      // Orange primary
-  primaryForeground: '#ffffff',
-  background: '#ffffff',
-  foreground: '#151515',
-  muted: '#f2f2f2',
-  mutedForeground: '#525252',
-  border: '#e5e5e5',
-  surface: '#fafafa',
-  card: '#f2f2f2',
+  primary: '#ff6000',           // Orange accent/primary
+  primaryForeground: '#ffffff', // White text on orange
+  background: '#ffffff',        // White background  
+  foreground: '#1a1a1a',       // Dark text on white
+  muted: '#f5f5f5',            // Light gray muted
+  mutedForeground: '#525252',   // Medium gray text
+  border: '#e5e5e5',           // Light border
+  surface: '#f5f5f5',          // Light surface
+  card: '#f5f5f5',             // Light card background
   destructive: '#dc2626',
   destructiveForeground: '#ffffff',
 } as const;

@@ -540,7 +540,7 @@ function FAQSection() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1, backgroundColor: Colors.background },
   content: { paddingBottom: 40 },
 
   // Hero
@@ -548,7 +548,7 @@ const styles = StyleSheet.create({
   heroTitle: { fontSize: 32, fontWeight: "500", textAlign: "center", color: Colors.foreground, lineHeight: 40, marginBottom: 12 },
   heroSubtitle: {
     fontSize: 18,
-    color: "#737373",
+    color: Colors.mutedForeground,
     textAlign: "center",
     lineHeight: 24,
     paddingHorizontal: 16,
@@ -571,16 +571,16 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     lineHeight: 40,
   },
-  buttonOutline: { flex: 1, borderWidth: 1, borderColor: "#e5e5e5", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
+  buttonOutline: { flex: 1, borderWidth: 1, borderColor: Colors.border, paddingVertical: 14, borderRadius: 6, alignItems: "center" },
   buttonOutlineText: { fontSize: 16, fontWeight: "500", color: Colors.foreground },
   buttonFilled: { flex: 1, backgroundColor: Colors.primary, paddingVertical: 14, borderRadius: 6, alignItems: "center" },
-  buttonFilledText: { fontSize: 16, fontWeight: "500", color: "#fff" },
+  buttonFilledText: { fontSize: 16, fontWeight: "500", color: Colors.primaryForeground },
 
   // Bot Quick Start
-  botSection: { backgroundColor: "#171717", borderRadius: 12, margin: 16, padding: 24 },
+  botSection: { backgroundColor: "#171717", borderRadius: 12, margin: 16, padding: 24 }, // Keep dark for contrast
   botHeader: { flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 16 },
-  botIcon: { backgroundColor: "#262626", padding: 8, borderRadius: 8 },
-  botTitle: { fontSize: 18, fontWeight: "500", color: "#fff" },
+  botIcon: { backgroundColor: "#262626", padding: 8, borderRadius: 8 }, // Keep dark for contrast
+  botTitle: { fontSize: 18, fontWeight: "500", color: "#fff" }, // Keep white text on dark section
   codeContainer: { backgroundColor: "#262626", borderRadius: 8, padding: 16, marginBottom: 16, position: "relative" },
   codeText: { fontFamily: "monospace", fontSize: 13, color: "#d4d4d4", lineHeight: 18 },
   copyButton: { position: "absolute", top: 12, right: 12, padding: 8, backgroundColor: "#404040", borderRadius: 4 },
@@ -589,7 +589,7 @@ const styles = StyleSheet.create({
   botStepNumber: { backgroundColor: "#262626", width: 20, height: 20, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   stepNumberText: { fontSize: 12, fontWeight: "500", color: "#d4d4d4" },
   botStepText: { fontSize: 14, color: "#a3a3a3" },
-  stepArrow: { fontSize: 14, color: "#525252" },
+  stepArrow: { fontSize: 14, color: Colors.mutedForeground },
 
   // Carousel
   carouselSection: { marginTop: 40, width: "100%" },
@@ -629,7 +629,7 @@ const styles = StyleSheet.create({
   },
   cosellInfo: { flex: 1, alignItems: "center" },
   cosellTitle: { fontSize: 14, fontWeight: "500", color: Colors.foreground, marginBottom: 2 },
-  cosellCommission: { fontSize: 12, color: "#737373" },
+  cosellCommission: { fontSize: 12, color: Colors.mutedForeground },
   divider: { width: 1, height: 24, backgroundColor: "#e5e5e5" },
   becomeCoseller: { flex: 1, alignItems: "center" },
   becomeCosellerText: { fontSize: 12, fontWeight: "500", color: Colors.foreground },
@@ -639,7 +639,7 @@ const styles = StyleSheet.create({
   price: { fontSize: 15, color: Colors.foreground },
   slideContent: { padding: 24, alignItems: "center" },
   slideTitle: { fontSize: 22, fontWeight: "600", color: Colors.foreground, textAlign: "center", marginBottom: 8, lineHeight: 28 },
-  slideDescription: { fontSize: 16, color: "#737373", textAlign: "center", lineHeight: 24 },
+  slideDescription: { fontSize: 16, color: Colors.mutedForeground, textAlign: "center", lineHeight: 24 },
   dotContainer: { flexDirection: "row", justifyContent: "center", gap: 10, marginTop: 16 },
   dot: { width: 14, height: 14, borderRadius: 7 },
   // Removed duplicate styles - using carousel styles in Hero section
@@ -648,7 +648,7 @@ const styles = StyleSheet.create({
   section: { padding: 24, paddingVertical: 40 },
   sectionTitle: { fontSize: 28, fontWeight: "600", color: Colors.foreground, marginBottom: 4 },
   sectionSubtitle: { fontSize: 28, fontWeight: "600", color: Colors.foreground, marginBottom: 12 },
-  sectionDescription: { fontSize: 16, color: "#737373", lineHeight: 24, marginBottom: 20 },
+  sectionDescription: { fontSize: 16, color: Colors.mutedForeground, lineHeight: 24, marginBottom: 20 },
 
   // Why Section Cards  
   whyCardsGrid: { 
