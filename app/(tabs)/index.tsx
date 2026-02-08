@@ -250,6 +250,29 @@ function BotQuickStart() {
 // (Truncated for brevity - would include all sections to match web app)
 
 function Why() {
+  const whyCards = [
+    {
+      icon: "flash",
+      title: "Instant Payouts",
+      description: "Get paid the moment something sells. No delays, no waiting, just crypto in your wallet."
+    },
+    {
+      icon: "lock-closed",
+      title: "Self-Custody", 
+      description: "You own the wallet, you control the money. No platforms holding your funds."
+    },
+    {
+      icon: "globe",
+      title: "Global by Default",
+      description: "Sell and cosell to anyone, anywhere. No banks, no borders, no currency restrictions."
+    },
+    {
+      icon: "trending-up",
+      title: "Smart Splits",
+      description: "Revenue is split automatically between sellers and cosellers. No chasing payments."
+    }
+  ];
+
   return (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Why Crypto?</Text>
@@ -258,6 +281,18 @@ function Why() {
         No waiting for payouts. No platform lock-in. No chargebacks. Just direct, 
         wallet-to-wallet payments that are global, instant, and built for anyone.
       </Text>
+      
+      <View style={styles.whyCardsGrid}>
+        {whyCards.map((card, index) => (
+          <View key={index} style={styles.whyCard}>
+            <View style={styles.whyCardIcon}>
+              <Ionicons name={card.icon} size={32} color={Colors.primary} />
+            </View>
+            <Text style={styles.whyCardTitle}>{card.title}</Text>
+            <Text style={styles.whyCardDescription}>{card.description}</Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 }
@@ -558,6 +593,39 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 28, fontWeight: "600", color: Colors.foreground, marginBottom: 4 },
   sectionSubtitle: { fontSize: 28, fontWeight: "600", color: Colors.foreground, marginBottom: 12 },
   sectionDescription: { fontSize: 16, color: "#737373", lineHeight: 24, marginBottom: 20 },
+
+  // Why Section Cards  
+  whyCardsGrid: { 
+    flexDirection: "row", 
+    flexWrap: "wrap", 
+    gap: 16, 
+    marginTop: 24 
+  },
+  whyCard: { 
+    flex: 1, 
+    minWidth: "45%", 
+    backgroundColor: Colors.card, 
+    padding: 24, 
+    borderRadius: 12, 
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  whyCardIcon: { 
+    marginBottom: 16 
+  },
+  whyCardTitle: { 
+    fontSize: 18, 
+    fontWeight: "600", 
+    color: Colors.foreground, 
+    marginBottom: 8, 
+    textAlign: "center" 
+  },
+  whyCardDescription: { 
+    fontSize: 14, 
+    color: Colors.mutedForeground, 
+    textAlign: "center", 
+    lineHeight: 20 
+  },
 
   // Cosell Section
   cosellSection: { padding: 24, paddingVertical: 40, backgroundColor: "#fafafa" },
