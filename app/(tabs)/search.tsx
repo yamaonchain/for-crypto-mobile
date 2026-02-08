@@ -13,6 +13,7 @@ import { Link, useLocalSearchParams } from "expo-router";
 import { useState, useCallback, useRef, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
+import { colors, spacing, fontSize } from "../../src/constants/theme";
 
 // Mock data structures matching web app
 interface Category {
@@ -300,7 +301,7 @@ export default function SearchScreen() {
       {/* Search Header */}
       <View style={styles.searchHeader}>
         <View style={styles.searchInputContainer}>
-          <Ionicons name="search-outline" size={20} color="#737373" style={styles.searchIcon} />
+          <Ionicons name="search-outline" size={20} color={colors.textSecondary} style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
             placeholder="Search listings..."
@@ -311,7 +312,7 @@ export default function SearchScreen() {
           />
           {searchText.length > 0 && (
             <Pressable onPress={() => setSearchText("")} style={styles.clearButton}>
-              <Ionicons name="close" size={20} color="#737373" />
+              <Ionicons name="close" size={20} color={colors.textSecondary} />
             </Pressable>
           )}
         </View>
@@ -365,8 +366,8 @@ export default function SearchScreen() {
         >
           <Text style={styles.sortButtonText}>Sort</Text>
           <View style={styles.sortIcon}>
-            <Ionicons name="chevron-up" size={12} color="#000" style={{ marginBottom: -2 }} />
-            <Ionicons name="chevron-down" size={12} color="#000" style={{ marginTop: -2 }} />
+            <Ionicons name="chevron-up" size={12} color={colors.text} style={{ marginBottom: -2 }} />
+            <Ionicons name="chevron-down" size={12} color={colors.text} style={{ marginTop: -2 }} />
           </View>
         </Pressable>
       </View>
@@ -484,10 +485,10 @@ export default function SearchScreen() {
         ListEmptyComponent={() => (
           <View style={styles.emptyState}>
             {isLoading ? (
-              <ActivityIndicator size="large" color="#000" />
+              <ActivityIndicator size="large" color={colors.accent} />
             ) : (
               <>
-                <Ionicons name="search-outline" size={48} color="#d4d4d4" />
+                <Ionicons name="search-outline" size={48} color={colors.border} />
                 <Text style={styles.emptyTitle}>No listings found</Text>
                 <Text style={styles.emptyDescription}>
                   Try adjusting your search terms or filters
@@ -510,7 +511,7 @@ export default function SearchScreen() {
         ListFooterComponent={() =>
           isLoading && posts.length > 0 ? (
             <View style={styles.loadingFooter}>
-              <ActivityIndicator size="small" color="#000" />
+              <ActivityIndicator size="small" color={colors.accent} />
               <Text style={styles.loadingFooterText}>Loading more...</Text>
             </View>
           ) : null
@@ -524,7 +525,7 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
   return (
     <Pressable style={styles.filterChip} onPress={onRemove}>
       <Text style={styles.filterChipText}>{label}</Text>
-      <Ionicons name="close" size={14} color="#000" />
+      <Ionicons name="close" size={14} color={colors.text} />
     </Pressable>
   );
 }
@@ -537,7 +538,7 @@ function PostCard({ item }: { item: PostListItem }) {
       <Pressable style={styles.postCard}>
         {/* Thumbnail */}
         <View style={styles.cardImage}>
-          <Ionicons name="image-outline" size={40} color="#d4d4d4" />
+          <Ionicons name="image-outline" size={40} color={colors.border} />
         </View>
 
         {/* Content */}
@@ -580,21 +581,21 @@ function PostCard({ item }: { item: PostListItem }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   
   // Search Header
   searchHeader: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
   },
   searchInputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     borderRadius: 8,
     paddingHorizontal: 12,
     height: 40,
@@ -605,7 +606,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: "#000",
+    color: colors.text,
   },
   clearButton: {
     padding: 4,
@@ -618,9 +619,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: colors.surfaceAlt,
   },
   filterButton: {
     flexDirection: "row",
@@ -630,12 +631,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: colors.border,
+    backgroundColor: colors.background,
   },
   filterButtonActive: {
-    borderColor: "#000",
-    backgroundColor: "#f5f5f5",
+    borderColor: colors.accent,
+    backgroundColor: colors.surfaceAlt,
   },
   filterIconContainer: {
     width: 25,
@@ -650,24 +651,24 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 25,
     height: 2,
-    backgroundColor: "#000",
+    backgroundColor: colors.text,
   },
   filterSlider: {
     position: "absolute",
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     borderWidth: 1.5,
-    borderColor: "#000",
+    borderColor: colors.text,
   },
   filterButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
   filterButtonTextActive: {
-    color: "#000",
+    color: colors.accent,
   },
   trendingContainer: {
     flex: 1,
@@ -677,7 +678,7 @@ const styles = StyleSheet.create({
   },
   trendingLabel: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     marginRight: 8,
   },
   trendingTags: {
@@ -689,7 +690,7 @@ const styles = StyleSheet.create({
   trendingTagText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
   trendingTagTextActive: {
     textDecorationLine: "underline",
@@ -702,13 +703,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: colors.border,
+    backgroundColor: colors.background,
   },
   sortButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
   sortIcon: {
     alignItems: "center",
@@ -722,13 +723,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
   },
   activeFiltersLabel: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
     marginRight: 8,
   },
   activeFiltersScroll: {
@@ -736,7 +737,7 @@ const styles = StyleSheet.create({
   },
   clearAllButton: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
     marginLeft: 8,
   },
 
@@ -747,21 +748,21 @@ const styles = StyleSheet.create({
     gap: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: colors.border,
     borderRadius: 12,
     marginRight: 6,
   },
   filterChipText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
 
   // Filter Panel
   filterPanel: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
     padding: 16,
   },
   filterSection: {
@@ -770,7 +771,7 @@ const styles = StyleSheet.create({
   filterSectionTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginBottom: 8,
   },
   filterOptions: {
@@ -783,20 +784,20 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: colors.border,
+    backgroundColor: colors.background,
   },
   filterOptionActive: {
-    backgroundColor: "#000",
-    borderColor: "#000",
+    backgroundColor: colors.accent,
+    borderColor: colors.accent,
   },
   filterOptionText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
   filterOptionTextActive: {
-    color: "#fff",
+    color: "#ffffff",
   },
   clearFiltersButton: {
     alignItems: "center",
@@ -804,14 +805,14 @@ const styles = StyleSheet.create({
   },
   clearFiltersButtonText: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
   },
 
   // Sort Panel
   sortPanel: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
     padding: 8,
   },
   sortOption: {
@@ -820,15 +821,15 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   sortOptionActive: {
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
   },
   sortOptionText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
   sortOptionTextActive: {
-    color: "#fff",
+    color: "#ffffff",
   },
 
   // Posts List
@@ -837,15 +838,15 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   postCard: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     borderRadius: 12,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#f0f0f0",
+    borderColor: colors.border,
   },
   cardImage: {
     height: 200,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -855,12 +856,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginBottom: 6,
   },
   cardBio: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     lineHeight: 20,
     marginBottom: 12,
   },
@@ -873,13 +874,13 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: colors.surfaceAlt,
     marginRight: 8,
   },
   ownerName: {
     fontSize: 13,
     fontWeight: "500",
-    color: "#525252",
+    color: colors.textSecondary,
   },
   cardFooter: {
     flexDirection: "row",
@@ -890,20 +891,20 @@ const styles = StyleSheet.create({
   cardPrice: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   categoryBadge: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
   },
   categoryBadgeText: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   commissionBadge: {
-    backgroundColor: "#e5e5e5",
+    backgroundColor: colors.border,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
@@ -912,7 +913,7 @@ const styles = StyleSheet.create({
   commissionText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
 
   // Empty State
@@ -925,13 +926,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginTop: 16,
     marginBottom: 8,
   },
   emptyDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     textAlign: "center",
     paddingHorizontal: 32,
   },
@@ -946,6 +947,6 @@ const styles = StyleSheet.create({
   },
   loadingFooterText: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
   },
 });
