@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, ScrollView, Pressable, Alert, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable, Alert, ActivityIndicator, Share, Animated } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 // Mock types matching web app exactly
@@ -139,6 +139,8 @@ export default function ProductDetailScreen() {
   const [postMeta, setPostMeta] = useState<PostMeta>(MOCK_POST_META);
   const [loading, setLoading] = useState(true);
   const [customPwywPrice, setCustomPwywPrice] = useState<number | null>(null);
+  const [showAllDescription, setShowAllDescription] = useState(false);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     setTimeout(() => {
@@ -177,7 +179,7 @@ export default function ProductDetailScreen() {
   if (!post) {
     return (
       <View style={styles.container}>
-        <View style={styles.notFound}>
+        <View style={styles.notFoundContainer}>
           <Ionicons name="alert-circle-outline" size={48} color="#d4d4d4" />
           <Text style={styles.notFoundText}>Listing not found</Text>
           <Pressable style={styles.backButton} onPress={() => router.back()}>
@@ -482,81 +484,6 @@ export default function ProductDetailScreen() {
                 </View>
               ))}
             </View>
-          </View>
-        </View>
-
-          {/* Description */}
-          <View style={styles.descriptionSection}>
-            <Text style={styles.sectionTitle}>About this listing</Text>
-            <Text
-              style={styles.description}
-              numberOfLines={showAllDescription ? undefined : 5}
-            >
-              {post.description}
-            </Text>
-            {post.description && post.description.length > 200 && (
-              <Pressable onPress={() => setShowAllDescription(!showAllDescription)}>
-                <Text style={styles.showMoreText}>
-                  {showAllDescription ? "Show less" : "Show more"}
-                </Text>
-              </Pressable>
-            )}
-          </View>
-
-          {/* What you get */}
-          {selectedVariant?.content && (
-            <View style={styles.contentSection}>
-              <Text style={styles.sectionTitle}>What you get</Text>
-              <Text style={styles.contentText}>{selectedVariant.content}</Text>
-            </View>
-          )}
-
-          {/* Reviews */}
-          <View style={styles.reviewsSection}>
-            <View style={styles.reviewsHeader}>
-              <Text style={styles.sectionTitle}>Reviews</Text>
-              <View style={styles.reviewsSummary}>
-                <Ionicons name="star" size={16} color="#000" />
-                <Text style={styles.reviewsSummaryText}>
-                  {averageRating.toFixed(1)} ({totalRatings} reviews)
-                </Text>
-              </View>
-            </View>
-            
-            {ratings.slice(0, 3).map((rating, index) => (
-              <View key={index} style={styles.reviewCard}>
-                <View style={styles.reviewHeader}>
-                  <View style={styles.reviewerAvatar} />
-                  <View style={styles.reviewerInfo}>
-                    <Text style={styles.reviewerName}>{rating.nickname}</Text>
-                    <View style={styles.reviewRating}>
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Ionicons
-                          key={i}
-                          name={i < rating.rating ? "star" : "star-outline"}
-                          size={12}
-                          color={i < rating.rating ? "#000" : "#d4d4d4"}
-                        />
-                      ))}
-                    </View>
-                  </View>
-                  <Text style={styles.reviewDate}>
-                    {formatDate(new Date(rating.createdAt), "MMM d")}
-                  </Text>
-                </View>
-                {rating.comment && (
-                  <Text style={styles.reviewComment}>{rating.comment}</Text>
-                )}
-              </View>
-            ))}
-
-            {totalRatings > 3 && (
-              <Pressable style={styles.viewAllReviews}>
-                <Text style={styles.viewAllReviewsText}>
-                  View all {totalRatings} reviews
-                </Text>
-              </Pressable>
-            )}
           </View>
         </View>
       </ScrollView>
