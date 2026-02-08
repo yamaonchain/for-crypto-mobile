@@ -96,7 +96,13 @@ function Hero() {
         No banks. No middlemen. Just your wallet and the internet.
       </Text>
       <View style={styles.heroButtons}>
-        <Pressable style={styles.buttonOutline}>
+        <Pressable 
+          style={styles.buttonOutline}
+          onPress={() => {
+            console.log("🔥 TOUCH EVENT: Learn More button pressed!");
+            alert("Touch works! Learn More pressed");
+          }}
+        >
           <Text style={styles.buttonOutlineText}>Learn More</Text>
         </Pressable>
         <Link href="/search" asChild>
