@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable, Animated, Share, Alert }
 import { useLocalSearchParams, router, Link } from "expo-router";
 import { useState, useEffect, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { api } from "../../src/api/client";
+import { apiClient } from "../../src/api/client";
 import type { Post, PostVariant, PostRating, Media, PostMeta } from "../../src/api/types";
 import { formatDate } from "date-fns";
 import { useCart } from "../../src/context/CartContext";
@@ -82,12 +82,22 @@ export default function ProductDetailScreen() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    if (id) {
-      api.getPost(id).then((p) => {
-        setPost(p);
-        setLoading(false);
-      });
-    }
+    // Always load mock data regardless of ID
+    setTimeout(() => {
+      setPost({
+        id: id || "1",
+        title: "No School 4 Week Bootcamp.",
+        bio: "A 5-step video-based mindset reset for anyone building instead of waiting for permission.",
+        description: "Cosell it if you're done with degrees and ready to make real money online. Includes short videos, a playbook, and a community of builders. This comprehensive bootcamp challenges traditional education paths and provides practical tools for independent success in the digital economy.",
+        categoryName: "Education",
+        nickname: "builder_mindset",
+        commission: "10",
+        payoutChain: "base",
+        createdAt: "2024-01-01T00:00:00Z",
+        updatedAt: "2024-01-01T00:00:00Z"
+      } as any);
+      setLoading(false);
+    }, 100);
   }, [id]);
 
   if (loading) return <ProductSkeleton />;
@@ -169,6 +179,27 @@ export default function ProductDetailScreen() {
 
   return (
     <View style={styles.container}>
+      {/* Custom Header */}
+      <View style={styles.header}>
+        <Pressable 
+          style={styles.backButton} 
+          onPress={() => router.back()}
+        >
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </Pressable>
+        <View style={styles.headerActions}>
+          <Pressable style={styles.headerButton} onPress={handleShare}>
+            <Ionicons name="share-outline" size={20} color="#fff" />
+          </Pressable>
+          <Pressable style={styles.headerButton}>
+            <Ionicons name="heart-outline" size={20} color="#fff" />
+          </Pressable>
+          <Pressable style={styles.headerButton}>
+            <Ionicons name="ellipsis-horizontal" size={20} color="#fff" />
+          </Pressable>
+        </View>
+      </View>
+      
       <ScrollView contentContainerStyle={styles.content}>
         {/* Breadcrumb */}
         <View style={styles.breadcrumb}>
@@ -435,7 +466,7 @@ function ProductSkeleton() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
   },
   header: {
     flexDirection: "row",
@@ -444,7 +475,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 60,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
   },
   backButton: {
     width: 40,
@@ -478,7 +509,7 @@ const styles = StyleSheet.create({
   },
   breadcrumbLink: {
     fontSize: 14,
-    color: "#000",
+    color: "#fff",
     textDecorationLine: "underline",
   },
   breadcrumbCurrent: {
@@ -552,7 +583,7 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#fff",
   },
   ratingCount: {
     fontSize: 14,
@@ -586,7 +617,7 @@ const styles = StyleSheet.create({
   sellerName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#fff",
   },
   sellerMeta: {
     fontSize: 14,
@@ -612,7 +643,7 @@ const styles = StyleSheet.create({
   variantsTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: "#fff",
   },
   variantOption: {
     padding: 16,
@@ -657,7 +688,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 32,
     fontWeight: "600",
-    color: "#000",
+    color: "#fff",
   },
   usdEquivalent: {
     fontSize: 16,
@@ -737,7 +768,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: "#fff",
     marginBottom: 8,
   },
   descriptionSection: {
@@ -750,7 +781,7 @@ const styles = StyleSheet.create({
   },
   showMoreText: {
     fontSize: 14,
-    color: "#000",
+    color: "#fff",
     fontWeight: "500",
     textDecorationLine: "underline",
     marginTop: 4,
@@ -806,7 +837,7 @@ const styles = StyleSheet.create({
   reviewerName: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#fff",
   },
   reviewRating: {
     flexDirection: "row",
@@ -828,7 +859,7 @@ const styles = StyleSheet.create({
   },
   viewAllReviewsText: {
     fontSize: 14,
-    color: "#000",
+    color: "#fff",
     textDecorationLine: "underline",
   },
 
@@ -850,11 +881,11 @@ const styles = StyleSheet.create({
   notFoundText: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#737373",
+    color: "#fff",
   },
   backButtonText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#000",
+    color: "#fff",
   },
 });
