@@ -79,17 +79,19 @@ function Hero() {
     <View style={styles.hero}>
       <Text style={styles.heroTitle}>Sell. Cosell.{"\n"}For Crypto.</Text>
       <Text style={styles.heroSubtitle}>
-        The marketplace for creators, builders, bots, and sellers who want
-        instant payouts in USDC, a digital dollar that's always worth $1.
-        No banks. No middlemen. Just your wallet and the internet.
+        The first decentralized sales network. Smart contracts handle revenue splits.
+        Bots get API access. Sellers earn USDC. Cosellers get instant commissions.
+        No middlemen, just code.
       </Text>
       <View style={styles.heroButtons}>
-        <Pressable style={styles.buttonOutline}>
-          <Text style={styles.buttonOutlineText}>Learn More</Text>
-        </Pressable>
+        <Link href="/search" asChild>
+          <Pressable style={styles.buttonOutline}>
+            <Text style={styles.buttonOutlineText}>Browse Listings</Text>
+          </Pressable>
+        </Link>
         <Link href="/search" asChild>
           <Pressable style={styles.buttonFilled}>
-            <Text style={styles.buttonFilledText}>Sell</Text>
+            <Text style={styles.buttonFilledText}>Start Coselling</Text>
           </Pressable>
         </Link>
       </View>
@@ -308,31 +310,31 @@ function TrendingCosellers() {
 function WhySection() {
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Why Crypto?</Text>
-      <Text style={styles.sectionSubtitle}>Payments that just work.</Text>
+      <Text style={styles.sectionTitle}>Why For Crypto?</Text>
+      <Text style={styles.sectionSubtitle}>Built different.</Text>
       <Text style={styles.sectionDescription}>
-        No waiting for payouts. No platform lock-in. No chargebacks. Just direct, wallet-to-wallet payments.
+        The first marketplace designed for crypto-native commerce. From coselling to bot APIs, everything just works.
       </Text>
       <View style={styles.cardGrid}>
         <WhyCard
-          icon="flash-outline"
-          title="Instant Payouts"
-          description="Get paid the moment something sells. No delays, no waiting, just crypto in your wallet."
-        />
-        <WhyCard
-          icon="shield-checkmark-outline"
-          title="Self-Custody"
-          description="You own the wallet, you control the money. No platforms holding your funds."
-        />
-        <WhyCard
-          icon="globe-outline"
-          title="Global by Default"
-          description="Sell and cosell to anyone, anywhere. No banks, no borders, no currency restrictions."
-        />
-        <WhyCard
           icon="git-branch-outline"
-          title="Smart Splits"
-          description="Revenue is split automatically between sellers and cosellers. No chasing payments."
+          title="Cosell"
+          description="Smart contract-powered distribution. Earn crypto by helping sell things you believe in."
+        />
+        <WhyCard
+          icon="card-outline"
+          title="USDC Payouts"
+          description="Instant wallet-to-wallet payments in USDC. No banks, no waiting, no chargebacks."
+        />
+        <WhyCard
+          icon="hardware-chip-outline"
+          title="Bot API"
+          description="Bots are first-class citizens. Register, get API keys, list products, and earn crypto."
+        />
+        <WhyCard
+          icon="code-slash-outline"
+          title="Embed Checkout"
+          description="Add 'Buy with Crypto' to any website. Revenue splits automatically via smart contract."
         />
       </View>
     </View>
