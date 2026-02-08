@@ -300,20 +300,35 @@ function Why() {
 function How() {
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>How It Works</Text>
+      <Text style={styles.sectionTitle}>How it works.</Text>
+      <Text style={styles.sectionSubtitle}>Instant transactions.</Text>
+      <Text style={styles.sectionSubtitle}>No banks. No delays.</Text>
       <Text style={styles.sectionDescription}>
-        From listing to payout in minutes, not months.
+        From wallet connect to payout, everything happens directly. No signups, no waiting, no middlemen.
       </Text>
       
-      <View style={styles.stepsContainer}>
-        {howSteps.map((step, index) => (
-          <View key={index} style={styles.stepItem}>
-            <View style={styles.stepNumberContainer}>
-              <Text style={styles.stepNumber}>{index + 1}</Text>
-            </View>
-            <Text style={styles.stepText}>{step}</Text>
+      <View style={styles.howCard}>
+        <View style={styles.howCardContent}>
+          <Text style={styles.howCardTitle}>Getting started is simple</Text>
+          <View style={styles.stepsContainer}>
+            {howSteps.map((step, index) => (
+              <View key={index} style={styles.stepItem}>
+                <Text style={styles.stepText}>
+                  {index + 1}. {step}
+                </Text>
+              </View>
+            ))}
           </View>
-        ))}
+        </View>
+        
+        {/* Placeholder for illustration */}
+        <View style={styles.howIllustration}>
+          <Image 
+            source={{ uri: "https://picsum.photos/300/300?random=how" }}
+            style={styles.howIllustrationImage}
+            resizeMode="contain"
+          />
+        </View>
       </View>
     </View>
   );
@@ -627,6 +642,33 @@ const styles = StyleSheet.create({
     lineHeight: 20 
   },
 
+  // How Section  
+  howCard: { 
+    backgroundColor: Colors.card, 
+    borderRadius: 12, 
+    marginTop: 24, 
+    overflow: "hidden" 
+  },
+  howCardContent: { 
+    padding: 32, 
+    alignItems: "center" 
+  },
+  howCardTitle: { 
+    fontSize: 24, 
+    fontWeight: "500", 
+    color: Colors.foreground, 
+    marginBottom: 24, 
+    textAlign: "center" 
+  },
+  howIllustration: { 
+    padding: 16, 
+    alignItems: "center" 
+  },
+  howIllustrationImage: { 
+    width: 200, 
+    height: 200 
+  },
+
   // Cosell Section
   cosellSection: { padding: 24, paddingVertical: 40, backgroundColor: "#fafafa" },
   cosellTitle: { fontSize: 24, fontWeight: "600", color: Colors.foreground, lineHeight: 32, marginBottom: 20 },
@@ -638,21 +680,10 @@ const styles = StyleSheet.create({
   cosellTagline: { fontSize: 20, fontWeight: "600", color: Colors.foreground, marginBottom: 16 },
   cosellValueProp: { fontSize: 16, color: "#525252", lineHeight: 24 },
 
-  // How Section
-  stepsContainer: { gap: 20, marginTop: 8 },
-  stepItem: { flexDirection: "row", alignItems: "flex-start", gap: 16 },
-  stepNumberContainer: { 
-    backgroundColor: Colors.primary, 
-    width: 28, 
-    height: 28, 
-    borderRadius: 14, 
-    alignItems: "center", 
-    justifyContent: "center",
-    flexShrink: 0,
-    marginTop: 2
-  },
-  stepNumber: { fontSize: 14, fontWeight: "600", color: "#fff" },
-  stepText: { fontSize: 16, color: "#525252", lineHeight: 24, flex: 1 },
+  // Steps (used in How section)
+  stepsContainer: { gap: 16, marginTop: 8 },
+  stepItem: { alignItems: "center" },
+  stepText: { fontSize: 18, color: Colors.foreground, lineHeight: 24, textAlign: "center" },
 
   // Assets Section
   assetsGrid: { flexDirection: "row", flexWrap: "wrap", gap: 16, marginTop: 8 },
