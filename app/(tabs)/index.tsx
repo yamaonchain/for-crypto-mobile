@@ -59,6 +59,7 @@ export default function HomeScreen() {
       <HowCosellWorks />
       <TrendingCosellers />
       <WhySection />
+      <FAQSection />
       <NetworkSection />
     </ScrollView>
   );
@@ -350,6 +351,48 @@ function WhyCard({ icon, title, description }: { icon: string; title: string; de
   );
 }
 
+// -- FAQs --
+
+const FAQ_DATA = [
+  { q: "What is For Crypto?", a: "A wallet-connected marketplace where anyone can list, sell, and Cosell anything digital. Payments settle instantly in USDC." },
+  { q: 'What does "Cosell" mean?', a: "Cosell lets anyone earn real crypto by helping sell something they believe in. Generate a unique link, and get paid instantly for every sale." },
+  { q: "How does payout work?", a: "Buyers pay in USDC. Funds route instantly to your wallet and any Cosellers' wallets. No waiting. No withdrawal process." },
+  { q: "What wallets are supported?", a: "Phantom (Base + Solana), MetaMask (Base), and Coinbase Wallet (Base). Any Ethereum-compatible wallet works." },
+  { q: "Do I need to be technical?", a: "Not at all. Connect a wallet, upload a file, add a description. That's it." },
+];
+
+function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <View style={styles.faqSection}>
+      <Text style={[styles.sectionTitle, styles.textWhite]}>FAQs</Text>
+      <Text style={[styles.sectionDescription, styles.textMuted]}>
+        Everything you need to know about For Crypto.
+      </Text>
+      {FAQ_DATA.map((faq, i) => (
+        <Pressable
+          key={i}
+          style={styles.faqItem}
+          onPress={() => setOpenIndex(openIndex === i ? null : i)}
+        >
+          <View style={styles.faqHeader}>
+            <Text style={styles.faqQuestion}>{faq.q}</Text>
+            <Ionicons
+              name={openIndex === i ? "chevron-up" : "chevron-down"}
+              size={18}
+              color="#a3a3a3"
+            />
+          </View>
+          {openIndex === i && (
+            <Text style={styles.faqAnswer}>{faq.a}</Text>
+          )}
+        </Pressable>
+      ))}
+    </View>
+  );
+}
+
 function NetworkSection() {
   return (
     <View style={[styles.section, styles.sectionDark]}>
@@ -504,6 +547,13 @@ const styles = StyleSheet.create({
   cosellName: { fontSize: 15, fontWeight: "600", color: "#000" },
   cosellStats: { fontSize: 12, color: "#737373" },
   cosellEarnings: { fontSize: 14, fontWeight: "600", color: "#000" },
+
+  // FAQs
+  faqSection: { paddingHorizontal: 24, paddingVertical: 32, backgroundColor: "#0a0a0a" },
+  faqItem: { borderBottomWidth: 0.5, borderBottomColor: "#333", paddingVertical: 16 },
+  faqHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  faqQuestion: { fontSize: 15, fontWeight: "600", color: "#fff", flex: 1, marginRight: 12 },
+  faqAnswer: { fontSize: 14, color: "#a3a3a3", lineHeight: 22, marginTop: 10 },
 
   // Networks
   textWhite: { color: "#fff" },
