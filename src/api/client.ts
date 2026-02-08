@@ -198,4 +198,11 @@ class MockApiClient implements ApiClient {
 // -- Export singleton --
 // Switch to HttpApiClient when REST API is ready
 
-export const api: ApiClient = new MockApiClient();
+import { HttpApiClient } from "./http-client";
+
+// Set to true to use real API, false for mock data
+const USE_REAL_API = true;
+
+export const api: ApiClient = USE_REAL_API 
+  ? new HttpApiClient("https://for-crypto.vercel.app")  // Production API
+  : new MockApiClient();
