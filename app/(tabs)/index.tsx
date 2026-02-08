@@ -385,7 +385,58 @@ function BackedNetwork() {
     </View>
   );
 }
-function FAQSection() { return <View />; }
+function FAQSection() {
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  
+  const faqs = [
+    {
+      question: "What is USDC?",
+      answer: "USDC is a digital dollar - a stablecoin that's always worth $1. It's the most trusted way to transact in crypto without volatility."
+    },
+    {
+      question: "How do payouts work?",
+      answer: "Payments are instant and direct to your wallet. No platform holds your money. When someone buys through your Cosell link, you get paid immediately."
+    },
+    {
+      question: "What wallets work?",
+      answer: "Any wallet that supports Base network and USDC. Popular options include MetaMask, Coinbase Wallet, and Phantom."
+    },
+    {
+      question: "Are there fees?",
+      answer: "Platform takes 30% for organic discovery, 10% for seller's own link, and 10% + coseller commission for cosell sales. All fees are transparent."
+    }
+  ];
+
+  return (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>FAQ</Text>
+      <Text style={styles.sectionDescription}>
+        Common questions about selling and coselling for crypto.
+      </Text>
+      
+      <View style={styles.faqContainer}>
+        {faqs.map((faq, index) => (
+          <View key={index} style={styles.faqItem}>
+            <Pressable
+              style={styles.faqQuestion}
+              onPress={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
+            >
+              <Text style={styles.faqQuestionText}>{faq.question}</Text>
+              <Ionicons
+                name={expandedFAQ === index ? "chevron-up" : "chevron-down"}
+                size={20}
+                color="#525252"
+              />
+            </Pressable>
+            {expandedFAQ === index && (
+              <Text style={styles.faqAnswer}>{faq.answer}</Text>
+            )}
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
@@ -524,4 +575,24 @@ const styles = StyleSheet.create({
   networkFeature: { alignItems: "center" },
   networkFeatureTitle: { fontSize: 18, fontWeight: "600", color: "#fff", marginBottom: 4, textAlign: "center" },
   networkFeatureDescription: { fontSize: 16, color: "#a3a3a3", textAlign: "center", lineHeight: 24 },
+
+  // FAQ Section
+  faqContainer: { gap: 12, marginTop: 16 },
+  faqItem: { borderWidth: 1, borderColor: "#e5e5e5", borderRadius: 8, overflow: "hidden" },
+  faqQuestion: { 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    padding: 16, 
+    backgroundColor: "#fafafa" 
+  },
+  faqQuestionText: { fontSize: 16, fontWeight: "500", color: "#000", flex: 1, paddingRight: 8 },
+  faqAnswer: { 
+    fontSize: 14, 
+    color: "#525252", 
+    lineHeight: 20, 
+    padding: 16, 
+    paddingTop: 12,
+    backgroundColor: "#fff" 
+  },
 });
