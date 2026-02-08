@@ -238,8 +238,6 @@ function SkeletonList() {
 
 function PostCard({ item }: { item: PostListItem }) {
   const price = item.price ? parseFloat(item.price) : 0;
-  const rating = item.averageRating ? parseFloat(String(item.averageRating)) : 0;
-  const totalRatings = item.totalRatings ? Number(item.totalRatings) : 0;
 
   return (
     <Link href={`/product/${item.id}`} asChild>
@@ -280,14 +278,8 @@ function PostCard({ item }: { item: PostListItem }) {
             <Text style={styles.ownerName}>{item.nickname}</Text>
           </Pressable>
 
-          {/* Ratings + Category */}
+          {/* Category */}
           <View style={styles.cardFooter}>
-            <View style={styles.ratingRow}>
-              <Ionicons name="star" size={18} color="#000" />
-              <Text style={styles.ratingText}>
-                {rating.toFixed(1)} ({totalRatings})
-              </Text>
-            </View>
             {item.categoryName && (
               <View style={styles.categoryBadge}>
                 <Text style={styles.categoryBadgeText}>{item.categoryName}</Text>

@@ -151,7 +151,7 @@ function ProductSkeleton() {
     return () => anim.stop();
   }, [opacity]);
 
-  const line = (w: string | number, h = 14) => (
+  const line = (w: number | `${number}%`, h = 14) => (
     <Animated.View style={{ opacity, width: w, height: h, backgroundColor: "#e5e5e5", borderRadius: 4 }} />
   );
 
