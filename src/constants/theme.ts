@@ -1,14 +1,17 @@
-// Design tokens matching for-crypto.vercel.app
+// Design tokens matching https://forcrypto.fun (dark theme)
 export const colors = {
-  background: "#ffffff",
-  surface: "#ffffff",
-  surfaceAlt: "#f2f2f2",
-  border: "#e5e5e5",
-  text: "#151515",
-  textSecondary: "#525252",
-  textMuted: "#888888",
-  accent: "#ff6000",
-  error: "#dc2626",
+  background: "#0a0a0a",
+  foreground: "#e5e5e5",
+  primary: "#ff6000",
+  primaryForeground: "#ffffff",
+  muted: "#1a1a1a",
+  mutedForeground: "#a3a3a3",
+  destructive: "#ef4444",
+  border: "#262626",
+  surface: "#171717",
+  card: "#1a1a1a",
+  accent: "#ff6000", // Keep for compatibility
+  error: "#ef4444",
   success: "#22c55e",
 } as const;
 

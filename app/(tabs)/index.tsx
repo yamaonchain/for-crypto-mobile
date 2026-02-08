@@ -9,28 +9,29 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   Image,
+  Linking,
 } from "react-native";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import { useState, useRef, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-// Matching web: w-[calc(100vw-32px)] sm:w-[600px] lg:w-[710px]
-const SLIDE_WIDTH = SCREEN_WIDTH - 32; // calc(100vw-32px)
-const SLIDE_SPACING = 16; // gap-4
+const SLIDE_WIDTH = SCREEN_WIDTH - 32;
+const SLIDE_SPACING = 16;
+const BASE_URL = "https://forcrypto.fun";
 
 // Exact slides from web source
 const slides = [
   {
-    thumbnail: "/videos/bootcamp.mp4",
+    fallback: `${BASE_URL}/homepage/product-001.gif`,
     title: "No School 4 Week Bootcamp.",
     description:
-      "A 5-step video-based mindset reset for anyone building instead of waiting for permission. Cosell it if you're done with degrees and ready to make real money online. Includes short videos, a playbook,",
+      "A 5-step video-based mindset reset for anyone building instead of waiting for permission. Cosell it if you're done with degrees and ready to make real money online. Includes short videos, a playbook, and a community of builders.",
     commission: 10,
     price: 875,
   },
   {
-    thumbnail: "/videos/daily.mp4",
+    fallback: `${BASE_URL}/homepage/product-002.gif`,
     title: "Together Daily Spark.",
     description:
       "A daily drop of connection for couples who want to stay close, curious, and never bored. Cosell it if you believe love is built in the little moments. Includes daily ideas, prompts, and conversation starters to keep your relationship fresh and meaningful.",
@@ -38,7 +39,7 @@ const slides = [
     price: 7,
   },
   {
-    thumbnail: "/videos/divvvy.mp4",
+    fallback: `${BASE_URL}/homepage/product-003.gif`,
     title: "Community Intake Kit for Divvvy.",
     description:
       "Collect wallet addresses and percentage distributions at scale. Export a clean CSV for upload to Divvvy. Perfect for DAOs, creators, nonprofits, large-scale distributions and more...",
@@ -46,15 +47,15 @@ const slides = [
     price: 2,
   },
   {
-    thumbnail: "/videos/designer-gear.mp4",
+    fallback: `${BASE_URL}/homepage/product-004.gif`,
     title: "Designer Gear for Shredders Game.",
     description:
-      "Look steezy while you send it. New outerwear, fresh colorways, and pro-level style for your rider. Cosell it if you believe looking good is half the game. Style isn't just cosmetic, it's confidence on...",
+      "Look steezy while you send it. New outerwear, fresh colorways, and pro-level style for your rider. Cosell it if you believe looking good is half the game. Style isn't just cosmetic, it's confidence on the mountain.",
     commission: 20,
     price: 50,
   },
   {
-    thumbnail: "/videos/freckle-fade.mp4",
+    fallback: `${BASE_URL}/homepage/hero-001.gif`,
     title: "Freckle Fade Lightroom Presets.",
     description:
       "Not born with freckles? No problem. This Lightroom preset pack adds natural-looking freckles and warm tones in one click. Made for soft edits, flirty textures, and scroll-stopping skin.",
@@ -73,13 +74,112 @@ const howSteps = [
   "Get paid instantly",
 ];
 
+const faqData = [
+  {
+    question: "Why For Crypto?",
+    answer: "Most digital sales platforms were built for a different era. Slow payouts. High fees. Endless forms. Built for the platform, not the seller.\n\nCrypto changes the equation. Payments settle in seconds instead of days. There are no banks in the middle. And anyone in the world can buy or sell without signing up for another account.\n\nFor Crypto was built from the ground up for this new model. Direct. Instant. Global.",
+  },
+  {
+    question: "What is For Crypto?",
+    answer: "For Crypto is a wallet-connected marketplace where anyone can list, sell, and Cosell anything digital.\n\nYou can sell solo or invite Cosellers and split earnings automatically using smart contracts (programs that handle payments for you).\n\nThink of it like a traditional sales platform, rebuilt for the internet.",
+  },
+  {
+    question: "Who is For Crypto for?",
+    answer: "Anyone with a wallet and something digital to sell.\n\nSome Examples:\n\u2022 Creators and artists sharing downloads or templates\n\u2022 Coaches offering classes or private sessions\n\u2022 Developers launching tools or code packs\n\u2022 Influencers sharing behind-the-scenes content\n\u2022 Communities hosting event signups or gated access\n\u2022 Founders testing ideas before full product launches\n\nIf you can create it, you can sell it For Crypto.",
+  },
+  {
+    question: "What can I sell?",
+    answer: "Anything Digital\n\nThink:\n\u2022 Lightroom presets\n\u2022 Notion templates\n\u2022 Music packs\n\u2022 Fonts and typefaces\n\u2022 Digital art or wallpapers\n\u2022 PDFs, courses, or guides\n\u2022 Links to exclusive Discords or private access\n\nWe host the content. You get paid instantly in crypto.",
+  },
+  {
+    question: 'What does "Cosell" mean?',
+    answer: "Cosell lets anyone earn real crypto by helping sell something they believe in.\n\nWhen a seller enables Cosell, they set a public commission rate. Anyone can click Cosell, generate a unique link, and start earning immediately.\n\nThe moment you Cosell, a smart contract is created that locks in your commission rate for 30 days.\n\n\u2022 If the seller raises the commission later, your rate increases right away\n\u2022 If the seller lowers the commission, your higher rate stays locked until your 30-day window ends\n\nEvery time someone makes a purchase through your link, you get paid instantly and directly to your wallet. No middlemen. No payout delays. No waiting period.\n\nThis is how marketing should work.\n\nYou don't get paid for fake clicks, empty impressions, or engagement from bots.\n\nYou only get paid for real sales. The clearest signal of value.\n\nIf you're a digital influencer, creator, or community builder, this is your moment.\n\nFor the first time, you can instantly earn from the things you promote.\n\nBrowse anything on For Crypto, Cosell what you believe in, and start earning right away.\n\nThis is the missing piece of the digital economy.\n\nOne link. One sale. Real value flows to everyone who helped make it happen.",
+  },
+  {
+    question: "What are Sales Assets?",
+    answer: "Sales Assets are materials sellers provide to help cosellers promote their listing.\n\nThink:\n\u2022 Logos and banners\n\u2022 Product images\n\u2022 Video clips\n\u2022 Copy and talking points\n\nWhen you become a coseller, you unlock these assets instantly.\n\nThe more a seller provides, the easier it is for you to share and earn.",
+  },
+  {
+    question: "How does payout work?",
+    answer: "Buyers pay in USDC (a stablecoin worth $1), and funds are routed instantly to your wallet and any Cosellers' wallets.\n\nNo waiting. No withdrawal process. No payout requests.\n\nThe split is enforced by a smart contract, so everyone gets paid automatically.",
+  },
+  {
+    question: "What networks and wallets are supported?",
+    answer: "Buyers can pay with USDC on Base or Solana. Sellers choose whether to receive payouts on Base or Solana when they create a listing. Cross-chain payments are bridged automatically via Circle CCTP.\n\nYou can connect with:\n\u2022 Phantom (Base and Solana)\n\u2022 MetaMask (Base)\n\u2022 Coinbase Wallet (Base)\n\nAny Ethereum-compatible wallet works for Base. Solana wallets like Phantom, Solflare, and Backpack are supported for Solana payments.",
+  },
+  {
+    question: "Do I need to be technical?",
+    answer: "Not at all.\n\nIf you can:\n1. Connect a wallet\n2. Upload a file\n3. Paste a product description\n\nYou're good to go.\n\nThe Coseller flow is also simple. Just add their wallet and percentage. That's it.",
+  },
+  {
+    question: "How does authentication work?",
+    answer: "There are no usernames or passwords on For Crypto.\n\nInstead, you connect your wallet, and that becomes your login.\n\nIt's like signing in, but without giving up your email, name, or personal data.\n\nYour wallet proves who you are, and once you make a purchase, the content unlocks instantly.\n\nNo forms. No waiting. You stay in control.",
+  },
+  {
+    question: "What makes For Crypto different from Web2 platforms?",
+    answer: "\u2022 Wallet-native: No signups, just connect your wallet\n\u2022 Instant payouts: No withdrawal delays\n\u2022 Fair revenue splits: Set custom percentages with Cosellers\n\u2022 Built for creators: No gatekeeping, open to everyone\n\u2022 Stable payments: All transactions in USDC, a digital dollar pegged 1:1 to USD\n\u2022 Modular design: Your storefront grows and adapts with you\n\nWe're building a better system for value exchange that favors creators over platforms.",
+  },
+  {
+    question: "What makes For Crypto culturally different?",
+    answer: "For Crypto is wallet-connected, open to anonymous creators, and built for the new internet.\n\nWe're not rebuilding old platforms with new tech. We're giving dreamers, builders, and side hustlers a new home where crypto is the default.\n\nThis isn't the next Etsy or Gumroad. It's the marketplace built for people who move fast and own their work.",
+  },
+  {
+    question: "Can I embed or share my listings?",
+    answer: "Yes. Each product has its own public page with a shareable link.\n\nYou can also embed a checkout button directly on your own website or landing page. Just copy the embed code from your listing and paste it in. No dev work required.",
+  },
+  {
+    question: "Can I track my sales?",
+    answer: "Yes.\n\nYour metrics area shows:\n\u2022 Total sales\n\u2022 Total Profit\n\nWe also show earnings per product, buyer wallet activity, and other blockchain stats.",
+  },
+  {
+    question: "Can I make edits after publishing?",
+    answer: "Yes. You can edit the description, price, preview image, and the listing.",
+  },
+  {
+    question: "Is For Crypto non-custodial?",
+    answer: "Yes. We never touch your funds.\n\nPayments go straight to your wallet and your Cosellers' wallets through smart contract splits.",
+  },
+  {
+    question: "Is it safe?",
+    answer: "Yes. All transactions are on the blockchain, transparent, and verifiable.\n\nWe use audited infrastructure and never store your assets or private keys.",
+  },
+  {
+    question: "What about copyright or stolen content?",
+    answer: "Sellers are responsible for the content they upload. By listing, you confirm you have the rights to distribute them.\n\nIf you see stolen content or copyright infringement, you can report it directly through our platform. We review each case and will take appropriate action.",
+  },
+  {
+    question: "Can I offer refunds?",
+    answer: "Crypto payments are final by default.\n\nHowever, you can handle customer support or issue manual refunds at your discretion.",
+  },
+  {
+    question: "How do I get started?",
+    answer: "1. Connect your wallet - This is your login. No email, no password.\n\n2. Click \"Sell\" - Start a new listing from the top nav at any time.\n\n3. Add details - Title, description, price, the basics.\n\n4. Set Coseller Commission - Set a percentage others earn when they help sell.\n\n5. Add What Buyers Get - Upload your files, access links, or whatever you're offering.\n\n6. Add Sales Assets - Drop in a logo, banner, or images to give cosellers what they need to help you sell.\n\n7. Publish - Your listing goes live instantly and is ready to be sold.\n\nThat's it. It's simple, fast, and you're given all the tools to succeed in today's online world.",
+  },
+  {
+    question: "How does For Crypto sustain itself?",
+    answer: "For Crypto charges a fee based on how a sale happens.\n\n\u2022 30% if someone discovers and purchases your listing directly through the For Crypto site\n\u2022 10% if the sale comes from your own shared link (like from your YouTube, X, or personal site)\n\u2022 10% if a coseller makes the sale, plus whatever commission percentage you set for them\n\nThis model rewards creators for promoting their own work and empowers cosellers to earn alongside you.\n\nOur fee helps fund the platform, cover infrastructure, and keep the system open to everyone. It allows For Crypto to grow independently while giving creators and communities more ownership, reach, and control.",
+  },
+  {
+    question: "What is the Bot API?",
+    answer: "The Bot API lets you automate sales on For Crypto. You can create listings, manage inventory, and process payments programmatically.\n\nBots are first-class citizens on For Crypto. They get their own profile, can list and sell just like any other user, and earn instant payouts to their connected wallet.\n\nUse cases include:\n\u2022 Automated storefronts that list and sell without manual work\n\u2022 Integrations with external platforms or services\n\u2022 Dynamic pricing or inventory management\n\u2022 Programmatic content delivery at scale",
+  },
+  {
+    question: "What is Embed Checkout?",
+    answer: "Embed Checkout lets you add a \"Buy with Crypto\" button to any website. Your visitors can purchase directly without leaving your page.\n\nJust paste a small script tag and a div on your site. The button handles wallet connection, payment, and content delivery automatically.\n\nIt works on:\n\u2022 Personal websites and landing pages\n\u2022 Blog posts and articles\n\u2022 Notion pages and link-in-bio tools\n\u2022 Any site where you can add HTML",
+  },
+  {
+    question: "Have more questions?",
+    answer: "Reach out on X (@forcryptomarket) or email us at feedback@forcrypto.market.\n\nYou can also suggest new features or integrations directly on the site.",
+  },
+];
+
 export default function HomeScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Hero />
       <Why />
       <How />
-      <Cosell />
+      <CosellSection />
       <Assets />
       <BackedNetwork />
       <FAQs />
@@ -91,46 +191,54 @@ function Hero() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const scrollRef = useRef<FlatList>(null);
 
-  const handleScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const container = e.nativeEvent;
-    const containerCenter = container.contentOffset.x + container.layoutMeasurement.width / 2;
-    let closestIndex = 0;
-    let closestDistance = Infinity;
+  const handleScroll = useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const container = e.nativeEvent;
+      const containerCenter =
+        container.contentOffset.x + container.layoutMeasurement.width / 2;
+      let closestIndex = 0;
+      let closestDistance = Infinity;
 
-    slides.forEach((_, index) => {
-      const slideCenter = index * (SLIDE_WIDTH + SLIDE_SPACING) + SLIDE_WIDTH / 2;
-      const distance = Math.abs(containerCenter - slideCenter);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = index;
-      }
-    });
+      slides.forEach((_, index) => {
+        const slideCenter =
+          index * (SLIDE_WIDTH + SLIDE_SPACING) + SLIDE_WIDTH / 2;
+        const distance = Math.abs(containerCenter - slideCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
 
-    setSelectedIndex(closestIndex);
-  }, []);
+      setSelectedIndex(closestIndex);
+    },
+    []
+  );
 
   const handleDotClick = useCallback((index: number) => {
     scrollRef.current?.scrollToIndex({ index, animated: true });
   }, []);
 
-  const renderSlide = ({ item: slide, index }: { item: any; index: number }) => (
+  const renderSlide = ({ item: slide }: { item: (typeof slides)[0] }) => (
     <View style={[styles.carouselSlide, { width: SLIDE_WIDTH }]}>
       <View style={styles.carouselBorder}>
         <View style={styles.exampleLabel}>
           <Text style={styles.exampleLabelText}>Example Listing</Text>
         </View>
-        
-        {/* Placeholder for video/image */}
-        <View style={styles.videoPlaceholder}>
-          <Text style={styles.videoText}>{slide.thumbnail}</Text>
-        </View>
-        
+
+        <Image
+          source={{ uri: slide.fallback }}
+          style={styles.slideImage}
+          resizeMode="cover"
+        />
+
         <View style={styles.cosellFooter}>
           <View style={styles.cosellInfoSection}>
             <Text style={styles.cosellTitle}>Cosell For Crypto.</Text>
             <View style={styles.cosellCommissionRow}>
-              <Text style={styles.cosellCommissionText}>{slide.commission}% Commission</Text>
-              <Text style={styles.cosellInfoIcon}>ⓘ</Text>
+              <Text style={styles.cosellCommissionText}>
+                {slide.commission}% Commission
+              </Text>
+              <Text style={styles.cosellInfoIcon}>\u24D8</Text>
             </View>
           </View>
           <View style={styles.cosellDivider} />
@@ -140,49 +248,46 @@ function Hero() {
             </Pressable>
           </View>
         </View>
-        
+
         <Pressable style={styles.buyNowButton}>
           <Text style={styles.buyNowText}>Buy Now</Text>
         </Pressable>
-        
+
         <View style={styles.priceRow}>
           <Text style={styles.priceText}>{slide.price} USDC</Text>
         </View>
-        
+
         <View style={styles.contentSection}>
-          <Text style={styles.slideTitle}>{slide.title}</Text>
+          <Text style={styles.slideTitle} numberOfLines={2}>
+            {slide.title}
+          </Text>
           <Text style={styles.slideDescription} numberOfLines={3}>
             {slide.description}
           </Text>
         </View>
-
-        {/* Gradient overlay at bottom */}
-        <View style={styles.gradientOverlay} />
       </View>
     </View>
   );
 
   return (
     <View style={styles.heroSection}>
-      {/* Text content matching web: max-w-3xl mx-auto text-center px-4 */}
       <View style={styles.heroTextContainer}>
         <Text style={styles.heroTitle}>Sell. Cosell. For Crypto.</Text>
         <Text style={styles.heroSubtitle}>
-          A crypto market for creators, artists, designers, influencers, and
-          more. Instant payments. No banks. No middlemen. Just your wallet
-          and the internet.
+          The marketplace for creators, builders, bots, and sellers who want
+          instant payouts in USDC, a digital dollar that's always worth $1. No
+          banks. No middlemen. Just your wallet and the internet.
         </Text>
         <View style={styles.heroButtonsContainer}>
-          <Pressable style={styles.learnMoreButton}>
-            <Text style={styles.learnMoreText}>Learn More</Text>
+          <Pressable style={styles.outlineButton}>
+            <Text style={styles.outlineButtonText}>Learn More</Text>
           </Pressable>
-          <Pressable style={styles.sellButton}>
-            <Text style={styles.sellButtonText}>Sell</Text>
+          <Pressable style={styles.foregroundButton}>
+            <Text style={styles.foregroundButtonText}>Sell</Text>
           </Pressable>
         </View>
       </View>
 
-      {/* Carousel matching web: mt-10 md:mt-20 */}
       <View style={styles.carouselWrapper}>
         <FlatList
           ref={scrollRef}
@@ -195,17 +300,18 @@ function Hero() {
           contentContainerStyle={styles.carouselContent}
           onScroll={handleScroll}
           scrollEventThrottle={16}
-          style={styles.carouselFlatList}
         />
-        
-        {/* Dots matching web: gap-2.5 mt-4 */}
+
         <View style={styles.dotsContainer}>
           {slides.map((_, index) => (
             <Pressable
               key={index}
               style={[
                 styles.dot,
-                { backgroundColor: index === selectedIndex ? "#171717" : "#e5e5e5" }
+                {
+                  backgroundColor:
+                    index === selectedIndex ? "#e5e5e5" : "#1a1a1a",
+                },
               ]}
               onPress={() => handleDotClick(index)}
             />
@@ -216,172 +322,33 @@ function Hero() {
   );
 }
 
-function FAQs() {
-  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-
-  return (
-    <View style={styles.faqsWrapper}>
-      <Container>
-        <View style={styles.faqsContainer}>
-          <View style={styles.faqsHeader}>
-            <Text style={styles.faqsTitle}>
-              Frequently Asked Questions
-            </Text>
-            <Text style={styles.faqsSubtitle}>
-              Everything you need to know about For Crypto.
-            </Text>
-            <Text style={styles.faqsSubtitle}>
-              And if you have an idea, feedback, or want to request a feature,
-              let us know.
-            </Text>
-            <Pressable style={styles.feedbackButton}>
-              <Text style={styles.feedbackButtonText}>Feedback</Text>
-            </Pressable>
-          </View>
-          
-          <View style={styles.faqItemsList}>
-            <FaqItem
-              question="Why For Crypto?"
-              expanded={expandedFAQ === 0}
-              onToggle={() => setExpandedFAQ(expandedFAQ === 0 ? null : 0)}
-            >
-              <Text style={styles.faqAnswerText}>
-                The creator economy is evolving, but most platforms haven't
-                caught up.
-              </Text>
-              <Text style={styles.faqAnswerText}>Payout delays and legacy systems hold people back.</Text>
-              <Text style={styles.faqAnswerText}>
-                For Crypto is the first crypto-native marketplace designed for
-                wallet-connected commerce.
-              </Text>
-              <Text style={styles.faqAnswerText}>
-                Sell digital. Cosell with anyone. Get paid instantly in crypto.
-              </Text>
-              <Text style={styles.faqAnswerText}>No middlemen. No waiting. Just create, list, and earn.</Text>
-            </FaqItem>
-            
-            <FaqItem
-              question="What is For Crypto?"
-              expanded={expandedFAQ === 1}
-              onToggle={() => setExpandedFAQ(expandedFAQ === 1 ? null : 1)}
-            >
-              <Text style={styles.faqAnswerText}>
-                For Crypto is a wallet-native marketplace where anyone can list,
-                sell, and Cosell anything digital.
-              </Text>
-              <Text style={styles.faqAnswerText}>
-                You can sell solo or invite Cosellers and split earnings
-                automatically using smart contracts.
-              </Text>
-              <Text style={styles.faqAnswerText}>
-                Think of it like a traditional sales platform, rebuilt for the
-                onchain era.
-              </Text>
-            </FaqItem>
-            
-            <FaqItem
-              question="What does \"Cosell\" mean?"
-              expanded={expandedFAQ === 2}
-              onToggle={() => setExpandedFAQ(expandedFAQ === 2 ? null : 2)}
-            >
-              <Text style={styles.faqAnswerText}>
-                Cosell lets anyone earn real crypto by helping sell something
-                they believe in.
-              </Text>
-              <Text style={styles.faqAnswerText}>
-                When a seller enables Cosell, they set a public commission rate.
-                Anyone can click Cosell, generate a unique link, and start
-                earning immediately.
-              </Text>
-              <Text style={styles.faqAnswerText}>
-                The moment you Cosell, a smart contract is created that locks in
-                your commission rate for 30 days.
-              </Text>
-              <Text style={styles.faqAnswerText}>
-                Every time someone makes a purchase through your link, you get
-                paid instantly and directly to your wallet. No middlemen. No
-                payout delays. No waiting period.
-              </Text>
-            </FaqItem>
-            
-            <FaqItem
-              question="What networks and wallets are supported?"
-              expanded={expandedFAQ === 3}
-              onToggle={() => setExpandedFAQ(expandedFAQ === 3 ? null : 3)}
-            >
-              <Text style={styles.faqAnswerText}>
-                For Crypto runs on Base, a fast and low-cost Ethereum Layer 2.
-                All payments are made in USDC.
-              </Text>
-              <Text style={styles.faqAnswerText}>You can connect with:</Text>
-              <Text style={styles.faqAnswerText}>• Phantom</Text>
-              <Text style={styles.faqAnswerText}>• MetaMask</Text>
-            </FaqItem>
-          </View>
-        </View>
-      </Container>
-    </View>
-  );
-}
-
-function FaqItem({
-  question,
-  expanded,
-  onToggle,
-  children,
-}: {
-  question: string;
-  expanded: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <View style={styles.faqItem}>
-      <Pressable style={styles.faqQuestionButton} onPress={onToggle}>
-        <Text style={styles.faqQuestionText}>{question}</Text>
-        <Ionicons
-          name={expanded ? "chevron-up" : "chevron-down"}
-          size={24}
-          color="#fff"
-          style={styles.faqChevron}
-        />
-      </Pressable>
-      {expanded && (
-        <View style={styles.faqAnswerContainer}>
-          {children}
-        </View>
-      )}
-    </View>
-  );
-}
-
 function Why() {
   return (
     <Container>
       <View style={styles.whySection}>
         <SectionHeader
           title="Why Crypto?"
-          subtitle="It's better in every way."
-          description="No waiting for payouts. No platform lock-in. No chargebacks or third-party control. Just direct, wallet-to-wallet commerce that's global, instant, and built for anyone."
+          subtitle="Payments that just work."
+          description="No waiting for payouts. No platform lock-in. No chargebacks. Just direct, wallet-to-wallet payments that are global, instant, and built for anyone."
         />
-        <View style={styles.whyCardsGrid}>
+        <View style={styles.cardsGrid}>
           <WhyCard
-            thumbnail="/videos/instant-payouts.mp4"
+            image={`${BASE_URL}/homepage/why-001.gif`}
             title="Instant Payouts"
             description="Get paid the moment something sells. No delays, no waiting, just crypto in your wallet."
           />
           <WhyCard
-            thumbnail="/videos/self-custody-2.mp4"
+            image={`${BASE_URL}/homepage/why-002.gif`}
             title="Self-Custody"
             description="You own the wallet, you control the money. No platforms holding your funds."
           />
           <WhyCard
-            thumbnail="/videos/global.mp4"
+            image={`${BASE_URL}/homepage/why-003.gif`}
             title="Global by Default"
             description="Sell and cosell to anyone, anywhere. No banks, no borders, no currency restrictions."
           />
           <WhyCard
-            thumbnail="/videos/smart-splits.mp4"
+            image={`${BASE_URL}/homepage/why-004.gif`}
             title="Smart Splits"
             description="Revenue is split automatically between sellers and cosellers. No chasing payments."
           />
@@ -392,145 +359,106 @@ function Why() {
 }
 
 function WhyCard({
-  thumbnail,
+  image,
   title,
   description,
 }: {
-  thumbnail: string;
+  image: string;
   title: string;
   description: string;
 }) {
   return (
-    <View style={styles.whyCard}>
-      <View style={styles.whyCardVideoContainer}>
-        <Text style={styles.whyCardVideoPlaceholder}>{thumbnail}</Text>
-      </View>
-      <Text style={styles.whyCardTitle}>{title}</Text>
-      <Text style={styles.whyCardDescription}>{description}</Text>
-    </View>
-  );
-}
-
-// Container component matching web
-function Container({ children }: { children: React.ReactNode }) {
-  return (
-    <View style={styles.containerWrapper}>
-      {children}
-    </View>
-  );
-}
-
-// SectionHeader component matching web
-function SectionHeader({
-  title,
-  subtitle,
-  description,
-}: {
-  title: string;
-  subtitle: string | string[];
-  description: string;
-}) {
-  return (
-    <View style={styles.sectionHeaderContainer}>
-      <View style={styles.sectionHeaderContent}>
-        <Text style={styles.sectionHeaderTitle}>{title}</Text>
-        {Array.isArray(subtitle) ? (
-          subtitle.map((sub, index) => (
-            <Text key={index} style={styles.sectionHeaderSubtitle}>
-              {sub}
-            </Text>
-          ))
-        ) : (
-          <Text style={styles.sectionHeaderSubtitle}>{subtitle}</Text>
-        )}
-        <Text style={styles.sectionHeaderDescription}>{description}</Text>
-      </View>
-      <ButtonsCTA />
-    </View>
-  );
-}
-
-// ButtonsCTA component matching web
-function ButtonsCTA() {
-  return (
-    <View style={styles.buttonsCTA}>
-      <Pressable style={styles.learnMoreButton}>
-        <Text style={styles.learnMoreText}>Learn More</Text>
-      </Pressable>
-      <Pressable style={styles.sellButton}>
-        <Text style={styles.sellButtonText}>Sell</Text>
-      </Pressable>
+    <View style={styles.card}>
+      <Image
+        source={{ uri: image }}
+        style={styles.cardImage}
+        resizeMode="cover"
+      />
+      <Text style={styles.cardTitle}>{title}</Text>
+      <Text style={styles.cardDescription}>{description}</Text>
     </View>
   );
 }
 
 function How() {
   return (
-    <View style={styles.howWrapper}>
+    <View style={styles.sectionBg}>
       <Container>
-        <View style={styles.howSection}>
+        <View style={styles.sectionPadding}>
           <SectionHeader
             title="How it works."
             subtitle={["Instant transactions.", "No banks. No delays."]}
-            description="Simple, secure, and built for the way you create. From wallet connect to payout,
-everything happens directly. No signups, no waiting, no middlemen."
+            description="From wallet connect to payout, everything happens directly. No signups, no waiting, no middlemen."
           />
-          <View style={styles.howCard}>
+          <View style={styles.card}>
             <View style={styles.howCardContent}>
-              <View style={styles.howCardTextSection}>
-                <Text style={styles.howCardTitle}>Getting started is simple</Text>
-                <View style={styles.howStepsList}>
-                  {howSteps.map((step, index) => (
-                    <Text key={index} style={styles.howStepText}>
-                      {index + 1}. {step}
-                    </Text>
-                  ))}
-                </View>
+              <Text style={styles.howCardTitle}>
+                Getting started is simple
+              </Text>
+              <View style={styles.howStepsList}>
+                {howSteps.map((step, index) => (
+                  <Text key={index} style={styles.howStepText}>
+                    {index + 1}. {step}
+                  </Text>
+                ))}
               </View>
             </View>
-            <View style={styles.howIllustrationSection}>
-              <View style={styles.howIllustrationPlaceholder}>
-                <Text style={styles.howIllustrationText}>/homepage/how.png</Text>
-              </View>
-            </View>
+            <Image
+              source={{ uri: `${BASE_URL}/homepage/how.png` }}
+              style={styles.howImage}
+              resizeMode="contain"
+            />
           </View>
         </View>
       </Container>
     </View>
   );
 }
-function Cosell() {
+
+function CosellSection() {
   return (
-    <View style={styles.cosellWrapper}>
+    <View style={styles.sectionBorder}>
       <Container>
-        <View style={styles.cosellSection}>
+        <View style={styles.sectionPadding}>
           <SectionHeader
             title="Cosell."
             subtitle="Unlock the Internet."
-            description="Cosell is not an affiliate link. It's a contract. A payout. A piece of the upside. It turns attention into income for anyone, anywhere."
+            description="Cosell is not an affiliate link. It's a contract. A payout. A share of every sale. It turns attention into income for anyone, anywhere."
           />
           <View style={styles.cosellGrid}>
-            <View style={styles.cosellVideoCard}>
+            <View style={styles.card}>
               <View style={styles.cosellVideoPlaceholder}>
-                <Text style={styles.cosellVideoText}>/videos/cosell.mp4</Text>
+                <Ionicons name="play-circle-outline" size={48} color="#a3a3a3" />
               </View>
             </View>
-            <View style={styles.cosellTextCard}>
+            <View style={[styles.card, styles.cosellTextCard]}>
               <View style={styles.cosellPointsContainer}>
-                <Text style={styles.cosellPointText}>The seller sets the commission.</Text>
-                <Text style={styles.cosellPointText}>A Coseller activates the contract.</Text>
-                <Text style={styles.cosellPointText}>Sales are tracked onchain.</Text>
-                <Text style={styles.cosellPointText}>Payouts happen instantly.</Text>
+                <Text style={styles.cosellPointText}>
+                  The seller sets the commission.
+                </Text>
+                <Text style={styles.cosellPointText}>
+                  A Coseller activates the contract.
+                </Text>
+                <Text style={styles.cosellPointText}>
+                  Sales are tracked on the blockchain.
+                </Text>
+                <Text style={styles.cosellPointText}>
+                  Payouts happen instantly.
+                </Text>
               </View>
-              <Pressable style={styles.cosellActionButton}>
-                <Text style={styles.cosellActionButtonText}>Become a Coseller</Text>
+              <Pressable style={styles.outlineButton}>
+                <Text style={styles.outlineButtonText}>
+                  Become a Coseller
+                </Text>
               </Pressable>
             </View>
           </View>
-          <View style={styles.cosellBigCard}>
-            <View style={styles.cosellHeroImageContainer}>
-              <Text style={styles.cosellHeroImageText}>/homepage/cosell.png</Text>
-            </View>
+          <View style={[styles.card, { alignItems: "center" }]}>
+            <Image
+              source={{ uri: `${BASE_URL}/homepage/cosell.png` }}
+              style={styles.cosellHeroImage}
+              resizeMode="contain"
+            />
             <Text style={styles.cosellBigTitle}>No excuse this time.</Text>
             <Text style={styles.cosellBigDescription}>
               If you have a device, you can Cosell For Crypto. Go get it.
@@ -542,53 +470,56 @@ function Cosell() {
     </View>
   );
 }
+
 function Assets() {
   return (
-    <View style={styles.assetsWrapper}>
+    <View style={styles.sectionPadding}>
       <Container>
         <SectionHeader
           title="Sales Assets."
           subtitle="Give Cosellers the tools to sell."
-          description="Official photos, videos, and creative material uploaded by sellers and unlocked by Cosellers. Aligned promotion at internet scale."
+          description="Official photos, videos, and creative material uploaded by sellers and unlocked by Cosellers. Quality promotion that scales with you."
         />
       </Container>
-      
-      <View style={styles.assetsHeroImageContainer}>
-        <Text style={styles.assetsHeroImageText}>/homepage/assets.png</Text>
-      </View>
-
+      <Image
+        source={{ uri: `${BASE_URL}/homepage/assets.png` }}
+        style={styles.assetsHeroImage}
+        resizeMode="cover"
+      />
       <Container>
         <View style={styles.assetsDescSection}>
-          <Text style={styles.assetsDescTitle}>Your sales materials, your way</Text>
-          <Text style={styles.assetsDescText}>
+          <Text style={styles.assetsDescTitle}>
+            Your sales materials, your way
+          </Text>
+          <Text style={styles.mutedText}>
             Every listing includes a dedicated sales assets section: a space to
             upload the logos, videos, and creative tools that help your product
             sell.
           </Text>
-          <Text style={styles.assetsDescText}>
+          <Text style={styles.mutedText}>
             Sellers upload. Cosellers get access the moment they create a
             contract.
           </Text>
-          <Text style={styles.assetsDescText}>
+          <Text style={styles.mutedText}>
             The result is aligned promotion and wider reach from day one.
           </Text>
         </View>
 
-        <View style={styles.assetsGrid}>
+        <View style={styles.cardsGrid}>
           <AssetCard
             title="Logos, Marks, Tags..."
             description="The scroll stops when you stand out. Upload clean logos, badges, and marks Cosellers can drop into any format. Whether you're selling or Coselling, identity matters."
-            thumbnail="/homepage/assets-001.png"
+            image={`${BASE_URL}/homepage/assets-001.png`}
           />
           <AssetCard
             title="Films, Ads, Interviews..."
             description="Let the story do the selling. Trailers, interviews, edits, and reels. Built by Sellers or remixable by Cosellers. The better the content, the further it travels."
-            thumbnail="/homepage/assets-002.png"
+            image={`${BASE_URL}/homepage/assets-002.png`}
           />
           <AssetCard
             title="Photos, Text, Documentation..."
             description="Everything needed to list, describe, and post. Product shots. Specs. Descriptions. Quotes. Clear tools for anyone helping push the product forward."
-            thumbnail="/homepage/assets-003.png"
+            image={`${BASE_URL}/homepage/assets-003.png`}
           />
         </View>
       </Container>
@@ -599,43 +530,55 @@ function Assets() {
 function AssetCard({
   title,
   description,
-  thumbnail,
+  image,
 }: {
   title: string;
   description: string;
-  thumbnail: string;
+  image: string;
 }) {
   return (
-    <View style={styles.assetCard}>
-      <View style={styles.assetCardImageContainer}>
-        <Text style={styles.assetCardImageText}>{thumbnail}</Text>
-      </View>
-      <Text style={styles.assetCardTitle}>{title}</Text>
-      <Text style={styles.assetCardDescription}>{description}</Text>
+    <View style={styles.card}>
+      <Image
+        source={{ uri: image }}
+        style={styles.assetCardImage}
+        resizeMode="cover"
+      />
+      <Text style={styles.cardTitle}>{title}</Text>
+      <Text style={styles.cardDescription}>{description}</Text>
     </View>
   );
 }
+
 function BackedNetwork() {
   return (
-    <View style={styles.backedNetworkWrapper}>
+    <View style={styles.sectionBorder}>
       <Container>
         <View style={styles.backedNetworkContainer}>
-          <View style={styles.backedNetworkContent}>
-            <Text style={styles.backedNetworkTitle}>
-              Backed by the leading Networks.
+          <View style={{ flex: 1 }}>
+            <Text style={styles.sectionTitle}>
+              Backed by leading networks.
             </Text>
-            <Text style={styles.backedNetworkDescription}>
-              Built on Base, an Ethereum Layer 2 and leading network for onchain
-              innovation. For Crypto supports secure, scalable distributions
-              with more integrations soon.
+            <Text style={styles.mutedText}>
+              Built on Base, a faster and cheaper network powered by Ethereum,
+              with automatic payouts to Solana. Fast, low-cost, and built for
+              global commerce.
             </Text>
-            <View style={styles.backedNetworkLogos}>
-              <View style={styles.backedNetworkLogo}>
-                <Text style={styles.backedNetworkLogoText}>ETH</Text>
-              </View>
-              <View style={styles.backedNetworkLogo}>
-                <Text style={styles.backedNetworkLogoText}>BASE</Text>
-              </View>
+            <View style={styles.networkLogos}>
+              <Image
+                source={{ uri: `${BASE_URL}/homepage/eth-logo.png` }}
+                style={styles.networkLogo}
+                resizeMode="contain"
+              />
+              <Image
+                source={{ uri: `${BASE_URL}/homepage/base-logo.png` }}
+                style={styles.networkLogo}
+                resizeMode="contain"
+              />
+              <Image
+                source={{ uri: `${BASE_URL}/homepage/solana-logo.png` }}
+                style={styles.networkLogo}
+                resizeMode="contain"
+              />
             </View>
           </View>
           <ButtonsCTA />
@@ -644,915 +587,568 @@ function BackedNetwork() {
     </View>
   );
 }
-function FAQSection() {
+
+function FAQs() {
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-  
-  const faqs = [
-    {
-      question: "What is USDC?",
-      answer: "USDC is a digital dollar - a stablecoin that's always worth $1. It's the most trusted way to transact in crypto without volatility."
-    },
-    {
-      question: "How do payouts work?",
-      answer: "Payments are instant and direct to your wallet. No platform holds your money. When someone buys through your Cosell link, you get paid immediately."
-    },
-    {
-      question: "What wallets work?",
-      answer: "Any wallet that supports Base network and USDC. Popular options include MetaMask, Coinbase Wallet, and Phantom."
-    },
-    {
-      question: "Are there fees?",
-      answer: "Platform takes 30% for organic discovery, 10% for seller's own link, and 10% + coseller commission for cosell sales. All fees are transparent."
-    }
-  ];
 
   return (
-    <View style={styles.faqSection}>
-      <Text style={styles.faqTitle}>Frequently Asked Questions</Text>
-      <Text style={styles.faqSubtitle}>Everything you need to know about For Crypto.</Text>
-      <Text style={styles.faqSubtitle}>And if you have an idea, feedback, or want to request a feature, let us know.</Text>
-      
-      <Pressable style={styles.feedbackButton}>
-        <Text style={styles.feedbackButtonText}>Feedback</Text>
-      </Pressable>
-      
-      <View style={styles.faqContainer}>
-        {faqs.map((faq, index) => (
-          <View key={index} style={styles.faqItem}>
+    <View style={styles.faqsWrapper}>
+      <Container>
+        <View style={styles.faqsHeader}>
+          <Text style={styles.faqsTitle}>Frequently Asked Questions</Text>
+          <Text style={styles.faqsSubtitle}>
+            Everything you need to know about For Crypto.
+          </Text>
+          <Text style={styles.faqsSubtitle}>
+            And if you have an idea, feedback, or want to request a feature, let
+            us know.
+          </Text>
+          <Pressable
+            style={styles.feedbackButton}
+            onPress={() =>
+              Linking.openURL("mailto:feedback@forcrypto.market")
+            }
+          >
+            <Text style={styles.feedbackButtonText}>Feedback</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.faqItemsList}>
+          {faqData.map((faq, index) => (
             <Pressable
-              style={styles.faqQuestion}
-              onPress={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
+              key={index}
+              style={styles.faqItem}
+              onPress={() =>
+                setExpandedFAQ(expandedFAQ === index ? null : index)
+              }
             >
-              <Text style={styles.faqQuestionText}>{faq.question}</Text>
-              <Ionicons
-                name={expandedFAQ === index ? "chevron-up" : "chevron-down"}
-                size={20}
-                color="#ffffff"
-              />
+              <View style={styles.faqQuestionRow}>
+                <Text style={styles.faqQuestionText}>{faq.question}</Text>
+                <Ionicons
+                  name={
+                    expandedFAQ === index ? "chevron-up" : "chevron-down"
+                  }
+                  size={20}
+                  color="#fff"
+                />
+              </View>
+              {expandedFAQ === index && (
+                <Text style={styles.faqAnswerText}>{faq.answer}</Text>
+              )}
             </Pressable>
-            {expandedFAQ === index && (
-              <Text style={styles.faqAnswer}>{faq.answer}</Text>
-            )}
-          </View>
-        ))}
+          ))}
+        </View>
+      </Container>
+    </View>
+  );
+}
+
+// Shared components
+
+function Container({ children }: { children: React.ReactNode }) {
+  return <View style={styles.containerWrapper}>{children}</View>;
+}
+
+function SectionHeader({
+  title,
+  subtitle,
+  description,
+}: {
+  title: string;
+  subtitle: string | string[];
+  description: string;
+}) {
+  return (
+    <View style={styles.sectionHeaderContainer}>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.sectionTitle}>{title}</Text>
+        {Array.isArray(subtitle) ? (
+          subtitle.map((sub, index) => (
+            <Text key={index} style={styles.sectionTitle}>
+              {sub}
+            </Text>
+          ))
+        ) : (
+          <Text style={styles.sectionTitle}>{subtitle}</Text>
+        )}
+        <Text style={[styles.mutedText, { marginTop: 10 }]}>
+          {description}
+        </Text>
       </View>
+      <ButtonsCTA />
+    </View>
+  );
+}
+
+function ButtonsCTA() {
+  return (
+    <View style={styles.buttonsCTA}>
+      <Pressable style={styles.outlineButton}>
+        <Text style={styles.outlineButtonText}>Learn More</Text>
+      </Pressable>
+      <Pressable style={styles.foregroundButton}>
+        <Text style={styles.foregroundButtonText}>Sell</Text>
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    backgroundColor: "#FFFDFC" 
+  // Base
+  container: {
+    flex: 1,
+    backgroundColor: "#0a0a0a",
   },
-  content: { 
-    paddingBottom: 40 
+  content: {
+    paddingBottom: 40,
   },
 
-  // Hero Section - matching web: py-10 md:py-20 bg-[#FFFDFC] overflow-x-hidden
+  // Container
+  containerWrapper: {
+    width: "100%",
+    paddingHorizontal: 16,
+  },
+
+  // Section backgrounds
+  sectionBg: {
+    backgroundColor: "#0a0a0a",
+  },
+  sectionBorder: {
+    backgroundColor: "#262626",
+  },
+  sectionPadding: {
+    paddingVertical: 40,
+  },
+
+  // Hero
   heroSection: {
     paddingTop: 40,
-    paddingBottom: 80,
-    backgroundColor: "#FFFDFC",
+    paddingBottom: 40,
+    backgroundColor: "#0a0a0a",
   },
-
-  // Hero Text Container - matching web: max-w-3xl mx-auto text-center px-4
   heroTextContainer: {
-    maxWidth: 768, // max-w-3xl
-    alignSelf: "center",
     alignItems: "center",
-    paddingHorizontal: 16, // px-4
+    paddingHorizontal: 16,
   },
-
-  // Hero Title - matching web: text-3xl md:text-5xl max-w-2xl mx-auto font-medium mb-3 text-balance leading-[1.2]
   heroTitle: {
-    fontSize: 36, // text-3xl (mobile), will be larger on tablet
-    fontWeight: "500", // font-medium
+    fontSize: 30,
+    fontWeight: "500",
     textAlign: "center",
-    color: "#000",
-    lineHeight: 43, // leading-[1.2] = fontSize * 1.2
-    marginBottom: 12, // mb-3
-    maxWidth: 672, // max-w-2xl
+    color: "#e5e5e5",
+    lineHeight: 36,
+    marginBottom: 12,
   },
-
-  // Hero Subtitle - matching web: text-lg md:text-xl text-neutral-500 mb-8 leading-[1.6] px-4 md:px-0
   heroSubtitle: {
-    fontSize: 18, // text-lg
-    color: "#737373", // text-neutral-500
+    fontSize: 18,
+    color: "#a3a3a3",
     textAlign: "center",
-    lineHeight: 29, // leading-[1.6] = fontSize * 1.6
-    marginBottom: 32, // mb-8
-    paddingHorizontal: 16, // px-4 (mobile)
+    lineHeight: 29,
+    marginBottom: 32,
+    paddingHorizontal: 16,
   },
-
-  // Hero Buttons - matching web: flex flex-col sm:grid sm:grid-cols-2 gap-4 max-w-lg mx-auto px-4
   heroButtonsContainer: {
-    flexDirection: "row", // grid on web, but row works for mobile
-    gap: 16, // gap-4
-    maxWidth: 512, // max-w-lg
+    flexDirection: "row",
+    gap: 16,
     width: "100%",
-    paddingHorizontal: 16, // px-4
+    paddingHorizontal: 16,
   },
 
-  // Learn More Button - matching web: Button variant="outline"
-  learnMoreButton: {
+  // Buttons
+  outlineButton: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
     paddingVertical: 14,
     borderRadius: 6,
     alignItems: "center",
   },
-  learnMoreText: {
+  outlineButtonText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
-
-  // Sell Button - matching web: Button (default)
-  sellButton: {
+  foregroundButton: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#e5e5e5",
     paddingVertical: 14,
     borderRadius: 6,
     alignItems: "center",
   },
-  sellButtonText: {
+  foregroundButtonText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#fff",
+    color: "#0a0a0a",
   },
 
-  // Carousel Wrapper - matching web: relative mt-10 md:mt-20 overflow-hidden
+  // Carousel
   carouselWrapper: {
-    position: "relative",
-    marginTop: 40, // mt-10 (mobile), md:mt-20 would be 80 on tablet
-  },
-
-  // Carousel FlatList - matching web: flex gap-4 overflow-x-auto scroll-smooth px-4 pb-4 hide-scrollbar
-  carouselFlatList: {
-    paddingBottom: 16, // pb-4
+    marginTop: 40,
   },
   carouselContent: {
-    paddingHorizontal: 16, // px-4
-    gap: 16, // gap-4
+    paddingHorizontal: 16,
+    gap: 16,
   },
-
-  // Carousel Slide - matching web: carousel-slide flex-shrink-0 w-[calc(100vw-32px)] sm:w-[600px] lg:w-[710px] relative
   carouselSlide: {
-    marginRight: 16, // gap-4 spacing
+    // width set dynamically
   },
-
-  // Carousel Border - matching web: border relative
   carouselBorder: {
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    position: "relative",
+    borderColor: "#262626",
+    overflow: "hidden",
   },
-
-  // Example Label - matching web: absolute top-3 left-3 z-10 px-2 py-1 bg-black/70 text-white text-xs font-medium rounded
   exampleLabel: {
     position: "absolute",
-    top: 12, // top-3
-    left: 12, // left-3
+    top: 12,
+    left: 12,
     zIndex: 10,
-    backgroundColor: "rgba(0,0,0,0.7)", // bg-black/70
-    paddingHorizontal: 8, // px-2
-    paddingVertical: 4, // py-1
+    backgroundColor: "rgba(0,0,0,0.7)",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 4,
   },
   exampleLabelText: {
-    fontSize: 12, // text-xs
-    color: "#fff", // text-white
-    fontWeight: "500", // font-medium
-  },
-
-  // Video Placeholder - matching web: aspect-[16/9] object-cover w-full
-  videoPlaceholder: {
-    aspectRatio: 16 / 9,
-    width: "100%",
-    backgroundColor: "#f5f5f5",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  videoText: {
     fontSize: 12,
-    color: "#737373",
+    color: "#fff",
+    fontWeight: "500",
   },
-
-  // Cosell Footer - matching web: p-3 md:p-4 bg-neutral-200 flex items-center
+  slideImage: {
+    width: "100%",
+    aspectRatio: 16 / 9,
+  },
   cosellFooter: {
-    padding: 12, // p-3 (mobile)
-    backgroundColor: "#e5e5e5", // bg-neutral-200
+    padding: 12,
+    backgroundColor: "#262626",
     flexDirection: "row",
     alignItems: "center",
   },
-
-  // Cosell Info Section - matching web: flex-1 justify-center
   cosellInfoSection: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
   },
   cosellTitle: {
-    fontSize: 14, // text-sm (mobile), md:text-base would be 16
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 4, // mb-1
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 4,
     textAlign: "center",
   },
   cosellCommissionRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    gap: 6, // gap-1.5
+    gap: 6,
   },
   cosellCommissionText: {
-    fontSize: 12, // text-xs (mobile), md:text-sm would be 14
-    fontWeight: "500", // font-medium
-    color: "#525252", // text-neutral-600
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#a3a3a3",
   },
   cosellInfoIcon: {
     fontSize: 12,
-    color: "#525252",
+    color: "#a3a3a3",
   },
-
-  // Cosell Divider - matching web: w-0.25 bg-neutral-300 h-11
   cosellDivider: {
-    width: 1, // w-0.25 = 1px
-    height: 44, // h-11
-    backgroundColor: "#d1d5db", // bg-neutral-300
+    width: 1,
+    height: 44,
+    backgroundColor: "#262626",
   },
-
-  // Cosell Button Section - matching web: flex-1 flex items-center justify-center
   cosellButtonSection: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
   },
   cosellButton: {
-    // Button variant="outline" with size="sm"
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 4,
   },
   cosellButtonText: {
-    fontSize: 12, // text-xs (mobile), md:text-sm would be 14
+    fontSize: 12,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
-
-  // Buy Now Button - matching web: w-full rounded-none text-base md:text-lg pointer-events-none variant="foreground"
   buyNowButton: {
     width: "100%",
-    backgroundColor: "#000", // variant="foreground"
+    backgroundColor: "#e5e5e5",
     paddingVertical: 14,
     alignItems: "center",
-    borderRadius: 0, // rounded-none
   },
   buyNowText: {
-    fontSize: 16, // text-base (mobile), md:text-lg would be 18
+    fontSize: 16,
     fontWeight: "500",
-    color: "#fff",
+    color: "#0a0a0a",
   },
-
-  // Price Row - matching web: border-b p-3 md:p-4 text-center text-sm md:text-base
   priceRow: {
-    borderBottomWidth: 1, // border-b
-    borderBottomColor: "#e5e5e5",
-    padding: 12, // p-3 (mobile)
-    alignItems: "center", // text-center
+    borderBottomWidth: 1,
+    borderBottomColor: "#262626",
+    padding: 12,
+    alignItems: "center",
   },
   priceText: {
-    fontSize: 14, // text-sm (mobile), md:text-base would be 16
-    color: "#000",
+    fontSize: 14,
+    color: "#e5e5e5",
   },
-
-  // Content Section - matching web: p-4 md:p-6 text-center
   contentSection: {
-    padding: 16, // p-4 (mobile)
-    alignItems: "center", // text-center
+    padding: 16,
+    alignItems: "center",
   },
   slideTitle: {
-    fontSize: 20, // text-2xl (mobile), md:text-3xl would be 30
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 8, // mb-2
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 8,
     textAlign: "center",
-    // line-clamp-2 - we'll use numberOfLines in React Native
   },
   slideDescription: {
-    fontSize: 16, // text-base (mobile), md:text-xl would be 20
-    color: "#737373", // text-neutral-500
+    fontSize: 16,
+    color: "#a3a3a3",
     textAlign: "center",
-    lineHeight: 24, // leading-[1.6] for 16px = 25.6, rounded to 24
-    maxWidth: 512, // max-w-2xl approximation
-    // line-clamp-3 sm:line-clamp-none - we'll use numberOfLines conditionally
+    lineHeight: 26,
   },
-
-  // Gradient Overlay - matching web: absolute bottom-0 left-0 right-0 h-1/5 bg-gradient-to-t from-background to-transparent
-  gradientOverlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: "20%", // h-1/5
-    // React Native doesn't have CSS gradients, we could use a library or just omit this
-  },
-
-  // Dots Container - matching web: flex items-center justify-center gap-2.5 mt-4
   dotsContainer: {
-    flexDirection: "row", // flex
-    alignItems: "center", // items-center
-    justifyContent: "center", // justify-center
-    gap: 10, // gap-2.5 = 10px
-    marginTop: 16, // mt-4
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    marginTop: 16,
   },
-
-  // Dot - matching web: size-3.5 bg-muted rounded-full cursor-pointer hover:opacity-80 transition-opacity
   dot: {
-    width: 14, // size-3.5 = 14px
+    width: 14,
     height: 14,
-    borderRadius: 7, // rounded-full
-    // backgroundColor set dynamically
+    borderRadius: 7,
   },
 
-  // Sections
-  section: { 
-    paddingHorizontal: 16,
-    paddingVertical: 40 
-  },
-  sectionHeader: {
-    marginBottom: 24,
-  },
-  sectionTitle: { 
-    fontSize: 32, 
-    fontWeight: "500", 
-    color: "#000", 
-    marginBottom: 8 
-  },
-  sectionSubtitle: { 
-    fontSize: 32, 
-    fontWeight: "500", 
-    color: "#000", 
-    marginBottom: 12,
-    lineHeight: 38,
-  },
-  sectionDescription: { 
-    fontSize: 18, 
-    color: "#737373", 
-    lineHeight: 26, 
-    marginBottom: 20,
-    maxWidth: 600,
-  },
-
-  // Container - matching web: max-w-[1200px] w-full mx-auto px-4 md:px-8 lg:px-16
-  containerWrapper: {
-    maxWidth: 1200, // max-w-[1200px]
-    width: "100%", // w-full
-    alignSelf: "center", // mx-auto
-    paddingHorizontal: 16, // px-4 (mobile), md:px-8, lg:px-16 for larger screens
-  },
-
-  // Why Section - matching web: my-10 md:my-20
-  whySection: {
-    marginVertical: 40, // my-10 (mobile), md:my-20 would be 80
-  },
-
-  // Section Header Container - matching web: flex flex-col lg:flex-row gap-8 md:gap-16 justify-between mb-8 md:mb-14
+  // Section header
   sectionHeaderContainer: {
-    flexDirection: "column", // flex-col (mobile), lg:flex-row for large screens
-    gap: 32, // gap-8 (mobile), md:gap-16 would be 64
-    justifyContent: "space-between",
-    marginBottom: 32, // mb-8 (mobile), md:mb-14 would be 56
+    marginBottom: 32,
+    gap: 24,
   },
-
-  // Section Header Content
-  sectionHeaderContent: {
-    flex: 1,
+  sectionTitle: {
+    fontSize: 30,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 4,
+    lineHeight: 36,
   },
-
-  // Section Header Title - matching web: text-3xl md:text-4xl font-medium mb-2
-  sectionHeaderTitle: {
-    fontSize: 30, // text-3xl (mobile), md:text-4xl would be 36
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 8, // mb-2
-  },
-
-  // Section Header Subtitle - matching web: text-3xl md:text-4xl font-medium mb-2.5 md:mb-2.5 text-balance
-  sectionHeaderSubtitle: {
-    fontSize: 30, // text-3xl (mobile), md:text-4xl would be 36
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 10, // mb-2.5
-    lineHeight: 36, // text-balance approximation
-  },
-
-  // Section Header Description - matching web: text-lg md:text-xl text-neutral-500 max-w-prose leading-[1.6] text-balance
-  sectionHeaderDescription: {
-    fontSize: 18, // text-lg (mobile), md:text-xl would be 20
-    color: "#737373", // text-neutral-500
-    lineHeight: 29, // leading-[1.6] = 18 * 1.6
-    maxWidth: 600, // max-w-prose approximation
-  },
-
-  // Why Cards Grid - matching web: grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10
-  whyCardsGrid: {
-    gap: 24, // gap-6 (mobile), md:gap-10 would be 40
-  },
-
-  // Why Card - matching web: bg-neutral-100 rounded-xl p-6 md:p-8
-  whyCard: {
-    backgroundColor: "#f5f5f5", // bg-neutral-100
-    borderRadius: 12, // rounded-xl
-    padding: 24, // p-6 (mobile), md:p-8 would be 32
+  mutedText: {
+    fontSize: 18,
+    color: "#a3a3a3",
+    lineHeight: 29,
     marginBottom: 16,
   },
 
-  // Why Card Video Container - matching web: w-full aspect-[16/9] object-cover mb-6 md:mb-8
-  whyCardVideoContainer: {
-    width: "100%", // w-full
-    aspectRatio: 16 / 9, // aspect-[16/9]
-    backgroundColor: "#e5e5e5", // placeholder background
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 24, // mb-6 (mobile), md:mb-8 would be 32
-    borderRadius: 8,
+  // Cards
+  cardsGrid: {
+    gap: 24,
   },
-  whyCardVideoPlaceholder: {
-    fontSize: 12,
-    color: "#737373",
+  card: {
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    padding: 24,
   },
-
-  // Why Card Title - matching web: text-2xl md:text-2xl font-medium mb-1.5
-  whyCardTitle: {
-    fontSize: 20, // text-2xl (mobile)
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 6, // mb-1.5
-  },
-
-  // Why Card Description - matching web: text-neutral-500 max-w-prose leading-[1.6] text-lg md:text-lg text-balance
-  whyCardDescription: {
-    fontSize: 18, // text-lg
-    color: "#737373", // text-neutral-500
-    lineHeight: 29, // leading-[1.6] = 18 * 1.6
-    maxWidth: 600, // max-w-prose approximation
-  },
-
-  // Buttons CTA - matching web: flex-shrink-0 flex flex-col sm:grid sm:grid-cols-2 gap-4 max-w-lg w-full mr-auto lg:mx-auto
-  buttonsCTA: {
-    flexDirection: "row", // sm:grid sm:grid-cols-2 approximated as row
-    gap: 16, // gap-4
-    maxWidth: 512, // max-w-lg
+  cardImage: {
     width: "100%",
-    alignSelf: "flex-start", // mr-auto (mobile), lg:mx-auto would center on large screens
-  },
-
-  // How Wrapper - matching web: bg-[#FFFDFC]
-  howWrapper: {
-    backgroundColor: "#FFFDFC", // bg-[#FFFDFC]
-  },
-
-  // How Section - matching web: py-10 md:py-20
-  howSection: {
-    paddingVertical: 40, // py-10 (mobile), md:py-20 would be 80
-  },
-
-  // How Card - matching web: flex flex-col lg:flex-row bg-neutral-100 rounded-xl
-  howCard: {
-    backgroundColor: "#f5f5f5", // bg-neutral-100
-    borderRadius: 12, // rounded-xl
-    flexDirection: "column", // flex-col (mobile), lg:flex-row for large screens
-    overflow: "hidden",
-  },
-
-  // How Card Content - matching web: flex-1 text-center flex flex-col justify-center items-center pt-10 lg:pt-0 lg:items-end lg:pr-32 max-w-3xl px-4 lg:px-0
-  howCardContent: {
-    flex: 1, // flex-1
-    alignItems: "center", // items-center (mobile)
-    justifyContent: "center", // justify-center
-    paddingTop: 40, // pt-10 (mobile), lg:pt-0 would be 0 on large screens
-    maxWidth: 768, // max-w-3xl
-    paddingHorizontal: 16, // px-4 (mobile), lg:px-0 would be 0 on large screens
-  },
-
-  // How Card Text Section - matching web: flex flex-col items-center justify-center
-  howCardTextSection: {
-    alignItems: "center", // items-center
-    justifyContent: "center", // justify-center
-  },
-
-  // How Card Title - matching web: text-2xl md:text-3xl font-medium mb-6 md:mb-4
-  howCardTitle: {
-    fontSize: 24, // text-2xl (mobile), md:text-3xl would be 30
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 24, // mb-6 (mobile), md:mb-4 would be 16
-    textAlign: "center",
-  },
-
-  // How Steps List - matching web: space-y-4 md:space-y-4
-  howStepsList: {
-    gap: 16, // space-y-4
-  },
-
-  // How Step Text - matching web: text-lg md:text-xl
-  howStepText: {
-    fontSize: 18, // text-lg (mobile), md:text-xl would be 20
-    color: "#000",
-    lineHeight: 29, // approximation
-    textAlign: "center",
-  },
-
-  // How Illustration Section - matching web: flex-1 flex items-center lg:items-end justify-center p-4 pr-0 lg:p-0
-  howIllustrationSection: {
-    flex: 1, // flex-1
-    alignItems: "center", // items-center (mobile), lg:items-end for large screens
-    justifyContent: "center", // justify-center
-    padding: 16, // p-4 (mobile), lg:p-0 would be 0
-    paddingRight: 0, // pr-0
-  },
-
-  // How Illustration Placeholder - matching web: aspect-square object-contain max-w-full
-  howIllustrationPlaceholder: {
-    aspectRatio: 1, // aspect-square
-    width: "100%", // max-w-full
-    backgroundColor: "#e5e5e5",
-    alignItems: "center",
-    justifyContent: "center",
+    aspectRatio: 16 / 9,
     borderRadius: 8,
+    marginBottom: 24,
   },
-  howIllustrationText: {
-    fontSize: 12,
-    color: "#737373",
-  },
-
-  // Cosell Wrapper - matching web: bg-neutral-200
-  cosellWrapper: {
-    backgroundColor: "#e5e5e5", // bg-neutral-200
-  },
-
-  // Cosell Section - matching web: my-10 md:my-20
-  cosellSection: {
-    marginVertical: 40, // my-10 (mobile), md:my-20 would be 80
-  },
-
-  // Cosell Grid - matching web: grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 mb-10 md:mb-16
-  cosellGrid: {
-    gap: 24, // gap-6 (mobile), md:gap-10 would be 40
-    marginBottom: 40, // mb-10 (mobile), md:mb-16 would be 64
-  },
-
-  // Cosell Video Card - matching web: bg-neutral-100 rounded-xl p-6 md:p-8
-  cosellVideoCard: {
-    backgroundColor: "#f5f5f5", // bg-neutral-100
-    borderRadius: 12, // rounded-xl
-    padding: 24, // p-6 (mobile), md:p-8 would be 32
-  },
-
-  // Cosell Video Placeholder - matching web: w-full aspect-[16/9]
-  cosellVideoPlaceholder: {
-    width: "100%", // w-full
-    aspectRatio: 16 / 9, // aspect-[16/9]
-    backgroundColor: "#e5e5e5",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 8,
-  },
-  cosellVideoText: {
-    fontSize: 12,
-    color: "#737373",
-  },
-
-  // Cosell Text Card - matching web: bg-neutral-100 rounded-xl p-6 md:p-8 flex flex-col items-center justify-center
-  cosellTextCard: {
-    backgroundColor: "#f5f5f5", // bg-neutral-100
-    borderRadius: 12, // rounded-xl
-    padding: 24, // p-6 (mobile), md:p-8 would be 32
-    alignItems: "center", // items-center
-    justifyContent: "center", // justify-center
-  },
-
-  // Cosell Points Container - matching web: space-y-2 text-center mb-8 text-lg md:text-xl
-  cosellPointsContainer: {
-    gap: 8, // space-y-2
-    alignItems: "center", // text-center
-    marginBottom: 32, // mb-8
-  },
-
-  // Cosell Point Text - matching web: text-lg md:text-xl
-  cosellPointText: {
-    fontSize: 18, // text-lg (mobile), md:text-xl would be 20
-    color: "#000",
-    textAlign: "center",
-  },
-
-  // Cosell Action Button - matching web: Button variant="outline" className="border-none px-8"
-  cosellActionButton: {
-    borderWidth: 1,
-    borderColor: "transparent", // border-none
-    paddingHorizontal: 32, // px-8
-    paddingVertical: 16,
-    borderRadius: 8,
-    backgroundColor: "transparent",
-  },
-  cosellActionButtonText: {
-    fontSize: 16,
+  cardTitle: {
+    fontSize: 20,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
+    marginBottom: 6,
   },
-
-  // Cosell Big Card - matching web: bg-neutral-100 rounded-xl p-6 md:p-8 text-center
-  cosellBigCard: {
-    backgroundColor: "#f5f5f5", // bg-neutral-100
-    borderRadius: 12, // rounded-xl
-    padding: 24, // p-6 (mobile), md:p-8 would be 32
-    alignItems: "center", // text-center
-  },
-
-  // Cosell Hero Image Container - matching web: w-full max-w-[1440px] mx-auto object-contain mb-8 md:mb-18
-  cosellHeroImageContainer: {
-    width: "100%", // w-full
-    maxWidth: 1440, // max-w-[1440px]
-    alignSelf: "center", // mx-auto
-    height: 200, // approximate
-    backgroundColor: "#e5e5e5",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 32, // mb-8 (mobile), md:mb-18 would be 72
-    borderRadius: 8,
-  },
-  cosellHeroImageText: {
-    fontSize: 12,
-    color: "#737373",
-  },
-
-  // Cosell Big Title - matching web: text-2xl md:text-3xl font-medium mb-2
-  cosellBigTitle: {
-    fontSize: 24, // text-2xl (mobile), md:text-3xl would be 30
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 8, // mb-2
-    textAlign: "center",
-  },
-
-  // Cosell Big Description - matching web: text-lg md:text-xl leading-[1.6] text-balance text-neutral-500
-  cosellBigDescription: {
-    fontSize: 18, // text-lg (mobile), md:text-xl would be 20
-    color: "#737373", // text-neutral-500
-    textAlign: "center",
-    lineHeight: 29, // leading-[1.6] = 18 * 1.6
-    maxWidth: 600, // text-balance approximation
-  },
-
-  // Assets Wrapper - matching web: my-10 md:my-20
-  assetsWrapper: {
-    marginVertical: 40, // my-10 (mobile), md:my-20 would be 80
-  },
-
-  // Assets Hero Image Container - matching web: w-full (no container wrapper)
-  assetsHeroImageContainer: {
-    width: "100%", // w-full
-    height: 200,
-    backgroundColor: "#e5e5e5",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  assetsHeroImageText: {
-    fontSize: 12,
-    color: "#737373",
-  },
-
-  // Assets Desc Section - matching web: my-8 md:my-16 text-lg md:text-xl max-w-prose leading-[1.6] text-balance text-neutral-500
-  assetsDescSection: {
-    marginVertical: 32, // my-8 (mobile), md:my-16 would be 64
-  },
-
-  // Assets Desc Title - matching web: text-2xl md:text-3xl text-foreground font-medium md:mb-2.5
-  assetsDescTitle: {
-    fontSize: 24, // text-2xl (mobile), md:text-3xl would be 30
-    color: "#000", // text-foreground
-    fontWeight: "500", // font-medium
-    marginBottom: 10, // md:mb-2.5
+  cardDescription: {
+    fontSize: 18,
+    color: "#a3a3a3",
     lineHeight: 29,
   },
 
-  // Assets Desc Text - matching web: text-lg md:text-xl leading-[1.6] text-balance text-neutral-500 mb-6 md:mb-5
-  assetsDescText: {
-    fontSize: 18, // text-lg (mobile), md:text-xl would be 20
-    color: "#737373", // text-neutral-500
-    lineHeight: 29, // leading-[1.6] = 18 * 1.6
-    marginBottom: 20, // mb-6 (mobile), md:mb-5 would be 20
-    maxWidth: 600, // max-w-prose approximation
+  // Why
+  whySection: {
+    paddingVertical: 40,
   },
 
-  // Assets Grid - matching web: grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10
-  assetsGrid: {
-    gap: 24, // gap-6 (mobile), md:gap-10 would be 40
-  },
-
-  // Asset Card - matching web: bg-neutral-100 rounded-xl p-6 md:p-8
-  assetCard: {
-    backgroundColor: "#f5f5f5", // bg-neutral-100
-    borderRadius: 12, // rounded-xl
-    padding: 24, // p-6 (mobile), md:p-8 would be 32
-  },
-
-  // Asset Card Image Container - matching web: mb-6 md:mb-8 w-full
-  assetCardImageContainer: {
-    width: "100%", // w-full
-    height: 120,
-    backgroundColor: "#e5e5e5",
+  // How
+  howCardContent: {
     alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 24, // mb-6 (mobile), md:mb-8 would be 32
+    paddingTop: 32,
+    paddingHorizontal: 16,
+  },
+  howCardTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  howStepsList: {
+    gap: 16,
+    marginBottom: 24,
+  },
+  howStepText: {
+    fontSize: 18,
+    color: "#e5e5e5",
+    textAlign: "center",
+    lineHeight: 29,
+  },
+  howImage: {
+    width: "100%",
+    aspectRatio: 1,
+    marginTop: 16,
+  },
+
+  // Cosell
+  cosellGrid: {
+    gap: 24,
+    marginBottom: 24,
+  },
+  cosellVideoPlaceholder: {
+    width: "100%",
+    aspectRatio: 16 / 9,
+    backgroundColor: "#171717",
     borderRadius: 8,
-  },
-  assetCardImageText: {
-    fontSize: 12,
-    color: "#737373",
-  },
-
-  // Asset Card Title - matching web: text-xl md:text-xl font-medium mb-1.5
-  assetCardTitle: {
-    fontSize: 18, // text-xl
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 6, // mb-1.5
-  },
-
-  // Asset Card Description - matching web: text-lg md:text-lg leading-[1.6] text-balance text-neutral-500
-  assetCardDescription: {
-    fontSize: 18, // text-lg
-    color: "#737373", // text-neutral-500
-    lineHeight: 29, // leading-[1.6] = 18 * 1.6
-    maxWidth: 600, // text-balance approximation
-  },
-
-  // Backed Network Wrapper - matching web: py-10 md:py-20 bg-neutral-200
-  backedNetworkWrapper: {
-    paddingVertical: 40, // py-10 (mobile), md:py-20 would be 80
-    backgroundColor: "#e5e5e5", // bg-neutral-200
-  },
-
-  // Backed Network Container - matching web: flex flex-col lg:flex-row gap-8 md:gap-16 lg:justify-between
-  backedNetworkContainer: {
-    flexDirection: "column", // flex-col (mobile), lg:flex-row for large screens
-    gap: 32, // gap-8 (mobile), md:gap-16 would be 64
-    justifyContent: "space-between", // lg:justify-between
-  },
-
-  // Backed Network Content - matching web: flex-1
-  backedNetworkContent: {
-    flex: 1, // flex-1
-  },
-
-  // Backed Network Title - matching web: text-3xl md:text-4xl font-medium mb-2.5 md:mb-2.5
-  backedNetworkTitle: {
-    fontSize: 30, // text-3xl (mobile), md:text-4xl would be 36
-    fontWeight: "500", // font-medium
-    color: "#000",
-    marginBottom: 10, // mb-2.5
-    lineHeight: 36,
-  },
-
-  // Backed Network Description - matching web: text-lg md:text-xl text-neutral-500 max-w-4xl leading-[1.6] text-balance mb-6 md:mb-8
-  backedNetworkDescription: {
-    fontSize: 18, // text-lg (mobile), md:text-xl would be 20
-    color: "#737373", // text-neutral-500
-    lineHeight: 29, // leading-[1.6] = 18 * 1.6
-    maxWidth: 896, // max-w-4xl
-    marginBottom: 24, // mb-6 (mobile), md:mb-8 would be 32
-  },
-
-  // Backed Network Logos - matching web: flex gap-4 md:gap-8 [&>img]:size-6 md:[&>img]:size-8 [&>img]:object-contain
-  backedNetworkLogos: {
-    flexDirection: "row", // flex
-    gap: 16, // gap-4 (mobile), md:gap-8 would be 32
-    alignItems: "center",
-  },
-
-  // Backed Network Logo - matching web: size-6 md:size-8 object-contain
-  backedNetworkLogo: {
-    width: 24, // size-6 (mobile), md:size-8 would be 32
-    height: 24,
-    backgroundColor: "#f5f5f5",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 4,
   },
-  backedNetworkLogoText: {
-    fontSize: 10,
-    fontWeight: "600",
-    color: "#737373",
+  cosellTextCard: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cosellPointsContainer: {
+    gap: 8,
+    marginBottom: 32,
+  },
+  cosellPointText: {
+    fontSize: 18,
+    color: "#e5e5e5",
+    textAlign: "center",
+  },
+  cosellHeroImage: {
+    width: "100%",
+    height: 200,
+    marginBottom: 32,
+  },
+  cosellBigTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  cosellBigDescription: {
+    fontSize: 18,
+    color: "#a3a3a3",
+    textAlign: "center",
+    lineHeight: 29,
   },
 
-  // FAQs Wrapper - matching web: py-10 md:py-20 bg-neutral-950 text-white
+  // Assets
+  assetsHeroImage: {
+    width: "100%",
+    height: 200,
+  },
+  assetsDescSection: {
+    paddingVertical: 32,
+  },
+  assetsDescTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 10,
+  },
+  assetCardImage: {
+    width: "100%",
+    height: 120,
+    borderRadius: 8,
+    marginBottom: 24,
+  },
+
+  // Backed Network
+  backedNetworkContainer: {
+    paddingVertical: 40,
+    gap: 32,
+  },
+  networkLogos: {
+    flexDirection: "row",
+    gap: 16,
+    alignItems: "center",
+  },
+  networkLogo: {
+    width: 24,
+    height: 24,
+  },
+
+  // Buttons CTA
+  buttonsCTA: {
+    flexDirection: "row",
+    gap: 16,
+    width: "100%",
+  },
+
+  // FAQs
   faqsWrapper: {
-    paddingVertical: 40, // py-10 (mobile), md:py-20 would be 80
-    backgroundColor: "#0a0a0a", // bg-neutral-950
+    paddingVertical: 40,
+    backgroundColor: "#0a0a0a",
   },
-
-  // FAQs Container - matching web: max-w-5xl mx-auto w-full
-  faqsContainer: {
-    maxWidth: 1024, // max-w-5xl
-    alignSelf: "center", // mx-auto
-    width: "100%", // w-full
-  },
-
-  // FAQs Header - matching web: text-center text-lg md:text-xl leading-[1.6] max-w-3xl mx-auto mb-10 md:mb-20
   faqsHeader: {
-    alignItems: "center", // text-center
-    maxWidth: 768, // max-w-3xl
-    alignSelf: "center", // mx-auto
-    marginBottom: 40, // mb-10 (mobile), md:mb-20 would be 80
+    alignItems: "center",
+    marginBottom: 40,
   },
-
-  // FAQs Title - matching web: text-3xl md:text-4xl font-medium mb-4 md:mb-2.5
   faqsTitle: {
-    fontSize: 30, // text-3xl (mobile), md:text-4xl would be 36
-    fontWeight: "500", // font-medium
-    color: "#fff", // text-white
-    marginBottom: 16, // mb-4 (mobile), md:mb-2.5 would be 10
+    fontSize: 30,
+    fontWeight: "500",
+    color: "#fff",
+    marginBottom: 16,
     textAlign: "center",
     lineHeight: 36,
   },
-
-  // FAQs Subtitle - matching web: text-neutral-100 mb-6 md:mb-10
   faqsSubtitle: {
-    fontSize: 18, // text-lg md:text-xl
-    color: "#f5f5f5", // text-neutral-100
+    fontSize: 18,
+    color: "#f5f5f5",
     textAlign: "center",
-    lineHeight: 29, // leading-[1.6]
+    lineHeight: 29,
     marginBottom: 8,
-    maxWidth: 768,
   },
-
-  // Feedback Button - matching web: Button variant="ghost" className="text-white border-white w-full max-w-3xs"
   feedbackButton: {
     borderWidth: 1,
-    borderColor: "#fff", // border-white
-    paddingVertical: 16,
+    borderColor: "#fff",
+    paddingVertical: 14,
     paddingHorizontal: 32,
-    borderRadius: 8,
-    backgroundColor: "transparent", // variant="ghost"
-    marginTop: 32,
+    borderRadius: 6,
+    marginTop: 24,
   },
   feedbackButtonText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#fff", // text-white
+    color: "#fff",
   },
-
-  // FAQ Items List - matching web: space-y-6 md:space-y-8
   faqItemsList: {
-    gap: 24, // space-y-6 (mobile), md:space-y-8 would be 32
+    gap: 24,
   },
-
-  // FAQ Item - matching web: border border-neutral-500 rounded-md px-4 md:px-8 py-6 cursor-pointer hover:border-white transition-colors
   faqItem: {
     borderWidth: 1,
-    borderColor: "#737373", // border-neutral-500
-    borderRadius: 6, // rounded-md
-    overflow: "hidden",
+    borderColor: "#737373",
+    borderRadius: 6,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
   },
-
-  // FAQ Question Button - matching web: text-xl md:text-xl font-medium flex items-center justify-between
-  faqQuestionButton: {
-    flexDirection: "row", // flex
-    alignItems: "center", // items-center
-    justifyContent: "space-between", // justify-between
-    padding: 16, // px-4 md:px-8 py-6 (simplified for mobile)
+  faqQuestionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-
-  // FAQ Question Text - matching web: text-xl md:text-xl font-medium
   faqQuestionText: {
-    fontSize: 18, // text-xl
-    fontWeight: "500", // font-medium
-    color: "#fff", // text-white
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#fff",
     flex: 1,
     paddingRight: 8,
   },
-
-  // FAQ Chevron - matching web: size-5 md:size-6 transition-transform stroke-1
-  faqChevron: {
-    // Chevron styling handled by Ionicons
-  },
-
-  // FAQ Answer Container - matching web: expander expanded
-  faqAnswerContainer: {
-    padding: 16, // pt-3 md:pt-3
-  },
-
-  // FAQ Answer Text - matching web: text-lg md:text-xl leading-[1.7] text-balance text-neutral-300
   faqAnswerText: {
-    fontSize: 18, // text-lg md:text-xl
-    color: "#d1d5db", // text-neutral-300
-    lineHeight: 31, // leading-[1.7] = 18 * 1.7
-    marginBottom: 8,
+    fontSize: 18,
+    color: "#d4d4d4",
+    lineHeight: 31,
+    marginTop: 12,
   },
 });

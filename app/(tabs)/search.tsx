@@ -365,8 +365,8 @@ export default function SearchScreen() {
         >
           <Text style={styles.sortButtonText}>Sort</Text>
           <View style={styles.sortIcon}>
-            <Ionicons name="chevron-up" size={12} color="#000" style={{ marginBottom: -2 }} />
-            <Ionicons name="chevron-down" size={12} color="#000" style={{ marginTop: -2 }} />
+            <Ionicons name="chevron-up" size={12} color="#e5e5e5" style={{ marginBottom: -2 }} />
+            <Ionicons name="chevron-down" size={12} color="#e5e5e5" style={{ marginTop: -2 }} />
           </View>
         </Pressable>
       </View>
@@ -484,7 +484,7 @@ export default function SearchScreen() {
         ListEmptyComponent={() => (
           <View style={styles.emptyState}>
             {isLoading ? (
-              <ActivityIndicator size="large" color="#000" />
+              <ActivityIndicator size="large" color="#e5e5e5" />
             ) : (
               <>
                 <Ionicons name="search-outline" size={48} color="#d4d4d4" />
@@ -510,7 +510,7 @@ export default function SearchScreen() {
         ListFooterComponent={() =>
           isLoading && posts.length > 0 ? (
             <View style={styles.loadingFooter}>
-              <ActivityIndicator size="small" color="#000" />
+              <ActivityIndicator size="small" color="#e5e5e5" />
               <Text style={styles.loadingFooterText}>Loading more...</Text>
             </View>
           ) : null
@@ -524,7 +524,7 @@ function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }
   return (
     <Pressable style={styles.filterChip} onPress={onRemove}>
       <Text style={styles.filterChipText}>{label}</Text>
-      <Ionicons name="close" size={14} color="#000" />
+      <Ionicons name="close" size={14} color="#e5e5e5" />
     </Pressable>
   );
 }
@@ -580,21 +580,21 @@ function PostCard({ item }: { item: PostListItem }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
   },
   
   // Search Header
   searchHeader: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
   },
   searchInputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#1a1a1a",
     borderRadius: 8,
     paddingHorizontal: 12,
     height: 40,
@@ -605,7 +605,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: "#000",
+    color: "#e5e5e5",
   },
   clearButton: {
     padding: 4,
@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
   },
@@ -630,12 +630,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: "#262626",
+    backgroundColor: "#0a0a0a",
   },
   filterButtonActive: {
-    borderColor: "#000",
-    backgroundColor: "#f5f5f5",
+    borderColor: "#e5e5e5",
+    backgroundColor: "#1a1a1a",
   },
   filterIconContainer: {
     width: 25,
@@ -650,24 +650,24 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 25,
     height: 2,
-    backgroundColor: "#000",
+    backgroundColor: "#e5e5e5",
   },
   filterSlider: {
     position: "absolute",
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
     borderWidth: 1.5,
-    borderColor: "#000",
+    borderColor: "#e5e5e5",
   },
   filterButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
   filterButtonTextActive: {
-    color: "#000",
+    color: "#e5e5e5",
   },
   trendingContainer: {
     flex: 1,
@@ -677,7 +677,7 @@ const styles = StyleSheet.create({
   },
   trendingLabel: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
     marginRight: 8,
   },
   trendingTags: {
@@ -689,7 +689,7 @@ const styles = StyleSheet.create({
   trendingTagText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
   trendingTagTextActive: {
     textDecorationLine: "underline",
@@ -702,13 +702,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: "#262626",
+    backgroundColor: "#0a0a0a",
   },
   sortButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
   sortIcon: {
     alignItems: "center",
@@ -722,13 +722,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#1a1a1a",
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
   },
   activeFiltersLabel: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
     marginRight: 8,
   },
   activeFiltersScroll: {
@@ -736,7 +736,7 @@ const styles = StyleSheet.create({
   },
   clearAllButton: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
     marginLeft: 8,
   },
 
@@ -754,14 +754,14 @@ const styles = StyleSheet.create({
   filterChipText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
 
   // Filter Panel
   filterPanel: {
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
     padding: 16,
   },
   filterSection: {
@@ -770,7 +770,7 @@ const styles = StyleSheet.create({
   filterSectionTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 8,
   },
   filterOptions: {
@@ -783,17 +783,17 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: "#262626",
+    backgroundColor: "#0a0a0a",
   },
   filterOptionActive: {
-    backgroundColor: "#000",
-    borderColor: "#000",
+    backgroundColor: "#e5e5e5",
+    borderColor: "#e5e5e5",
   },
   filterOptionText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
   filterOptionTextActive: {
     color: "#fff",
@@ -804,14 +804,14 @@ const styles = StyleSheet.create({
   },
   clearFiltersButtonText: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
 
   // Sort Panel
   sortPanel: {
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
     padding: 8,
   },
   sortOption: {
@@ -820,12 +820,12 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   sortOptionActive: {
-    backgroundColor: "#000",
+    backgroundColor: "#e5e5e5",
   },
   sortOptionText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
   sortOptionTextActive: {
     color: "#fff",
@@ -837,7 +837,7 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   postCard: {
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
     borderRadius: 12,
     overflow: "hidden",
     borderWidth: 1,
@@ -845,7 +845,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     height: 200,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#1a1a1a",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -855,12 +855,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 6,
   },
   cardBio: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
     lineHeight: 20,
     marginBottom: 12,
   },
@@ -879,7 +879,7 @@ const styles = StyleSheet.create({
   ownerName: {
     fontSize: 13,
     fontWeight: "500",
-    color: "#525252",
+    color: "#a3a3a3",
   },
   cardFooter: {
     flexDirection: "row",
@@ -890,20 +890,20 @@ const styles = StyleSheet.create({
   cardPrice: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
   categoryBadge: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#1a1a1a",
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
   },
   categoryBadgeText: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   commissionBadge: {
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
@@ -912,7 +912,7 @@ const styles = StyleSheet.create({
   commissionText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
 
   // Empty State
@@ -925,13 +925,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginTop: 16,
     marginBottom: 8,
   },
   emptyDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
     textAlign: "center",
     paddingHorizontal: 32,
   },
@@ -946,6 +946,6 @@ const styles = StyleSheet.create({
   },
   loadingFooterText: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
 });

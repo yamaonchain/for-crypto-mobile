@@ -69,7 +69,7 @@ export default function CheckoutScreen() {
       <View style={styles.container}>
         <View style={styles.header}>
           <Pressable style={styles.backButton} onPress={handleBackPress}>
-            <Ionicons name="chevron-back" size={24} color="#000" />
+            <Ionicons name="chevron-back" size={24} color="#e5e5e5" />
           </Pressable>
           <Text style={styles.headerTitle}>Checkout</Text>
           <View style={styles.placeholder} />
@@ -94,7 +94,7 @@ export default function CheckoutScreen() {
       {/* Header */}
       <View style={styles.header}>
         <Pressable style={styles.backButton} onPress={handleBackPress}>
-          <Ionicons name="chevron-back" size={24} color="#000" />
+          <Ionicons name="chevron-back" size={24} color="#e5e5e5" />
         </Pressable>
         <Text style={styles.headerTitle}>Checkout</Text>
         <View style={styles.placeholder} />
@@ -139,7 +139,7 @@ export default function CheckoutScreen() {
             >
               <View style={styles.paymentMethodLeft}>
                 <View style={styles.paymentIcon}>
-                  <Ionicons name={method.icon as any} size={24} color="#000" />
+                  <Ionicons name={method.icon as any} size={24} color="#e5e5e5" />
                 </View>
                 <View style={styles.paymentInfo}>
                   <View style={styles.paymentNameRow}>
@@ -225,7 +225,7 @@ export default function CheckoutScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
   },
   header: {
     flexDirection: "row",
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 60,
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
     borderBottomWidth: 1,
     borderBottomColor: "#f5f5f5",
   },
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
   placeholder: {
     width: 40,
@@ -261,12 +261,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 4,
   },
   sectionDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
     marginBottom: 16,
   },
 
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
   itemImage: {
     width: 48,
     height: 48,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#1a1a1a",
     borderRadius: 6,
     alignItems: "center",
     justifyContent: "center",
@@ -293,22 +293,22 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 2,
   },
   itemSeller: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
     marginBottom: 2,
   },
   itemMeta: {
     fontSize: 12,
-    color: "#525252",
+    color: "#a3a3a3",
   },
   itemTotal: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
 
   // Payment Methods
@@ -319,12 +319,12 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: "#262626",
+    backgroundColor: "#0a0a0a",
     marginBottom: 8,
   },
   paymentMethodSelected: {
-    borderColor: "#000",
+    borderColor: "#e5e5e5",
     backgroundColor: "#f9f9f9",
   },
   paymentMethodLeft: {
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   paymentIcon: {
     width: 40,
     height: 40,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#1a1a1a",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -353,10 +353,10 @@ const styles = StyleSheet.create({
   paymentName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
   recommendedBadge: {
-    backgroundColor: "#000",
+    backgroundColor: "#e5e5e5",
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
@@ -368,14 +368,14 @@ const styles = StyleSheet.create({
   },
   paymentDescription: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   radioButton: {
     width: 20,
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#000",
+    backgroundColor: "#e5e5e5",
   },
 
   // Price Breakdown
@@ -395,31 +395,31 @@ const styles = StyleSheet.create({
   },
   priceLabel: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   priceValue: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
   separator: {
     height: 1,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     marginVertical: 8,
   },
   totalLabel: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
   totalValue: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#000",
+    color: "#e5e5e5",
   },
   usdEquivalent: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
     textAlign: "right",
     marginTop: 4,
   },
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
   // Terms
   termsText: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
     lineHeight: 16,
   },
 
@@ -437,11 +437,11 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingBottom: 32,
     borderTopWidth: 1,
-    borderTopColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderTopColor: "#262626",
+    backgroundColor: "#0a0a0a",
   },
   confirmButton: {
-    backgroundColor: "#000",
+    backgroundColor: "#e5e5e5",
     paddingVertical: 16,
     borderRadius: 8,
     flexDirection: "row",
@@ -473,18 +473,18 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 24,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginTop: 16,
     marginBottom: 8,
   },
   emptyDescription: {
     fontSize: 16,
-    color: "#737373",
+    color: "#a3a3a3",
     textAlign: "center",
     marginBottom: 24,
   },
   shopButton: {
-    backgroundColor: "#000",
+    backgroundColor: "#e5e5e5",
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 8,

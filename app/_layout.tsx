@@ -5,12 +5,12 @@ import { CartProvider } from "../src/context/CartContext";
 export default function RootLayout() {
   return (
     <CartProvider>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: "#fff" },
-          headerTintColor: "#000",
-          contentStyle: { backgroundColor: "#fff" },
+          headerStyle: { backgroundColor: "#0a0a0a" },
+          headerTintColor: "#e5e5e5",
+          contentStyle: { backgroundColor: "#0a0a0a" },
           headerShadowVisible: false,
         }}
       >
