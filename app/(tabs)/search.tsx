@@ -580,16 +580,16 @@ function PostCard({ item }: { item: PostListItem }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
   },
   
   // Search Header
   searchHeader: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: "#111",
+    backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "#333",
+    borderBottomColor: "#e5e5e5",
   },
   searchInputContainer: {
     flexDirection: "row",

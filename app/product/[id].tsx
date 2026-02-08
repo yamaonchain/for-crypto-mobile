@@ -435,7 +435,7 @@ function ProductSkeleton() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 60,
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
   },
   backButton: {
     width: 40,

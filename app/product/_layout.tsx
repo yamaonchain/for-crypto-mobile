@@ -6,11 +6,12 @@ export default function ProductLayout() {
       <Stack.Screen 
         name="[id]" 
         options={{
-          title: "Listing",
+          title: "",
           headerStyle: { backgroundColor: "#000" },
           headerTintColor: "#fff",
           headerShadowVisible: false,
-          headerBackTitle: "",
+          headerBackTitle: "Back",
+          headerBackTitleVisible: false,
         }} 
       />
     </Stack>
