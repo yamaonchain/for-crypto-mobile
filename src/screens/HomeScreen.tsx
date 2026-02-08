@@ -32,7 +32,7 @@ export function HomeScreen({ navigation }: any) {
           </TouchableOpacity>
         </View>
 
-        {/* Getting Started */}
+        {/* Info Links */}
         <View style={styles.section}>
           <TouchableOpacity
             style={styles.learnButton}
@@ -41,6 +41,16 @@ export function HomeScreen({ navigation }: any) {
             <Text style={styles.learnButtonText}>📚 Getting Started Guide</Text>
             <Text style={styles.learnButtonSubtext}>
               Learn about crypto wallets, USDC, and how to start coselling
+            </Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={[styles.learnButton, styles.aboutButton]}
+            onPress={() => navigation.navigate('About')}
+          >
+            <Text style={[styles.learnButtonText, styles.aboutButtonText]}>💡 About For Crypto</Text>
+            <Text style={styles.learnButtonSubtext}>
+              The future of selling is here. Built different.
             </Text>
           </TouchableOpacity>
         </View>
@@ -160,5 +170,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#cccccc',
     lineHeight: 18,
+  },
+  aboutButton: {
+    marginTop: 12,
+  },
+  aboutButtonText: {
+    color: '#ffffff',
   },
 });
