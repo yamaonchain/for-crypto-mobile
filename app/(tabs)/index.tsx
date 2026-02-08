@@ -54,9 +54,11 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Hero />
+      <FeaturedListings />
+      <Categories />
+      <HowCosellWorks />
+      <TrendingCosellers />
       <WhySection />
-      <HowSection />
-      <CosellSection />
       <NetworkSection />
     </ScrollView>
   );
@@ -150,6 +152,154 @@ function Hero() {
           ))}
         </View>
       </View>
+    </View>
+  );
+}
+
+// -- Featured Listings (horizontal scroll) --
+
+const FEATURED = [
+  { id: "1", title: "No School 4 Week Bootcamp", price: "875", commission: 10, category: "Product" },
+  { id: "2", title: "Together Daily Spark", price: "7", commission: 20, category: "Service" },
+  { id: "3", title: "Community Intake Kit for Divvvy", price: "2", commission: 20, category: "Product" },
+  { id: "4", title: "Designer Gear for Shredders", price: "50", commission: 20, category: "Experience" },
+  { id: "5", title: "Freckle Fade Lightroom Presets", price: "6500", commission: 15, category: "Product" },
+];
+
+function FeaturedListings() {
+  return (
+    <View style={styles.featuredSection}>
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>Featured Listings</Text>
+        <Link href="/search" asChild>
+          <Pressable>
+            <Text style={styles.seeAll}>See all</Text>
+          </Pressable>
+        </Link>
+      </View>
+      <FlatList
+        data={FEATURED}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 24, gap: 12 }}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Link href={`/product/${item.id}`} asChild>
+            <Pressable style={styles.featuredCard}>
+              <View style={styles.featuredImage}>
+                <Ionicons name="image-outline" size={28} color="#d4d4d4" />
+              </View>
+              <View style={styles.featuredInfo}>
+                <Text style={styles.featuredTitle} numberOfLines={1}>{item.title}</Text>
+                <View style={styles.featuredMeta}>
+                  <Text style={styles.featuredPrice}>{item.price} USDC</Text>
+                  <Text style={styles.featuredCosell}>Cosell {item.commission}%</Text>
+                </View>
+              </View>
+            </Pressable>
+          </Link>
+        )}
+      />
+    </View>
+  );
+}
+
+// -- Categories (chips) --
+
+const CATEGORY_LIST = [
+  { id: "product", name: "Product", icon: "cube-outline" as const },
+  { id: "service", name: "Service", icon: "briefcase-outline" as const },
+  { id: "experience", name: "Experience", icon: "sparkles-outline" as const },
+  { id: "membership", name: "Membership", icon: "people-outline" as const },
+  { id: "bot", name: "Bot", icon: "hardware-chip-outline" as const },
+];
+
+function Categories() {
+  return (
+    <View style={styles.categoriesSection}>
+      <Text style={styles.sectionTitleSmall}>Browse by Category</Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 24, gap: 10 }}
+      >
+        {CATEGORY_LIST.map((cat) => (
+          <Link href="/search" key={cat.id} asChild>
+            <Pressable style={styles.categoryChip}>
+              <Ionicons name={cat.icon} size={18} color="#000" />
+              <Text style={styles.categoryChipText}>{cat.name}</Text>
+            </Pressable>
+          </Link>
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+
+// -- How Cosell Works (3 steps) --
+
+function HowCosellWorks() {
+  const steps = [
+    { num: "1", title: "Find a listing", desc: "Browse products and services you believe in." },
+    { num: "2", title: "Cosell it", desc: "Generate your unique link. A smart contract locks your commission for 30 days." },
+    { num: "3", title: "Get paid instantly", desc: "Every sale through your link pays out USDC directly to your wallet." },
+  ];
+
+  return (
+    <View style={styles.howCosellSection}>
+      <Text style={styles.sectionTitle}>How Cosell Works</Text>
+      <Text style={styles.sectionDescription}>
+        Earn real crypto by helping sell things you believe in.
+      </Text>
+      {steps.map((step) => (
+        <View key={step.num} style={styles.cosellStep}>
+          <View style={styles.cosellStepNum}>
+            <Text style={styles.cosellStepNumText}>{step.num}</Text>
+          </View>
+          <View style={styles.cosellStepContent}>
+            <Text style={styles.cosellStepTitle}>{step.title}</Text>
+            <Text style={styles.cosellStepDesc}>{step.desc}</Text>
+          </View>
+        </View>
+      ))}
+      <Pressable style={styles.cosellCTA}>
+        <Text style={styles.cosellCTAText}>Start Coselling</Text>
+      </Pressable>
+    </View>
+  );
+}
+
+// -- Trending Cosellers --
+
+const TRENDING_COSELLERS = [
+  { id: "1", name: "alex.eth", earnings: "12,450 USDC", sales: 89 },
+  { id: "2", name: "maya.sol", earnings: "8,200 USDC", sales: 64 },
+  { id: "3", name: "dev_chad", earnings: "5,870 USDC", sales: 42 },
+  { id: "4", name: "nft_queen", earnings: "4,100 USDC", sales: 31 },
+];
+
+function TrendingCosellers() {
+  return (
+    <View style={styles.trendingSection}>
+      <Text style={styles.sectionTitle}>Trending Cosellers</Text>
+      <Text style={styles.sectionDescription}>
+        Top earners this month on For Crypto.
+      </Text>
+      {TRENDING_COSELLERS.map((coseller, i) => (
+        <View key={coseller.id} style={styles.cosellRow}>
+          <View style={styles.cosellRank}>
+            <Text style={styles.cosellRankText}>#{i + 1}</Text>
+          </View>
+          <View style={styles.cosellAvatar}>
+            <Ionicons name="person" size={18} color="#a3a3a3" />
+          </View>
+          <View style={styles.cosellInfo}>
+            <Text style={styles.cosellName}>{coseller.name}</Text>
+            <Text style={styles.cosellStats}>{coseller.sales} sales</Text>
+          </View>
+          <Text style={styles.cosellEarnings}>{coseller.earnings}</Text>
+        </View>
+      ))}
     </View>
   );
 }
@@ -391,14 +541,51 @@ const styles = StyleSheet.create({
   stepNumberText: { fontSize: 13, fontWeight: "600", color: "#fff" },
   stepText: { fontSize: 17, color: "#000", flex: 1 },
 
-  // Cosell
+  // Legacy (unused, kept for reference)
   cosellCard: { backgroundColor: "#f5f5f5", borderRadius: 12, padding: 24, alignItems: "center", gap: 8, marginBottom: 16 },
-  cosellStep: { fontSize: 17, color: "#000", textAlign: "center", lineHeight: 26 },
-  cosellCTA: { borderWidth: 1, borderColor: "#000", paddingHorizontal: 20, paddingVertical: 10, borderRadius: 6, marginTop: 12 },
-  cosellCTAText: { fontSize: 14, fontWeight: "500", color: "#000" },
   cosellMotivation: { backgroundColor: "#f5f5f5", borderRadius: 12, padding: 24, alignItems: "center" },
   cosellMotivationTitle: { fontSize: 22, fontWeight: "600", color: "#000", marginBottom: 8 },
   cosellMotivationText: { fontSize: 16, color: "#737373", textAlign: "center", lineHeight: 24 },
+
+  // Featured Listings
+  featuredSection: { paddingVertical: 24 },
+  sectionHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 24, marginBottom: 16 },
+  seeAll: { fontSize: 14, color: "#737373", fontWeight: "500" },
+  featuredCard: { width: 200, borderRadius: 12, overflow: "hidden", backgroundColor: "#fff", borderWidth: 0.5, borderColor: "#e5e5e5" },
+  featuredImage: { height: 120, backgroundColor: "#f5f5f5", alignItems: "center", justifyContent: "center" },
+  featuredInfo: { padding: 12, gap: 6 },
+  featuredTitle: { fontSize: 14, fontWeight: "600", color: "#000" },
+  featuredMeta: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  featuredPrice: { fontSize: 13, fontWeight: "500", color: "#000" },
+  featuredCosell: { fontSize: 12, color: "#525252" },
+
+  // Categories
+  categoriesSection: { paddingVertical: 20 },
+  sectionTitleSmall: { fontSize: 18, fontWeight: "600", color: "#000", paddingHorizontal: 24, marginBottom: 12 },
+  categoryChip: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 24, backgroundColor: "#f5f5f5" },
+  categoryChipText: { fontSize: 14, fontWeight: "500", color: "#000" },
+
+  // How Cosell Works
+  howCosellSection: { paddingHorizontal: 24, paddingVertical: 32 },
+  cosellStep: { flexDirection: "row", alignItems: "flex-start", gap: 14, marginBottom: 20 },
+  cosellStepNum: { width: 32, height: 32, borderRadius: 16, backgroundColor: "#000", alignItems: "center", justifyContent: "center" },
+  cosellStepNumText: { fontSize: 15, fontWeight: "700", color: "#fff" },
+  cosellStepContent: { flex: 1, paddingTop: 4 },
+  cosellStepTitle: { fontSize: 16, fontWeight: "600", color: "#000", marginBottom: 4 },
+  cosellStepDesc: { fontSize: 14, color: "#737373", lineHeight: 20 },
+  cosellCTA: { backgroundColor: "#000", paddingVertical: 14, borderRadius: 8, alignItems: "center", marginTop: 8 },
+  cosellCTAText: { fontSize: 16, fontWeight: "600", color: "#fff" },
+
+  // Trending Cosellers
+  trendingSection: { paddingHorizontal: 24, paddingVertical: 32, backgroundColor: "#f5f5f5" },
+  cosellRow: { flexDirection: "row", alignItems: "center", backgroundColor: "#fff", borderRadius: 12, padding: 14, marginBottom: 10, gap: 12 },
+  cosellRank: { width: 28, alignItems: "center" },
+  cosellRankText: { fontSize: 14, fontWeight: "700", color: "#a3a3a3" },
+  cosellAvatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#f0f0f0", alignItems: "center", justifyContent: "center" },
+  cosellInfo: { flex: 1 },
+  cosellName: { fontSize: 15, fontWeight: "600", color: "#000" },
+  cosellStats: { fontSize: 12, color: "#737373" },
+  cosellEarnings: { fontSize: 14, fontWeight: "600", color: "#000" },
 
   // Networks
   textWhite: { color: "#fff" },
