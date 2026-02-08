@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, ScrollView, Pressable, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable, Animated } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { api } from "../../src/api/client";
 import type { Post } from "../../src/api/types";
 
@@ -19,11 +19,7 @@ export default function ProductDetailScreen() {
   }, [id]);
 
   if (loading) {
-    return (
-      <View style={[styles.container, { alignItems: "center", justifyContent: "center" }]}>
-        <ActivityIndicator size="large" color="#000" />
-      </View>
-    );
+    return <ProductSkeleton />;
   }
 
   if (!post) {
@@ -107,6 +103,50 @@ export default function ProductDetailScreen() {
             <Text style={styles.ratingsScore}>⭐ 0.0 (0)</Text>
           </View>
           <Text style={styles.noRatings}>No ratings yet</Text>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+
+function ProductSkeleton() {
+  const opacity = useRef(new Animated.Value(0.3)).current;
+  useEffect(() => {
+    const anim = Animated.loop(
+      Animated.sequence([
+        Animated.timing(opacity, { toValue: 0.7, duration: 800, useNativeDriver: true }),
+        Animated.timing(opacity, { toValue: 0.3, duration: 800, useNativeDriver: true }),
+      ])
+    );
+    anim.start();
+    return () => anim.stop();
+  }, [opacity]);
+
+  const line = (w: string | number, h = 14) => (
+    <Animated.View style={{ opacity, width: w, height: h, backgroundColor: "#e5e5e5", borderRadius: 4 }} />
+  );
+
+  return (
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Animated.View style={[styles.gallery, { opacity, backgroundColor: "#e5e5e5" }]} />
+        <View style={styles.cosellBanner}>
+          {line(140, 16)}
+          {line(120, 32)}
+        </View>
+        <Animated.View style={[styles.buyButton, { opacity, backgroundColor: "#d4d4d4" }]}>
+          <View />
+        </Animated.View>
+        <View style={styles.priceRow}>{line(80, 16)}</View>
+        <View style={[styles.bodySection, { gap: 16 }]}>
+          <View style={[styles.ownerBar, { gap: 10 }]}>
+            <Animated.View style={{ opacity, width: 36, height: 36, borderRadius: 18, backgroundColor: "#e5e5e5" }} />
+            {line(100, 16)}
+          </View>
+          {line("80%", 28)}
+          {line(80, 24)}
+          {line("100%", 14)}
+          {line("90%", 14)}
         </View>
       </ScrollView>
     </View>
