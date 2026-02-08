@@ -145,24 +145,6 @@ export default function ProductDetailScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="chevron-back" size={24} color="#000" />
-        </Pressable>
-        <View style={styles.headerActions}>
-          <Pressable style={styles.headerButton} onPress={handleShare}>
-            <Ionicons name="share-outline" size={20} color="#000" />
-          </Pressable>
-          <Pressable style={styles.headerButton}>
-            <Ionicons name="bookmark-outline" size={20} color="#000" />
-          </Pressable>
-          <Pressable style={styles.headerButton}>
-            <Ionicons name="ellipsis-horizontal" size={20} color="#000" />
-          </Pressable>
-        </View>
-      </View>
-
       <ScrollView contentContainerStyle={styles.content}>
         {/* Breadcrumb */}
         <View style={styles.breadcrumb}>
