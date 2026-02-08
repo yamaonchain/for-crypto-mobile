@@ -447,29 +447,38 @@ function Assets() {
   );
 }
 function BackedNetwork() {
+  const networkLogos = [
+    { name: "Ethereum", uri: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
+    { name: "Base", uri: "https://cryptologos.cc/logos/base-base-logo.png" }, 
+    { name: "Solana", uri: "https://cryptologos.cc/logos/solana-sol-logo.png" }
+  ];
+
   return (
     <View style={styles.networkSection}>
-      <Text style={[styles.sectionTitle, { color: "#fff" }]}>Built on Base</Text>
-      <Text style={[styles.sectionDescription, { color: "#a3a3a3" }]}>
-        Powered by Coinbase's Layer 2 network. Fast, cheap transactions with USDC - 
-        a digital dollar that's always worth $1.
+      <Text style={styles.networkTitle}>Backed by leading networks.</Text>
+      <Text style={styles.networkDescription}>
+        Built on Base, a faster and cheaper network powered by Ethereum, with automatic payouts to Solana. Fast, low-cost, and built for global commerce.
       </Text>
       
-      <View style={styles.networkFeatures}>
-        <View style={styles.networkFeature}>
-          <Text style={styles.networkFeatureTitle}>Instant Settlements</Text>
-          <Text style={styles.networkFeatureDescription}>Payments confirm in seconds, not days</Text>
-        </View>
-        
-        <View style={styles.networkFeature}>
-          <Text style={styles.networkFeatureTitle}>Low Fees</Text>
-          <Text style={styles.networkFeatureDescription}>Pennies per transaction vs traditional payment processing</Text>
-        </View>
-        
-        <View style={styles.networkFeature}>
-          <Text style={styles.networkFeatureTitle}>Global Access</Text>
-          <Text style={styles.networkFeatureDescription}>Anyone with a wallet can participate</Text>
-        </View>
+      <View style={styles.networkLogos}>
+        {networkLogos.map((logo, index) => (
+          <Image 
+            key={index}
+            source={{ uri: logo.uri }}
+            style={styles.networkLogo}
+            resizeMode="contain"
+          />
+        ))}
+      </View>
+      
+      {/* CTA Buttons */}
+      <View style={styles.networkCTA}>
+        <Pressable style={styles.buttonOutline}>
+          <Text style={styles.buttonOutlineText}>Learn More</Text>
+        </Pressable>
+        <Pressable style={styles.buttonFilled}>
+          <Text style={styles.buttonFilledText}>Sell</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -820,11 +829,38 @@ const styles = StyleSheet.create({
   },
 
   // Network Section
-  networkSection: { padding: 24, paddingVertical: 40, backgroundColor: "#000" },
-  networkFeatures: { gap: 20, marginTop: 16 },
-  networkFeature: { alignItems: "center" },
-  networkFeatureTitle: { fontSize: 18, fontWeight: "600", color: "#fff", marginBottom: 4, textAlign: "center" },
-  networkFeatureDescription: { fontSize: 16, color: "#a3a3a3", textAlign: "center", lineHeight: 24 },
+  networkSection: { 
+    padding: 24, 
+    paddingVertical: 40, 
+    backgroundColor: Colors.border 
+  },
+  networkTitle: { 
+    fontSize: 32, 
+    fontWeight: "500", 
+    color: Colors.foreground, 
+    marginBottom: 16 
+  },
+  networkDescription: { 
+    fontSize: 18, 
+    color: Colors.mutedForeground, 
+    lineHeight: 24, 
+    marginBottom: 32 
+  },
+  networkLogos: { 
+    flexDirection: "row", 
+    gap: 32, 
+    marginBottom: 32, 
+    alignItems: "center" 
+  },
+  networkLogo: { 
+    width: 48, 
+    height: 48 
+  },
+  networkCTA: { 
+    flexDirection: "row", 
+    gap: 16, 
+    maxWidth: 320 
+  },
 
   // FAQ Section
   faqContainer: { gap: 12, marginTop: 16 },
