@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable, Alert, ActivityIndicator
 import { useLocalSearchParams, router } from "expo-router";
 import { useState, useEffect, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { colors, spacing, fontSize } from "../../src/constants/theme";
 
 // Mock types matching web app exactly
 interface Post {
@@ -267,7 +268,7 @@ export default function ProductDetailScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#000" />
+          <ActivityIndicator size="large" color={colors.accent} />
         </View>
       </View>
     );
@@ -292,10 +293,10 @@ export default function ProductDetailScreen() {
       {/* Header with back button */}
       <View style={styles.header}>
         <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#000" />
+          <Ionicons name="arrow-back" size={24} color={colors.text} />
         </Pressable>
         <Pressable style={styles.moreButton}>
-          <Ionicons name="ellipsis-horizontal" size={20} color="#000" />
+          <Ionicons name="ellipsis-horizontal" size={20} color={colors.text} />
         </Pressable>
       </View>
       
@@ -317,7 +318,7 @@ export default function ProductDetailScreen() {
         {/* Media Section - matching web app */}
         <View style={styles.mediaSection}>
           <View style={styles.mediaContainer}>
-            <Ionicons name="image-outline" size={80} color="#d4d4d4" />
+            <Ionicons name="image-outline" size={80} color={colors.border} />
           </View>
         </View>
 
@@ -332,7 +333,7 @@ export default function ProductDetailScreen() {
                 <Text style={styles.userName}>{post.nickname}</Text>
                 <View style={styles.userMeta}>
                   <View style={styles.ratingRow}>
-                    <Ionicons name="star" size={14} color="#000" />
+                    <Ionicons name="star" size={14} color={colors.text} />
                     <Text style={styles.ratingText}>
                       {postMeta.ratings.average.toFixed(1)} ({postMeta.ratings.total})
                     </Text>
@@ -454,7 +455,7 @@ export default function ProductDetailScreen() {
                             key={i}
                             name={i < rating.rating ? "star" : "star-outline"}
                             size={12}
-                            color={i < rating.rating ? "#000" : "#d4d4d4"}
+                            color={i < rating.rating ? colors.text : colors.border}
                           />
                         ))}
                       </View>
@@ -547,7 +548,7 @@ function ProductSkeleton() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   
   // Loading/Error states
@@ -564,7 +565,7 @@ const styles = StyleSheet.create({
   },
   notFoundText: {
     fontSize: 18,
-    color: "#737373",
+    color: colors.textSecondary,
     marginTop: 16,
     marginBottom: 24,
   },
@@ -577,9 +578,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 60,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -591,7 +592,7 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
   moreButton: {
     width: 40,
@@ -614,35 +615,35 @@ const styles = StyleSheet.create({
   },
   breadcrumbLink: {
     fontSize: 14,
-    color: "#000",
+    color: colors.text,
     textDecorationLine: "underline",
   },
   breadcrumbSeparator: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   breadcrumbCurrent: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     flex: 1,
   },
 
   // Media section - matching web app
   mediaSection: {
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: colors.border,
     marginHorizontal: 20,
   },
   mediaContainer: {
     aspectRatio: 16 / 9,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     alignItems: "center",
     justifyContent: "center",
   },
   // Main content - two column like web app
   mainContent: {
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: colors.border,
     borderTopWidth: 0,
     marginHorizontal: 20,
   },
@@ -650,7 +651,7 @@ const styles = StyleSheet.create({
   // Left content
   leftContent: {
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
   },
   
   // User banner - matching web app
@@ -659,14 +660,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
-    backgroundColor: "#f9f9f9",
+    borderBottomColor: colors.border,
+    backgroundColor: colors.surfaceAlt,
   },
   userAvatar: {
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: colors.border,
     marginRight: 12,
   },
   userInfo: {
@@ -675,7 +676,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginBottom: 4,
   },
   userMeta: {
@@ -690,11 +691,11 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   salesText: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   
   // Title section
@@ -855,7 +856,7 @@ const styles = StyleSheet.create({
   },
   buyButton: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
     paddingVertical: 16,
     borderRadius: 8,
     alignItems: "center",
@@ -1012,25 +1013,25 @@ const styles = StyleSheet.create({
   variantsSection: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
   },
   variantsTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#737373",
+    color: colors.textSecondary,
     marginBottom: 12,
   },
   variantOption: {
     borderWidth: 2,
-    borderColor: "#e5e5e5",
+    borderColor: colors.border,
     borderRadius: 8,
     marginBottom: 8,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   variantOptionSelected: {
-    borderColor: "#000",
-    backgroundColor: "#f9f9f9",
+    borderColor: colors.accent,
+    backgroundColor: colors.surfaceAlt,
   },
   variantHeader: {
     flexDirection: "row",
@@ -1044,36 +1045,36 @@ const styles = StyleSheet.create({
   variantName: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
     marginBottom: 4,
   },
   variantNameSelected: {
-    color: "#000",
+    color: colors.text,
   },
   variantDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     lineHeight: 18,
   },
   variantPrice: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   variantPriceSelected: {
-    color: "#000",
+    color: colors.text,
   },
 
   // Cosell section - matching web app
   cosellSection: {
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
   },
   cosellInfo: {
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: colors.border,
   },
   cosellLeft: {
     flex: 1,
@@ -1082,17 +1083,17 @@ const styles = StyleSheet.create({
   cosellTitle: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
     marginBottom: 2,
   },
   cosellCommission: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   cosellDivider: {
     width: 1,
     height: 44,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: colors.border,
   },
   cosellButton: {
     flex: 1,
@@ -1101,34 +1102,34 @@ const styles = StyleSheet.create({
   cosellButtonText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
 
   // PWYW section
   pwywSection: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
   },
   pwywLabel: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginBottom: 8,
   },
   pwywNote: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
   },
 
   // Purchase section
   purchaseSection: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: colors.border,
   },
   buyButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
     paddingVertical: 16,
     borderRadius: 8,
     alignItems: "center",
@@ -1146,14 +1147,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginBottom: 16,
   },
   ratingCard: {
     marginBottom: 16,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: colors.surfaceAlt,
   },
   ratingHeader: {
     flexDirection: "row",
@@ -1164,7 +1165,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: colors.border,
     marginRight: 12,
   },
   reviewerInfo: {
@@ -1173,7 +1174,7 @@ const styles = StyleSheet.create({
   reviewerName: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
     marginBottom: 2,
   },
   ratingStars: {
@@ -1182,7 +1183,7 @@ const styles = StyleSheet.create({
   },
   ratingComment: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     lineHeight: 20,
   },
 });
