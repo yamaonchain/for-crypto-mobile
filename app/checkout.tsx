@@ -10,6 +10,7 @@ import {
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../src/context/CartContext';
+import { colors, spacing, fontSize } from '../src/constants/theme';
 
 const PAYMENT_METHODS = [
   {
@@ -69,14 +70,14 @@ export default function CheckoutScreen() {
       <View style={styles.container}>
         <View style={styles.header}>
           <Pressable style={styles.backButton} onPress={handleBackPress}>
-            <Ionicons name="chevron-back" size={24} color="#000" />
+            <Ionicons name="chevron-back" size={24} color={colors.text} />
           </Pressable>
           <Text style={styles.headerTitle}>Checkout</Text>
           <View style={styles.placeholder} />
         </View>
         
         <View style={styles.emptyState}>
-          <Ionicons name="bag-outline" size={64} color="#d4d4d4" />
+          <Ionicons name="bag-outline" size={64} color={colors.border} />
           <Text style={styles.emptyTitle}>Nothing to checkout</Text>
           <Text style={styles.emptyDescription}>
             Add some items to your cart first
@@ -94,7 +95,7 @@ export default function CheckoutScreen() {
       {/* Header */}
       <View style={styles.header}>
         <Pressable style={styles.backButton} onPress={handleBackPress}>
-          <Ionicons name="chevron-back" size={24} color="#000" />
+          <Ionicons name="chevron-back" size={24} color={colors.text} />
         </Pressable>
         <Text style={styles.headerTitle}>Checkout</Text>
         <View style={styles.placeholder} />
@@ -107,7 +108,7 @@ export default function CheckoutScreen() {
           {items.map((item) => (
             <View key={item.id} style={styles.orderItem}>
               <View style={styles.itemImage}>
-                <Ionicons name="image-outline" size={24} color="#d4d4d4" />
+                <Ionicons name="image-outline" size={24} color={colors.border} />
               </View>
               <View style={styles.itemDetails}>
                 <Text style={styles.itemTitle} numberOfLines={1}>{item.title}</Text>
@@ -139,7 +140,7 @@ export default function CheckoutScreen() {
             >
               <View style={styles.paymentMethodLeft}>
                 <View style={styles.paymentIcon}>
-                  <Ionicons name={method.icon as any} size={24} color="#000" />
+                  <Ionicons name={method.icon as any} size={24} color={colors.text} />
                 </View>
                 <View style={styles.paymentInfo}>
                   <View style={styles.paymentNameRow}>
@@ -205,7 +206,7 @@ export default function CheckoutScreen() {
         >
           {isProcessing ? (
             <View style={styles.processingContainer}>
-              <Ionicons name="hourglass-outline" size={20} color="#fff" />
+              <Ionicons name="hourglass-outline" size={20} color="#ffffff" />
               <Text style={styles.confirmButtonText}>Processing...</Text>
             </View>
           ) : (
@@ -213,7 +214,7 @@ export default function CheckoutScreen() {
               <Text style={styles.confirmButtonText}>
                 Complete Purchase • {total.toFixed(2)} USDC
               </Text>
-              <Ionicons name="arrow-forward" size={20} color="#fff" />
+              <Ionicons name="arrow-forward" size={20} color="#ffffff" />
             </>
           )}
         </Pressable>
@@ -225,7 +226,7 @@ export default function CheckoutScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFDFC",
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: "row",
@@ -234,9 +235,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 60,
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   placeholder: {
     width: 40,
@@ -261,12 +262,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginBottom: 4,
   },
   sectionDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     marginBottom: 16,
   },
 
@@ -276,13 +277,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: colors.border,
     gap: 12,
   },
   itemImage: {
     width: 48,
     height: 48,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     borderRadius: 6,
     alignItems: "center",
     justifyContent: "center",
@@ -293,22 +294,22 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginBottom: 2,
   },
   itemSeller: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
     marginBottom: 2,
   },
   itemMeta: {
     fontSize: 12,
-    color: "#525252",
+    color: colors.textSecondary,
   },
   itemTotal: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
 
   // Payment Methods
@@ -319,13 +320,13 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: colors.border,
+    backgroundColor: colors.background,
     marginBottom: 8,
   },
   paymentMethodSelected: {
-    borderColor: "#000",
-    backgroundColor: "#f9f9f9",
+    borderColor: colors.accent,
+    backgroundColor: colors.surfaceAlt,
   },
   paymentMethodLeft: {
     flexDirection: "row",
@@ -336,7 +337,7 @@ const styles = StyleSheet.create({
   paymentIcon: {
     width: 40,
     height: 40,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -353,10 +354,10 @@ const styles = StyleSheet.create({
   paymentName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   recommendedBadge: {
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
@@ -364,18 +365,18 @@ const styles = StyleSheet.create({
   recommendedText: {
     fontSize: 10,
     fontWeight: "500",
-    color: "#fff",
+    color: "#ffffff",
   },
   paymentDescription: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   radioButton: {
     width: 20,
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#e5e5e5",
+    borderColor: colors.border,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -383,7 +384,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
   },
 
   // Price Breakdown
@@ -395,31 +396,31 @@ const styles = StyleSheet.create({
   },
   priceLabel: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   priceValue: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
   },
   separator: {
     height: 1,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: colors.border,
     marginVertical: 8,
   },
   totalLabel: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   totalValue: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#000",
+    color: colors.text,
   },
   usdEquivalent: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
     textAlign: "right",
     marginTop: 4,
   },
@@ -427,7 +428,7 @@ const styles = StyleSheet.create({
   // Terms
   termsText: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
     lineHeight: 16,
   },
 
@@ -437,11 +438,11 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingBottom: 32,
     borderTopWidth: 1,
-    borderTopColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderTopColor: colors.border,
+    backgroundColor: colors.surface,
   },
   confirmButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
     paddingVertical: 16,
     borderRadius: 8,
     flexDirection: "row",
@@ -450,12 +451,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   confirmButtonDisabled: {
-    backgroundColor: "#737373",
+    backgroundColor: colors.textSecondary,
   },
   confirmButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#fff",
+    color: "#ffffff",
   },
   processingContainer: {
     flexDirection: "row",
@@ -473,18 +474,18 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 24,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginTop: 16,
     marginBottom: 8,
   },
   emptyDescription: {
     fontSize: 16,
-    color: "#737373",
+    color: colors.textSecondary,
     textAlign: "center",
     marginBottom: 24,
   },
   shopButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 8,
@@ -492,6 +493,6 @@ const styles = StyleSheet.create({
   shopButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#fff",
+    color: "#ffffff",
   },
 });
