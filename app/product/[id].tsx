@@ -819,4 +819,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#737373",
   },
+  backButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#000",
+  },
 });
