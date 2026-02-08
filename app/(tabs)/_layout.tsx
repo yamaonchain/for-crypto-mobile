@@ -25,7 +25,7 @@ function CartIcon({ focused, color }: { focused: boolean; color: string }) {
           height: 18,
           justifyContent: "center",
           alignItems: "center",
-        }}>
+        }} pointerEvents="none">
           <Text style={{
             color: "#fff",
             fontSize: 10,
