@@ -65,6 +65,8 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Hero />
+      <FeaturedListings />
+      <Categories />
       <Why />
       <How />
       <Cosell />
@@ -117,37 +119,39 @@ function Hero() {
           onScroll={onScroll}
           scrollEventThrottle={16}
           keyExtractor={(_, i) => String(i)}
-          renderItem={({ item }) => (
-            <View style={styles.slide}>
-              {/* Label */}
-              <View style={styles.slideLabel}>
-                <Text style={styles.slideLabelText}>Example Listing</Text>
-              </View>
-              {/* Image placeholder */}
-              <View style={styles.slideImage}>
-                <Ionicons name="image-outline" size={40} color="#d4d4d4" />
-              </View>
-              {/* Cosell bar */}
-              <View style={styles.slideCosellBar}>
-                <Text style={styles.slideCosellLabel}>Cosell For Crypto.</Text>
-                <View style={styles.slideCosellRight}>
-                  <Text style={styles.slideCosellPercent}>{item.commission}% Commission</Text>
+          renderItem={({ item, index }) => (
+            <Link href={`/product/${index + 1}`} asChild>
+              <Pressable style={styles.slide}>
+                {/* Label */}
+                <View style={styles.slideLabel}>
+                  <Text style={styles.slideLabelText}>Example Listing</Text>
                 </View>
-              </View>
-              {/* Buy button */}
-              <View style={styles.slideBuyButton}>
-                <Text style={styles.slideBuyText}>Buy Now</Text>
-              </View>
-              {/* Price */}
-              <View style={styles.slidePrice}>
-                <Text style={styles.slidePriceText}>{item.price} USDC</Text>
-              </View>
-              {/* Info */}
-              <View style={styles.slideInfo}>
-                <Text style={styles.slideTitle} numberOfLines={2}>{item.title}</Text>
-                <Text style={styles.slideDescription} numberOfLines={3}>{item.description}</Text>
-              </View>
-            </View>
+                {/* Image placeholder */}
+                <View style={styles.slideImage}>
+                  <Ionicons name="image-outline" size={40} color="#d4d4d4" />
+                </View>
+                {/* Cosell bar */}
+                <View style={styles.slideCosellBar}>
+                  <Text style={styles.slideCosellLabel}>Cosell For Crypto.</Text>
+                  <View style={styles.slideCosellRight}>
+                    <Text style={styles.slideCosellPercent}>{item.commission}% Commission</Text>
+                  </View>
+                </View>
+                {/* Buy button */}
+                <View style={styles.slideBuyButton}>
+                  <Text style={styles.slideBuyText}>Buy Now</Text>
+                </View>
+                {/* Price */}
+                <View style={styles.slidePrice}>
+                  <Text style={styles.slidePriceText}>{item.price} USDC</Text>
+                </View>
+                {/* Info */}
+                <View style={styles.slideInfo}>
+                  <Text style={styles.slideTitle} numberOfLines={2}>{item.title}</Text>
+                  <Text style={styles.slideDescription} numberOfLines={3}>{item.description}</Text>
+                </View>
+              </Pressable>
+            </Link>
           )}
         />
         {/* Dots */}
@@ -163,6 +167,93 @@ function Hero() {
           ))}
         </View>
       </View>
+    </View>
+  );
+}
+
+// -- Featured Listings (horizontal scroll) --
+
+const FEATURED = [
+  { id: "1", title: "No School 4 Week Bootcamp", price: "875", commission: 10, category: "Product" },
+  { id: "2", title: "Together Daily Spark", price: "7", commission: 20, category: "Service" },
+  { id: "3", title: "Community Intake Kit for Divvvy", price: "2", commission: 20, category: "Product" },
+  { id: "4", title: "Designer Gear for Shredders", price: "50", commission: 20, category: "Experience" },
+  { id: "5", title: "Freckle Fade Lightroom Presets", price: "65", commission: 15, category: "Product" },
+];
+
+function FeaturedListings() {
+  return (
+    <View style={styles.featuredSection}>
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>Featured Listings</Text>
+        <Link href="/search" asChild>
+          <Pressable>
+            <Text style={styles.seeAll}>See all</Text>
+          </Pressable>
+        </Link>
+      </View>
+      <FlatList
+        data={FEATURED}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 24, gap: 12 }}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Link href={`/product/${item.id}`} asChild>
+            <Pressable style={styles.featuredCard}>
+              <View style={styles.featuredImage}>
+                <Ionicons name="image-outline" size={28} color="#d4d4d4" />
+              </View>
+              <View style={styles.featuredInfo}>
+                <Text style={styles.featuredTitle} numberOfLines={1}>{item.title}</Text>
+                <View style={styles.featuredMeta}>
+                  <Text style={styles.featuredPrice}>{item.price} USDC</Text>
+                  <Text style={styles.featuredCosell}>Cosell {item.commission}%</Text>
+                </View>
+              </View>
+            </Pressable>
+          </Link>
+        )}
+      />
+    </View>
+  );
+}
+
+// -- Categories (chips) --
+
+const CATEGORY_LIST = [
+  { id: "product", name: "Product", icon: "cube-outline" as const },
+  { id: "service", name: "Service", icon: "briefcase-outline" as const },
+  { id: "experience", name: "Experience", icon: "sparkles-outline" as const },
+  { id: "membership", name: "Membership", icon: "people-outline" as const },
+  { id: "bot", name: "Bot", icon: "hardware-chip-outline" as const },
+];
+
+function Categories() {
+  return (
+    <View style={styles.categoriesSection}>
+      <Text style={styles.sectionTitleSmall}>Browse by Category</Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 24, gap: 10 }}
+      >
+        {CATEGORY_LIST.map((cat) => (
+          <Link 
+            href={{
+              pathname: "/search",
+              params: { category: cat.id }
+            }} 
+            key={cat.id} 
+            asChild
+          >
+            <Pressable style={styles.categoryChip}>
+              <Ionicons name={cat.icon} size={18} color="#000" />
+              <Text style={styles.categoryChipText}>{cat.name}</Text>
+            </Pressable>
+          </Link>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -505,6 +596,24 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 28, fontWeight: "600", color: "#000", marginBottom: 4 },
   sectionSubtitle: { fontSize: 28, fontWeight: "600", color: "#000", marginBottom: 12 },
   sectionDescription: { fontSize: 16, color: "#737373", lineHeight: 24, marginBottom: 20 },
+
+  // Featured Listings
+  featuredSection: { paddingVertical: 24 },
+  sectionHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 24, marginBottom: 16 },
+  seeAll: { fontSize: 14, color: "#737373", fontWeight: "500" },
+  featuredCard: { width: 200, borderRadius: 12, overflow: "hidden", backgroundColor: "#fff", borderWidth: 0.5, borderColor: "#e5e5e5" },
+  featuredImage: { height: 120, backgroundColor: "#f5f5f5", alignItems: "center", justifyContent: "center" },
+  featuredInfo: { padding: 12, gap: 6 },
+  featuredTitle: { fontSize: 14, fontWeight: "600", color: "#000" },
+  featuredMeta: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+  featuredPrice: { fontSize: 13, fontWeight: "500", color: "#000" },
+  featuredCosell: { fontSize: 12, color: "#525252" },
+
+  // Categories
+  categoriesSection: { paddingVertical: 20 },
+  sectionTitleSmall: { fontSize: 18, fontWeight: "600", color: "#000", paddingHorizontal: 24, marginBottom: 12 },
+  categoryChip: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 24, backgroundColor: "#f5f5f5" },
+  categoryChipText: { fontSize: 14, fontWeight: "500", color: "#000" },
 
   // Why cards
   cardGrid: { gap: 12 },

@@ -9,8 +9,8 @@ import {
   FlatList,
   RefreshControl,
 } from "react-native";
-import { Link } from "expo-router";
-import { useState, useCallback, useRef } from "react";
+import { Link, useLocalSearchParams } from "expo-router";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -167,6 +167,7 @@ const MOCK_POSTS: PostListItem[] = [
 ];
 
 export default function SearchScreen() {
+  const params = useLocalSearchParams();
   const [searchText, setSearchText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -179,6 +180,24 @@ export default function SearchScreen() {
   const [minPrice, setMinPrice] = useState<number | undefined>();
   const [maxPrice, setMaxPrice] = useState<number | undefined>();
   const [sortBy, setSortBy] = useState<SortOption>("newest");
+
+  // Handle deep link parameters
+  useEffect(() => {
+    if (params.category) {
+      // Map category names to IDs
+      const categoryMap: Record<string, string> = {
+        product: "1",
+        service: "2", 
+        experience: "3",
+        membership: "4",
+        bot: "5",
+      };
+      const categoryIdFromParam = categoryMap[String(params.category).toLowerCase()];
+      if (categoryIdFromParam) {
+        setCategoryId(categoryIdFromParam);
+      }
+    }
+  }, [params.category]);
   
   const [posts, setPosts] = useState(MOCK_POSTS);
   const [hasMore, setHasMore] = useState(true);
