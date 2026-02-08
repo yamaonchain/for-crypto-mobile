@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Link } from "expo-router";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import { api } from "../../src/api/client";
 import type { PostListItem, Category, SortOption } from "../../src/api/types";
 
@@ -35,7 +36,6 @@ export default function SearchScreen() {
   const [hasMore, setHasMore] = useState(false);
   const [page, setPage] = useState(1);
 
-  // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search), 300);
     return () => clearTimeout(timer);
@@ -45,7 +45,6 @@ export default function SearchScreen() {
     api.getCategories().then(setCategories);
   }, []);
 
-  // Fetch posts when filters change
   useEffect(() => {
     setLoading(true);
     setPage(1);
@@ -58,7 +57,6 @@ export default function SearchScreen() {
       });
   }, [categoryId, sortBy, debouncedSearch]);
 
-  // Pull to refresh
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setPage(1);
@@ -71,7 +69,6 @@ export default function SearchScreen() {
       });
   }, [debouncedSearch, categoryId, sortBy]);
 
-  // Load more (infinite scroll)
   const loadMore = useCallback(() => {
     if (loadingMore || !hasMore) return;
     setLoadingMore(true);
@@ -90,16 +87,19 @@ export default function SearchScreen() {
     <View style={styles.container}>
       {/* Search input */}
       <View style={styles.searchBar}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search listings..."
-          placeholderTextColor="#a3a3a3"
-          value={search}
-          onChangeText={setSearch}
-          autoCapitalize="none"
-          autoCorrect={false}
-          clearButtonMode="while-editing"
-        />
+        <View style={styles.searchInputWrapper}>
+          <Ionicons name="search" size={18} color="#a3a3a3" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search listings..."
+            placeholderTextColor="#a3a3a3"
+            value={search}
+            onChangeText={setSearch}
+            autoCapitalize="none"
+            autoCorrect={false}
+            clearButtonMode="while-editing"
+          />
+        </View>
       </View>
 
       {/* Category filter pills */}
@@ -113,32 +113,17 @@ export default function SearchScreen() {
           style={[styles.filterPill, !categoryId && styles.filterPillActive]}
           onPress={() => setCategoryId(undefined)}
         >
-          <Text
-            style={[
-              styles.filterPillText,
-              !categoryId && styles.filterPillTextActive,
-            ]}
-          >
+          <Text style={[styles.filterPillText, !categoryId && styles.filterPillTextActive]}>
             All
           </Text>
         </Pressable>
         {categories.map((cat) => (
           <Pressable
             key={cat.id}
-            style={[
-              styles.filterPill,
-              categoryId === cat.id && styles.filterPillActive,
-            ]}
-            onPress={() =>
-              setCategoryId(categoryId === cat.id ? undefined : cat.id)
-            }
+            style={[styles.filterPill, categoryId === cat.id && styles.filterPillActive]}
+            onPress={() => setCategoryId(categoryId === cat.id ? undefined : cat.id)}
           >
-            <Text
-              style={[
-                styles.filterPillText,
-                categoryId === cat.id && styles.filterPillTextActive,
-              ]}
-            >
+            <Text style={[styles.filterPillText, categoryId === cat.id && styles.filterPillTextActive]}>
               {cat.name}
             </Text>
           </Pressable>
@@ -155,18 +140,10 @@ export default function SearchScreen() {
         {SORT_OPTIONS.map((opt) => (
           <Pressable
             key={opt.value}
-            style={[
-              styles.sortPill,
-              sortBy === opt.value && styles.sortPillActive,
-            ]}
+            style={[styles.sortPill, sortBy === opt.value && styles.sortPillActive]}
             onPress={() => setSortBy(opt.value)}
           >
-            <Text
-              style={[
-                styles.sortPillText,
-                sortBy === opt.value && styles.sortPillTextActive,
-              ]}
-            >
+            <Text style={[styles.sortPillText, sortBy === opt.value && styles.sortPillTextActive]}>
               {opt.label}
             </Text>
           </Pressable>
@@ -196,6 +173,7 @@ export default function SearchScreen() {
           }
           ListEmptyComponent={
             <View style={styles.emptyState}>
+              <Ionicons name="search-outline" size={48} color="#d4d4d4" />
               <Text style={styles.emptyTitle}>No listings found</Text>
               <Text style={styles.emptySubtext}>
                 {search ? "Try a different search term" : "Check back soon for new listings"}
@@ -208,24 +186,15 @@ export default function SearchScreen() {
   );
 }
 
-// -- Skeleton Loading --
+// -- Skeleton --
 
 function SkeletonCard() {
   const opacity = useRef(new Animated.Value(0.3)).current;
-
   useEffect(() => {
     const animation = Animated.loop(
       Animated.sequence([
-        Animated.timing(opacity, {
-          toValue: 0.7,
-          duration: 800,
-          useNativeDriver: true,
-        }),
-        Animated.timing(opacity, {
-          toValue: 0.3,
-          duration: 800,
-          useNativeDriver: true,
-        }),
+        Animated.timing(opacity, { toValue: 0.7, duration: 800, useNativeDriver: true }),
+        Animated.timing(opacity, { toValue: 0.3, duration: 800, useNativeDriver: true }),
       ])
     );
     animation.start();
@@ -265,45 +234,63 @@ function SkeletonList() {
   );
 }
 
-// -- Post Card --
+// -- Post Card (matching web design) --
 
 function PostCard({ item }: { item: PostListItem }) {
   const price = item.price ? parseFloat(item.price) : 0;
+  const rating = item.averageRating ? parseFloat(String(item.averageRating)) : 0;
+  const totalRatings = item.totalRatings ? Number(item.totalRatings) : 0;
 
   return (
     <Link href={`/product/${item.id}`} asChild>
       <Pressable style={styles.card}>
+        {/* Cover image */}
         <View style={styles.cardImage}>
           <View style={styles.cardImagePlaceholder}>
-            <Text style={styles.placeholderIcon}>🖼</Text>
+            <Ionicons name="image-outline" size={40} color="#d4d4d4" />
           </View>
         </View>
 
+        {/* Cosell + Price bar (matches web: bookmark | cosell + price | hide) */}
         <View style={styles.cosellBar}>
-          <Text style={styles.cosellText}>
-            Cosell: {item.commission || "0"}%
-          </Text>
-          <Text style={styles.priceText}>{price} USDC</Text>
+          <Pressable style={styles.cardActionBtn} hitSlop={8}>
+            <Ionicons name="bookmark-outline" size={22} color="#a3a3a3" />
+          </Pressable>
+          <View style={styles.cosellCenter}>
+            <Text style={styles.cosellText}>Cosell: {item.commission || "0"}%</Text>
+            <Text style={styles.priceText}>{price} USDC</Text>
+          </View>
+          <Pressable style={styles.cardActionBtn} hitSlop={8}>
+            <Ionicons name="remove-circle-outline" size={22} color="#a3a3a3" />
+          </Pressable>
         </View>
 
+        {/* Body */}
         <View style={styles.cardBody}>
           <Text style={styles.cardTitle} numberOfLines={1}>
-            {item.title}
+            {item.title || "No title"}
           </Text>
           <Text style={styles.cardBio} numberOfLines={2}>
-            {item.bio}
+            {item.bio || "No description"}
           </Text>
 
+          {/* Owner row */}
+          <Pressable style={styles.ownerRow}>
+            <View style={styles.ownerAvatar} />
+            <Text style={styles.ownerName}>{item.nickname}</Text>
+          </Pressable>
+
+          {/* Ratings + Category */}
           <View style={styles.cardFooter}>
-            <View style={styles.ownerRow}>
-              <View style={styles.ownerAvatar} />
-              <Text style={styles.ownerName}>{item.nickname}</Text>
+            <View style={styles.ratingRow}>
+              <Ionicons name="star" size={18} color="#000" />
+              <Text style={styles.ratingText}>
+                {rating.toFixed(1)} ({totalRatings})
+              </Text>
             </View>
             {item.categoryName && (
               <View style={styles.categoryBadge}>
-                <Text style={styles.categoryBadgeText}>
-                  {item.categoryName}
-                </Text>
+                <Text style={styles.categoryBadgeText}>{item.categoryName}</Text>
               </View>
             )}
           </View>
@@ -323,21 +310,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#f5f5f5",
   },
-  searchInput: {
+  searchInputWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "#f5f5f5",
     borderRadius: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
+  },
+  searchIcon: { marginRight: 8 },
+  searchInput: {
+    flex: 1,
     paddingVertical: 12,
     fontSize: 15,
     color: "#000",
   },
 
   // Filters
-  filterBar: {
-    flexGrow: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
-  },
+  filterBar: { flexGrow: 0, borderBottomWidth: 1, borderBottomColor: "#f5f5f5" },
   filterContent: { paddingHorizontal: 16, paddingVertical: 10, gap: 8 },
   filterPill: {
     paddingHorizontal: 16,
@@ -351,11 +340,7 @@ const styles = StyleSheet.create({
   filterPillTextActive: { color: "#fff" },
 
   // Sort
-  sortBar: {
-    flexGrow: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
-  },
+  sortBar: { flexGrow: 0, borderBottomWidth: 1, borderBottomColor: "#f5f5f5" },
   sortPill: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 16 },
   sortPillActive: { backgroundColor: "#f5f5f5" },
   sortPillText: { fontSize: 13, color: "#a3a3a3", fontWeight: "500" },
@@ -364,62 +349,73 @@ const styles = StyleSheet.create({
   // List
   listContent: { paddingBottom: 20 },
 
-  // Card
-  card: { borderBottomWidth: 1, borderBottomColor: "#f5f5f5" },
+  // Card (matches web PostCard layout)
+  card: { borderBottomWidth: 0.5, borderBottomColor: "#e5e5e5" },
   cardImage: { aspectRatio: 16 / 9, backgroundColor: "#f5f5f5" },
-  cardImagePlaceholder: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  placeholderIcon: { fontSize: 32, opacity: 0.3 },
+  cardImagePlaceholder: { flex: 1, alignItems: "center", justifyContent: "center" },
 
   cosellBar: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 10,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
-    gap: 16,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#e5e5e5",
+  },
+  cardActionBtn: {
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cosellCenter: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   cosellText: { fontSize: 14, color: "#525252" },
   priceText: { fontSize: 15, fontWeight: "600", color: "#000" },
 
-  cardBody: { padding: 16, gap: 8 },
-  cardTitle: { fontSize: 17, fontWeight: "600", color: "#000" },
+  cardBody: { paddingHorizontal: 20, paddingVertical: 16, gap: 8 },
+  cardTitle: { fontSize: 18, fontWeight: "600", color: "#000" },
   cardBio: { fontSize: 14, color: "#737373", lineHeight: 20 },
+
+  ownerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 4,
+  },
+  ownerAvatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "#f0f0f0",
+    borderWidth: 0.5,
+    borderColor: "rgba(0,0,0,0.1)",
+  },
+  ownerName: { fontSize: 14, color: "#000" },
 
   cardFooter: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 8,
+    marginTop: 4,
   },
-  ownerRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  ownerAvatar: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: "#e5e5e5",
-  },
-  ownerName: { fontSize: 14, color: "#000" },
+  ratingRow: { flexDirection: "row", alignItems: "center", gap: 4 },
+  ratingText: { fontSize: 14, color: "#000" },
 
   categoryBadge: {
     backgroundColor: "#f5f5f5",
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 20,
   },
   categoryBadgeText: { fontSize: 12, color: "#525252" },
 
   // Skeleton
-  skeletonLine: {
-    height: 14,
-    backgroundColor: "#e5e5e5",
-    borderRadius: 4,
-  },
+  skeletonLine: { height: 14, backgroundColor: "#e5e5e5", borderRadius: 4 },
 
   // Loading more
   loadingMore: { paddingVertical: 20, alignItems: "center" },
@@ -430,7 +426,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 80,
+    gap: 8,
   },
-  emptyTitle: { fontSize: 18, fontWeight: "600", color: "#000", marginBottom: 4 },
+  emptyTitle: { fontSize: 18, fontWeight: "600", color: "#000" },
   emptySubtext: { fontSize: 14, color: "#a3a3a3" },
 });

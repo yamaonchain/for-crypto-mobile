@@ -1,17 +1,11 @@
 import { Tabs } from "expo-router";
-import { Text } from "react-native";
-
-function TabIcon({ label, focused }: { label: string; focused: boolean }) {
-  return (
-    <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5 }}>{label}</Text>
-  );
-}
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarStyle: { backgroundColor: "#fff", borderTopColor: "#f5f5f5" },
+        tabBarStyle: { backgroundColor: "#fff", borderTopColor: "#f0f0f0" },
         tabBarActiveTintColor: "#000",
         tabBarInactiveTintColor: "#a3a3a3",
         headerStyle: { backgroundColor: "#fff" },
@@ -24,21 +18,27 @@ export default function TabLayout() {
         options={{
           title: "Home",
           headerTitle: "For Crypto",
-          tabBarIcon: ({ focused }) => <TabIcon label="🏠" focused={focused} />,
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons name={focused ? "home" : "home-outline"} size={22} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="search"
         options={{
           title: "Search",
-          tabBarIcon: ({ focused }) => <TabIcon label="🔍" focused={focused} />,
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons name={focused ? "search" : "search-outline"} size={22} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ focused }) => <TabIcon label="👤" focused={focused} />,
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons name={focused ? "person" : "person-outline"} size={22} color={color} />
+          ),
         }}
       />
     </Tabs>

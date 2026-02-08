@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, ScrollView, Pressable, Animated } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { useState, useEffect, useRef } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import { api } from "../../src/api/client";
 import type { Post } from "../../src/api/types";
 
@@ -18,14 +19,13 @@ export default function ProductDetailScreen() {
     }
   }, [id]);
 
-  if (loading) {
-    return <ProductSkeleton />;
-  }
+  if (loading) return <ProductSkeleton />;
 
   if (!post) {
     return (
       <View style={styles.container}>
         <View style={styles.notFound}>
+          <Ionicons name="alert-circle-outline" size={48} color="#d4d4d4" />
           <Text style={styles.notFoundText}>Listing not found</Text>
           <Pressable style={styles.backButton} onPress={() => router.back()}>
             <Text style={styles.backButtonText}>Go back</Text>
@@ -40,10 +40,10 @@ export default function ProductDetailScreen() {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Gallery placeholder */}
+        {/* Gallery */}
         <View style={styles.gallery}>
           <View style={styles.galleryPlaceholder}>
-            <Text style={styles.placeholderIcon}>🖼</Text>
+            <Ionicons name="image-outline" size={56} color="#d4d4d4" />
           </View>
         </View>
 
@@ -68,41 +68,53 @@ export default function ProductDetailScreen() {
           <Text style={styles.priceAmount}>{price} USDC</Text>
         </View>
 
-        {/* Title & description */}
+        {/* Owner */}
         <View style={styles.bodySection}>
-          {/* Owner */}
-          <View style={styles.ownerBar}>
+          <Pressable style={styles.ownerBar}>
             <View style={styles.ownerAvatar} />
             <Text style={styles.ownerName}>{post.nickname}</Text>
-          </View>
+          </Pressable>
 
+          {/* Title */}
           <Text style={styles.title}>{post.title}</Text>
+
+          {/* Category */}
           {post.categoryName && (
             <View style={styles.categoryBadge}>
               <Text style={styles.categoryBadgeText}>{post.categoryName}</Text>
             </View>
           )}
+
+          {/* Description */}
           <Text style={styles.bio}>{post.bio}</Text>
         </View>
 
         {/* Actions */}
         <View style={styles.actions}>
           <Pressable style={styles.actionButton}>
+            <Ionicons name="bookmark-outline" size={20} color="#737373" />
             <Text style={styles.actionText}>Bookmark</Text>
           </Pressable>
           <View style={styles.actionDivider} />
           <Pressable style={styles.actionButton}>
+            <Ionicons name="share-outline" size={20} color="#737373" />
             <Text style={styles.actionText}>Share</Text>
           </Pressable>
         </View>
 
-        {/* Ratings placeholder */}
+        {/* Ratings */}
         <View style={styles.ratingsSection}>
           <View style={styles.ratingsHeader}>
             <Text style={styles.ratingsTitle}>Ratings</Text>
-            <Text style={styles.ratingsScore}>⭐ 0.0 (0)</Text>
+            <View style={styles.ratingScore}>
+              <Ionicons name="star" size={18} color="#000" />
+              <Text style={styles.ratingsScoreText}>0.0 (0)</Text>
+            </View>
           </View>
-          <Text style={styles.noRatings}>No ratings yet</Text>
+          <View style={styles.noRatingsContainer}>
+            <Ionicons name="star-outline" size={32} color="#e5e5e5" />
+            <Text style={styles.noRatings}>No ratings yet</Text>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -157,18 +169,14 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   content: { paddingBottom: 40 },
 
-  // Not found
-  notFound: { flex: 1, alignItems: "center", justifyContent: "center", paddingTop: 100 },
-  notFoundText: { fontSize: 18, color: "#737373", marginBottom: 16 },
+  notFound: { flex: 1, alignItems: "center", justifyContent: "center", paddingTop: 100, gap: 12 },
+  notFoundText: { fontSize: 18, color: "#737373" },
   backButton: { paddingHorizontal: 20, paddingVertical: 10, borderWidth: 1, borderColor: "#000", borderRadius: 6 },
   backButtonText: { fontSize: 14, fontWeight: "500" },
 
-  // Gallery
   gallery: { aspectRatio: 16 / 9, backgroundColor: "#f5f5f5" },
   galleryPlaceholder: { flex: 1, alignItems: "center", justifyContent: "center" },
-  placeholderIcon: { fontSize: 48, opacity: 0.3 },
 
-  // Cosell banner
   cosellBanner: {
     flexDirection: "row",
     alignItems: "center",
@@ -183,34 +191,52 @@ const styles = StyleSheet.create({
   cosellButton: { borderWidth: 1, borderColor: "#000", paddingHorizontal: 14, paddingVertical: 8, borderRadius: 6 },
   cosellButtonText: { fontSize: 13, fontWeight: "500" },
 
-  // Buy
   buyButton: { backgroundColor: "#000", paddingVertical: 16, alignItems: "center" },
   buyButtonText: { fontSize: 17, fontWeight: "600", color: "#fff" },
 
-  // Price
-  priceRow: { paddingVertical: 14, alignItems: "center", borderBottomWidth: 1, borderBottomColor: "#f5f5f5" },
+  priceRow: { paddingVertical: 14, alignItems: "center", borderBottomWidth: 0.5, borderBottomColor: "#e5e5e5" },
   priceAmount: { fontSize: 16, fontWeight: "500", color: "#000" },
 
-  // Body
   bodySection: { padding: 20, gap: 12 },
-  ownerBar: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: "#f5f5f5", marginBottom: 4 },
-  ownerAvatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: "#e5e5e5" },
+  ownerBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingVertical: 8,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#e5e5e5",
+    marginBottom: 4,
+  },
+  ownerAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#f0f0f0",
+    borderWidth: 0.5,
+    borderColor: "rgba(0,0,0,0.1)",
+  },
   ownerName: { fontSize: 15, fontWeight: "500", color: "#000" },
   title: { fontSize: 28, fontWeight: "600", color: "#000" },
-  categoryBadge: { backgroundColor: "#f5f5f5", paddingHorizontal: 14, paddingVertical: 6, borderRadius: 20, alignSelf: "flex-start" },
+  categoryBadge: {
+    backgroundColor: "#f5f5f5",
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 20,
+    alignSelf: "flex-start",
+  },
   categoryBadgeText: { fontSize: 13, color: "#525252" },
   bio: { fontSize: 16, color: "#737373", lineHeight: 24 },
 
-  // Actions
-  actions: { flexDirection: "row", borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#f5f5f5" },
-  actionButton: { flex: 1, paddingVertical: 14, alignItems: "center" },
+  actions: { flexDirection: "row", borderTopWidth: 0.5, borderBottomWidth: 0.5, borderColor: "#e5e5e5" },
+  actionButton: { flex: 1, paddingVertical: 14, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 6 },
   actionText: { fontSize: 15, color: "#737373" },
-  actionDivider: { width: 1, backgroundColor: "#e5e5e5" },
+  actionDivider: { width: 0.5, backgroundColor: "#e5e5e5" },
 
-  // Ratings
   ratingsSection: { padding: 20 },
-  ratingsHeader: { flexDirection: "row", justifyContent: "space-between", marginBottom: 16 },
+  ratingsHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 16 },
   ratingsTitle: { fontSize: 16, fontWeight: "500", color: "#000" },
-  ratingsScore: { fontSize: 14, color: "#000" },
-  noRatings: { fontSize: 14, color: "#a3a3a3", textAlign: "center", paddingVertical: 20 },
+  ratingScore: { flexDirection: "row", alignItems: "center", gap: 4 },
+  ratingsScoreText: { fontSize: 14, color: "#000" },
+  noRatingsContainer: { alignItems: "center", paddingVertical: 24, gap: 8 },
+  noRatings: { fontSize: 14, color: "#a3a3a3" },
 });
