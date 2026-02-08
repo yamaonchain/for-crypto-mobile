@@ -336,39 +336,48 @@ function How() {
 function Cosell() {
   return (
     <View style={styles.cosellSection}>
-      <Text style={styles.cosellTitle}>Cosell lets anyone earn real crypto by helping sell something they believe in.</Text>
-      
-      <Text style={styles.cosellDescription}>
-        When a seller enables Cosell, they set a public commission rate. Anyone can click Cosell, generate a unique link, and start earning immediately.
+      <Text style={styles.sectionTitle}>Cosell.</Text>
+      <Text style={styles.sectionSubtitle}>Unlock the Internet.</Text>
+      <Text style={styles.sectionDescription}>
+        Cosell is not an affiliate link. It's a contract. A payout. A share of every sale. It turns attention into income for anyone, anywhere.
       </Text>
       
-      <Text style={styles.cosellDescription}>
-        The moment you Cosell, a smart contract is created that locks in your commission rate for 30 days.
-      </Text>
-      
-      <View style={styles.cosellFeatures}>
-        <View style={styles.featureItem}>
-          <Text style={styles.featureText}>
-            If the seller raises the commission later, your rate increases right away
-          </Text>
+      {/* Two panel layout */}
+      <View style={styles.cosellPanels}>
+        {/* Video panel */}
+        <View style={styles.cosellPanel}>
+          <Image 
+            source={{ uri: "https://picsum.photos/400/225?random=cosell1" }}
+            style={styles.cosellPanelImage}
+            resizeMode="cover"
+          />
         </View>
-        <View style={styles.featureItem}>
-          <Text style={styles.featureText}>
-            If the seller lowers the commission, your higher rate stays locked until your 30-day window ends
-          </Text>
+        
+        {/* Text panel */}
+        <View style={[styles.cosellPanel, styles.cosellTextPanel]}>
+          <Text style={styles.cosellPointText}>The seller sets the commission.</Text>
+          <Text style={styles.cosellPointText}>A Coseller activates the contract.</Text>
+          <Text style={styles.cosellPointText}>Sales are tracked on the blockchain.</Text>
+          <Text style={styles.cosellPointText}>Payouts happen instantly.</Text>
+          
+          <Pressable style={styles.cosellButton}>
+            <Text style={styles.cosellButtonText}>Become a Coseller</Text>
+          </Pressable>
         </View>
       </View>
       
-      <Text style={styles.cosellPayment}>
-        Every time someone makes a purchase through your link, you get paid instantly and directly to your wallet. No middlemen. No payout delays. No waiting period.
-      </Text>
-      
-      <Text style={styles.cosellTagline}>This is how marketing should work.</Text>
-      
-      <Text style={styles.cosellValueProp}>
-        You don't get paid for fake clicks, empty impressions, or engagement from bots.
-        You only get paid for real sales. The clearest signal of value.
-      </Text>
+      {/* Large image section */}
+      <View style={styles.cosellLargeSection}>
+        <Image 
+          source={{ uri: "https://picsum.photos/800/400?random=cosell2" }}
+          style={styles.cosellLargeImage}
+          resizeMode="contain"
+        />
+        <Text style={styles.cosellLargeTitle}>No excuse this time.</Text>
+        <Text style={styles.cosellLargeDescription}>
+          If you have a device, you can Cosell For Crypto. Go get it. Nothing is stopping you now.
+        </Text>
+      </View>
     </View>
   );
 }
@@ -670,15 +679,70 @@ const styles = StyleSheet.create({
   },
 
   // Cosell Section
-  cosellSection: { padding: 24, paddingVertical: 40, backgroundColor: "#fafafa" },
-  cosellTitle: { fontSize: 24, fontWeight: "600", color: Colors.foreground, lineHeight: 32, marginBottom: 20 },
-  cosellDescription: { fontSize: 16, color: "#525252", lineHeight: 24, marginBottom: 16 },
-  cosellFeatures: { marginVertical: 20 },
-  featureItem: { flexDirection: "row", marginBottom: 12, paddingLeft: 16 },
-  featureText: { fontSize: 16, color: "#525252", lineHeight: 24, flex: 1 },
-  cosellPayment: { fontSize: 16, color: "#525252", lineHeight: 24, marginBottom: 20, fontWeight: "500" },
-  cosellTagline: { fontSize: 20, fontWeight: "600", color: Colors.foreground, marginBottom: 16 },
-  cosellValueProp: { fontSize: 16, color: "#525252", lineHeight: 24 },
+  cosellSection: { padding: 24, paddingVertical: 40, backgroundColor: Colors.border },
+  cosellPanels: { 
+    marginTop: 24, 
+    marginBottom: 40, 
+    gap: 16 
+  },
+  cosellPanel: { 
+    backgroundColor: Colors.card, 
+    borderRadius: 12, 
+    padding: 24,
+    marginBottom: 16,
+  },
+  cosellTextPanel: { 
+    alignItems: "center", 
+    justifyContent: "center" 
+  },
+  cosellPanelImage: { 
+    width: "100%", 
+    aspectRatio: 16 / 9 
+  },
+  cosellPointText: { 
+    fontSize: 18, 
+    color: Colors.foreground, 
+    textAlign: "center", 
+    marginBottom: 8, 
+    lineHeight: 24 
+  },
+  cosellButton: { 
+    marginTop: 24, 
+    paddingVertical: 16, 
+    paddingHorizontal: 32, 
+    borderRadius: 8, 
+    borderWidth: 1, 
+    borderColor: Colors.border 
+  },
+  cosellButtonText: { 
+    fontSize: 16, 
+    fontWeight: "500", 
+    color: Colors.foreground 
+  },
+  cosellLargeSection: { 
+    backgroundColor: Colors.card, 
+    borderRadius: 12, 
+    padding: 24, 
+    alignItems: "center" 
+  },
+  cosellLargeImage: { 
+    width: "100%", 
+    height: 200, 
+    marginBottom: 32 
+  },
+  cosellLargeTitle: { 
+    fontSize: 28, 
+    fontWeight: "500", 
+    color: Colors.foreground, 
+    marginBottom: 8, 
+    textAlign: "center" 
+  },
+  cosellLargeDescription: { 
+    fontSize: 18, 
+    color: Colors.mutedForeground, 
+    textAlign: "center", 
+    lineHeight: 24 
+  },
 
   // Steps (used in How section)
   stepsContainer: { gap: 16, marginTop: 8 },
