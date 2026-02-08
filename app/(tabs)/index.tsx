@@ -13,7 +13,7 @@ import {
 import { Link, router } from "expo-router";
 import { useState, useRef, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors, Typography, Spacing } from "../../constants/theme";
+import { colors, spacing, fontSize } from "../../src/constants/theme";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const SLIDE_WIDTH = SCREEN_WIDTH - 48;
@@ -189,7 +189,7 @@ function Hero() {
               key={index}
               style={[
                 styles.dot,
-                { backgroundColor: index === activeIndex ? Colors.primary : Colors.muted }
+                { backgroundColor: index === activeIndex ? colors.accent : colors.border }
               ]}
               onPress={() => handleDotPress(index)}
             />
@@ -286,7 +286,7 @@ function Why() {
         {whyCards.map((card, index) => (
           <View key={index} style={styles.whyCard}>
             <View style={styles.whyCardIcon}>
-              <Ionicons name={card.icon} size={32} color={Colors.primary} />
+              <Ionicons name={card.icon} size={32} color={colors.accent} />
             </View>
             <Text style={styles.whyCardTitle}>{card.title}</Text>
             <Text style={styles.whyCardDescription}>{card.description}</Text>
@@ -540,15 +540,15 @@ function FAQSection() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
+  container: { flex: 1, backgroundColor: colors.background },
   content: { paddingBottom: 40 },
 
   // Hero
   hero: { paddingTop: 40, paddingBottom: 20, alignItems: "center", paddingHorizontal: 16 },
-  heroTitle: { fontSize: 32, fontWeight: "500", textAlign: "center", color: Colors.foreground, lineHeight: 40, marginBottom: 12 },
+  heroTitle: { fontSize: 32, fontWeight: "500", textAlign: "center", color: colors.text, lineHeight: 40, marginBottom: 12 },
   heroSubtitle: {
     fontSize: 18,
-    color: Colors.mutedForeground,
+    color: colors.textSecondary,
     textAlign: "center",
     lineHeight: 24,
     paddingHorizontal: 16,
@@ -559,7 +559,7 @@ const styles = StyleSheet.create({
     paddingVertical: 40, 
     paddingHorizontal: 16, 
     alignItems: "center",
-    backgroundColor: Colors.surface,
+    backgroundColor: colors.surface,
     marginVertical: 32,
     borderRadius: 12,
   },
@@ -567,14 +567,14 @@ const styles = StyleSheet.create({
     fontSize: 32, 
     fontWeight: "700", 
     textAlign: "center", 
-    color: Colors.foreground,
+    color: colors.text,
     letterSpacing: 1,
     lineHeight: 40,
   },
-  buttonOutline: { flex: 1, borderWidth: 1, borderColor: Colors.border, paddingVertical: 14, borderRadius: 6, alignItems: "center" },
-  buttonOutlineText: { fontSize: 16, fontWeight: "500", color: Colors.foreground },
-  buttonFilled: { flex: 1, backgroundColor: Colors.primary, paddingVertical: 14, borderRadius: 6, alignItems: "center" },
-  buttonFilledText: { fontSize: 16, fontWeight: "500", color: Colors.primaryForeground },
+  buttonOutline: { flex: 1, borderWidth: 1, borderColor: colors.border, paddingVertical: 14, borderRadius: 6, alignItems: "center" },
+  buttonOutlineText: { fontSize: 16, fontWeight: "500", color: colors.text },
+  buttonFilled: { flex: 1, backgroundColor: colors.accent, paddingVertical: 14, borderRadius: 6, alignItems: "center" },
+  buttonFilledText: { fontSize: 16, fontWeight: "500", color: "#ffffff" },
 
   // Bot Quick Start
   botSection: { backgroundColor: "#171717", borderRadius: 12, margin: 16, padding: 24 }, // Keep dark for contrast
@@ -589,7 +589,7 @@ const styles = StyleSheet.create({
   botStepNumber: { backgroundColor: "#262626", width: 20, height: 20, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   stepNumberText: { fontSize: 12, fontWeight: "500", color: "#d4d4d4" },
   botStepText: { fontSize: 14, color: "#a3a3a3" },
-  stepArrow: { fontSize: 14, color: Colors.mutedForeground },
+  stepArrow: { fontSize: 14, color: colors.textSecondary },
 
   // Carousel
   carouselSection: { marginTop: 40, width: "100%" },
@@ -628,27 +628,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#e5e5e5",
   },
   cosellInfo: { flex: 1, alignItems: "center" },
-  cosellTitle: { fontSize: 14, fontWeight: "500", color: Colors.foreground, marginBottom: 2 },
-  cosellCommission: { fontSize: 12, color: Colors.mutedForeground },
+  cosellTitle: { fontSize: 14, fontWeight: "500", color: colors.text, marginBottom: 2 },
+  cosellCommission: { fontSize: 12, color: colors.textSecondary },
   divider: { width: 1, height: 24, backgroundColor: "#e5e5e5" },
   becomeCoseller: { flex: 1, alignItems: "center" },
-  becomeCosellerText: { fontSize: 12, fontWeight: "500", color: Colors.foreground },
-  buyButton: { backgroundColor: Colors.primary, paddingVertical: 14, alignItems: "center" },
+  becomeCosellerText: { fontSize: 12, fontWeight: "500", color: colors.text },
+  buyButton: { backgroundColor: colors.accent, paddingVertical: 14, alignItems: "center" },
   buyButtonText: { fontSize: 16, fontWeight: "600", color: "#fff" },
   priceSection: { paddingVertical: 12, alignItems: "center", borderBottomWidth: 1, borderBottomColor: "#e5e5e5" },
-  price: { fontSize: 15, color: Colors.foreground },
+  price: { fontSize: 15, color: colors.text },
   slideContent: { padding: 24, alignItems: "center" },
-  slideTitle: { fontSize: 22, fontWeight: "600", color: Colors.foreground, textAlign: "center", marginBottom: 8, lineHeight: 28 },
-  slideDescription: { fontSize: 16, color: Colors.mutedForeground, textAlign: "center", lineHeight: 24 },
+  slideTitle: { fontSize: 22, fontWeight: "600", color: colors.text, textAlign: "center", marginBottom: 8, lineHeight: 28 },
+  slideDescription: { fontSize: 16, color: colors.textSecondary, textAlign: "center", lineHeight: 24 },
   dotContainer: { flexDirection: "row", justifyContent: "center", gap: 10, marginTop: 16 },
   dot: { width: 14, height: 14, borderRadius: 7 },
   // Removed duplicate styles - using carousel styles in Hero section
 
   // Sections
   section: { padding: 24, paddingVertical: 40 },
-  sectionTitle: { fontSize: 28, fontWeight: "600", color: Colors.foreground, marginBottom: 4 },
-  sectionSubtitle: { fontSize: 28, fontWeight: "600", color: Colors.foreground, marginBottom: 12 },
-  sectionDescription: { fontSize: 16, color: Colors.mutedForeground, lineHeight: 24, marginBottom: 20 },
+  sectionTitle: { fontSize: 28, fontWeight: "600", color: colors.text, marginBottom: 4 },
+  sectionSubtitle: { fontSize: 28, fontWeight: "600", color: colors.text, marginBottom: 12 },
+  sectionDescription: { fontSize: 16, color: colors.textSecondary, lineHeight: 24, marginBottom: 20 },
 
   // Why Section Cards  
   whyCardsGrid: { 
@@ -660,7 +660,7 @@ const styles = StyleSheet.create({
   whyCard: { 
     flex: 1, 
     minWidth: "45%", 
-    backgroundColor: Colors.card, 
+    backgroundColor: colors.surface, 
     padding: 24, 
     borderRadius: 12, 
     alignItems: "center",
@@ -672,20 +672,20 @@ const styles = StyleSheet.create({
   whyCardTitle: { 
     fontSize: 18, 
     fontWeight: "600", 
-    color: Colors.foreground, 
+    color: colors.text, 
     marginBottom: 8, 
     textAlign: "center" 
   },
   whyCardDescription: { 
     fontSize: 14, 
-    color: Colors.mutedForeground, 
+    color: colors.textSecondary, 
     textAlign: "center", 
     lineHeight: 20 
   },
 
   // How Section  
   howCard: { 
-    backgroundColor: Colors.card, 
+    backgroundColor: colors.surface, 
     borderRadius: 12, 
     marginTop: 24, 
     overflow: "hidden" 
@@ -697,7 +697,7 @@ const styles = StyleSheet.create({
   howCardTitle: { 
     fontSize: 24, 
     fontWeight: "500", 
-    color: Colors.foreground, 
+    color: colors.text, 
     marginBottom: 24, 
     textAlign: "center" 
   },
@@ -711,14 +711,14 @@ const styles = StyleSheet.create({
   },
 
   // Cosell Section
-  cosellSection: { padding: 24, paddingVertical: 40, backgroundColor: Colors.border },
+  cosellSection: { padding: 24, paddingVertical: 40, backgroundColor: colors.surfaceAlt },
   cosellPanels: { 
     marginTop: 24, 
     marginBottom: 40, 
     gap: 16 
   },
   cosellPanel: { 
-    backgroundColor: Colors.card, 
+    backgroundColor: colors.surface, 
     borderRadius: 12, 
     padding: 24,
     marginBottom: 16,
@@ -733,7 +733,7 @@ const styles = StyleSheet.create({
   },
   cosellPointText: { 
     fontSize: 18, 
-    color: Colors.foreground, 
+    color: colors.text, 
     textAlign: "center", 
     marginBottom: 8, 
     lineHeight: 24 
@@ -744,15 +744,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32, 
     borderRadius: 8, 
     borderWidth: 1, 
-    borderColor: Colors.border 
+    borderColor: colors.border 
   },
   cosellButtonText: { 
     fontSize: 16, 
     fontWeight: "500", 
-    color: Colors.foreground 
+    color: colors.text 
   },
   cosellLargeSection: { 
-    backgroundColor: Colors.card, 
+    backgroundColor: colors.surface, 
     borderRadius: 12, 
     padding: 24, 
     alignItems: "center" 
@@ -765,13 +765,13 @@ const styles = StyleSheet.create({
   cosellLargeTitle: { 
     fontSize: 28, 
     fontWeight: "500", 
-    color: Colors.foreground, 
+    color: colors.text, 
     marginBottom: 8, 
     textAlign: "center" 
   },
   cosellLargeDescription: { 
     fontSize: 18, 
-    color: Colors.mutedForeground, 
+    color: colors.textSecondary, 
     textAlign: "center", 
     lineHeight: 24 
   },
@@ -779,7 +779,7 @@ const styles = StyleSheet.create({
   // Steps (used in How section)
   stepsContainer: { gap: 16, marginTop: 8 },
   stepItem: { alignItems: "center" },
-  stepText: { fontSize: 18, color: Colors.foreground, lineHeight: 24, textAlign: "center" },
+  stepText: { fontSize: 18, color: colors.text, lineHeight: 24, textAlign: "center" },
 
   // Assets Section
   assetsHeroImage: { 
@@ -795,12 +795,12 @@ const styles = StyleSheet.create({
   assetsDescTitle: { 
     fontSize: 28, 
     fontWeight: "500", 
-    color: Colors.foreground, 
+    color: colors.text, 
     marginBottom: 16 
   },
   assetsDescText: { 
     fontSize: 18, 
-    color: Colors.mutedForeground, 
+    color: colors.textSecondary, 
     lineHeight: 24, 
     marginBottom: 12 
   },
@@ -808,7 +808,7 @@ const styles = StyleSheet.create({
     gap: 24 
   },
   assetCard: { 
-    backgroundColor: Colors.card, 
+    backgroundColor: colors.surface, 
     borderRadius: 12, 
     padding: 24, 
     marginBottom: 16 
@@ -822,12 +822,12 @@ const styles = StyleSheet.create({
   assetCardTitle: { 
     fontSize: 20, 
     fontWeight: "500", 
-    color: Colors.foreground, 
+    color: colors.text, 
     marginBottom: 8 
   },
   assetCardDescription: { 
     fontSize: 16, 
-    color: Colors.mutedForeground, 
+    color: colors.textSecondary, 
     lineHeight: 22 
   },
 
@@ -835,17 +835,17 @@ const styles = StyleSheet.create({
   networkSection: { 
     padding: 24, 
     paddingVertical: 40, 
-    backgroundColor: Colors.border 
+    backgroundColor: colors.surfaceAlt 
   },
   networkTitle: { 
     fontSize: 32, 
     fontWeight: "500", 
-    color: Colors.foreground, 
+    color: colors.text, 
     marginBottom: 16 
   },
   networkDescription: { 
     fontSize: 18, 
-    color: Colors.mutedForeground, 
+    color: colors.textSecondary, 
     lineHeight: 24, 
     marginBottom: 32 
   },
