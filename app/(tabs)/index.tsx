@@ -103,7 +103,7 @@ function Hero() {
             alert("Touch works! Learn More pressed");
           }}
         >
-          <Text style={styles.buttonOutlineText}>Learn More</Text>
+          <Text style={styles.buttonOutlineText}>Browse</Text>
         </Pressable>
         <Link href="/search" asChild>
           <Pressable style={styles.buttonFilled}>
