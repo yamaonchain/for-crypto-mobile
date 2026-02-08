@@ -11,6 +11,7 @@ import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../../src/context/CartContext';
 import type { CartItem } from '../../src/context/CartContext';
+import { colors, spacing, fontSize } from '../../src/constants/theme';
 
 export default function CartScreen() {
   const { items, updateQuantity, removeFromCart, clearCart, getTotalPrice } = useCart();
@@ -46,7 +47,7 @@ export default function CartScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.emptyCart}>
-          <Ionicons name="bag-outline" size={64} color="#d4d4d4" />
+          <Ionicons name="bag-outline" size={64} color={colors.border} />
           <Text style={styles.emptyTitle}>Your cart is empty</Text>
           <Text style={styles.emptyDescription}>
             Add some items to get started
@@ -94,7 +95,7 @@ export default function CartScreen() {
         <Link href="/checkout" asChild>
           <Pressable style={styles.checkoutButton}>
             <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
-            <Ionicons name="arrow-forward" size={20} color="#fff" />
+            <Ionicons name="arrow-forward" size={20} color="#ffffff" />
           </Pressable>
         </Link>
       </View>
@@ -115,7 +116,7 @@ function CartItemRow({
     <View style={styles.cartItem}>
       {/* Item Image */}
       <View style={styles.itemImage}>
-        <Ionicons name="image-outline" size={32} color="#d4d4d4" />
+        <Ionicons name="image-outline" size={32} color={colors.border} />
       </View>
 
       {/* Item Details */}
@@ -144,7 +145,7 @@ function CartItemRow({
             style={styles.quantityButton}
             onPress={() => onQuantityChange(item, false)}
           >
-            <Ionicons name="remove" size={16} color="#000" />
+            <Ionicons name="remove" size={16} color={colors.text} />
           </Pressable>
           
           <Text style={styles.quantityText}>{item.quantity}</Text>
@@ -153,7 +154,7 @@ function CartItemRow({
             style={styles.quantityButton}
             onPress={() => onQuantityChange(item, true)}
           >
-            <Ionicons name="add" size={16} color="#000" />
+            <Ionicons name="add" size={16} color={colors.text} />
           </Pressable>
         </View>
 
@@ -165,7 +166,7 @@ function CartItemRow({
           style={styles.removeButton}
           onPress={() => onRemove(item)}
         >
-          <Ionicons name="trash-outline" size={18} color="#dc2626" />
+          <Ionicons name="trash-outline" size={18} color={colors.error} />
         </Pressable>
       </View>
     </View>
@@ -175,7 +176,7 @@ function CartItemRow({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: "row",
@@ -184,16 +185,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: colors.border,
   },
   itemCount: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   clearButton: {
     fontSize: 14,
-    color: "#dc2626",
+    color: colors.error,
     fontWeight: "500",
   },
   itemsList: {
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.border,
     marginVertical: 16,
   },
   cartItem: {
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
   itemImage: {
     width: 80,
     height: 80,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
@@ -224,15 +225,15 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     lineHeight: 20,
   },
   itemSeller: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   itemCategory: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.surfaceAlt,
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 4,
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
   },
   itemCategoryText: {
     fontSize: 12,
-    color: "#737373",
+    color: colors.textSecondary,
   },
   itemPriceRow: {
     flexDirection: "row",
@@ -251,12 +252,12 @@ const styles = StyleSheet.create({
   itemPrice: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   itemCommission: {
     fontSize: 12,
-    color: "#525252",
-    backgroundColor: "#e5e5e5",
+    color: colors.textSecondary,
+    backgroundColor: colors.border,
     paddingHorizontal: 6,
     paddingVertical: 1,
     borderRadius: 3,
@@ -269,7 +270,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: colors.border,
     borderRadius: 6,
   },
   quantityButton: {
@@ -281,14 +282,14 @@ const styles = StyleSheet.create({
   quantityText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: colors.text,
     minWidth: 24,
     textAlign: "center",
   },
   itemTotal: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   removeButton: {
     width: 32,
@@ -298,11 +299,11 @@ const styles = StyleSheet.create({
   },
   footer: {
     borderTopWidth: 1,
-    borderTopColor: "#e5e5e5",
+    borderTopColor: colors.border,
     paddingHorizontal: 16,
     paddingVertical: 20,
     paddingBottom: 32,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
   },
   totalSection: {
     marginBottom: 20,
@@ -316,20 +317,20 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
   },
   totalPrice: {
     fontSize: 24,
     fontWeight: "700",
-    color: "#000",
+    color: colors.text,
   },
   totalUsd: {
     fontSize: 14,
-    color: "#737373",
+    color: colors.textSecondary,
     textAlign: "right",
   },
   checkoutButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
     paddingVertical: 16,
     borderRadius: 8,
     flexDirection: "row",
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
   checkoutButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#fff",
+    color: "#ffffff",
   },
   emptyCart: {
     flex: 1,
@@ -351,18 +352,18 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 24,
     fontWeight: "600",
-    color: "#000",
+    color: colors.text,
     marginTop: 16,
     marginBottom: 8,
   },
   emptyDescription: {
     fontSize: 16,
-    color: "#737373",
+    color: colors.textSecondary,
     textAlign: "center",
     marginBottom: 24,
   },
   shopButton: {
-    backgroundColor: "#000",
+    backgroundColor: colors.accent,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 8,
@@ -370,6 +371,6 @@ const styles = StyleSheet.create({
   shopButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#fff",
+    color: "#ffffff",
   },
 });
