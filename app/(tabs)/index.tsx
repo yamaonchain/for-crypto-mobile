@@ -350,66 +350,6 @@ function WhyCard({ icon, title, description }: { icon: string; title: string; de
   );
 }
 
-function HowSection() {
-  const steps = [
-    "Connect your wallet",
-    "Create your listing",
-    "Set your Coseller commission",
-    "Add what buyers get",
-    "Add sales assets",
-    "Share your listing",
-    "Get paid instantly",
-  ];
-
-  return (
-    <View style={[styles.section, styles.sectionAlt]}>
-      <Text style={styles.sectionTitle}>How it works.</Text>
-      <Text style={styles.sectionSubtitle}>Instant transactions.</Text>
-      <Text style={styles.sectionDescription}>
-        From wallet connect to payout, everything happens directly. No signups, no waiting, no middlemen.
-      </Text>
-      <View style={styles.stepsCard}>
-        <Text style={styles.stepsCardTitle}>Getting started is simple</Text>
-        {steps.map((step, i) => (
-          <View key={i} style={styles.stepRow}>
-            <View style={styles.stepNumber}>
-              <Text style={styles.stepNumberText}>{i + 1}</Text>
-            </View>
-            <Text style={styles.stepText}>{step}</Text>
-          </View>
-        ))}
-      </View>
-    </View>
-  );
-}
-
-function CosellSection() {
-  return (
-    <View style={[styles.section, styles.sectionCosell]}>
-      <Text style={styles.sectionTitle}>Cosell.</Text>
-      <Text style={styles.sectionSubtitle}>Unlock the Internet.</Text>
-      <Text style={styles.sectionDescription}>
-        Cosell is not an affiliate link. It's a contract. A payout. A share of every sale.
-      </Text>
-      <View style={styles.cosellCard}>
-        <Text style={styles.cosellStep}>The seller sets the commission.</Text>
-        <Text style={styles.cosellStep}>A Coseller activates the contract.</Text>
-        <Text style={styles.cosellStep}>Sales are tracked on the blockchain.</Text>
-        <Text style={styles.cosellStep}>Payouts happen instantly.</Text>
-        <Pressable style={styles.cosellCTA}>
-          <Text style={styles.cosellCTAText}>Become a Coseller</Text>
-        </Pressable>
-      </View>
-      <View style={styles.cosellMotivation}>
-        <Text style={styles.cosellMotivationTitle}>No excuse this time.</Text>
-        <Text style={styles.cosellMotivationText}>
-          If you have a device, you can Cosell For Crypto. Go get it. Nothing is stopping you now.
-        </Text>
-      </View>
-    </View>
-  );
-}
-
 function NetworkSection() {
   return (
     <View style={[styles.section, styles.sectionDark]}>
@@ -513,7 +453,6 @@ const styles = StyleSheet.create({
   // Sections
   section: { paddingHorizontal: 24, paddingVertical: 32 },
   sectionAlt: { backgroundColor: "#FFFDFC" },
-  sectionCosell: { backgroundColor: "#e5e5e5" },
   sectionDark: { backgroundColor: "#0a0a0a" },
   sectionTitle: { fontSize: 28, fontWeight: "600", color: "#000", marginBottom: 4 },
   sectionSubtitle: { fontSize: 28, fontWeight: "600", color: "#000", marginBottom: 12 },
@@ -525,27 +464,6 @@ const styles = StyleSheet.create({
   whyCardHeader: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 8 },
   whyCardTitle: { fontSize: 18, fontWeight: "600", color: "#000" },
   whyCardDescription: { fontSize: 15, color: "#737373", lineHeight: 22 },
-
-  // How steps
-  stepsCard: { backgroundColor: "#f5f5f5", borderRadius: 12, padding: 24, gap: 16 },
-  stepsCardTitle: { fontSize: 22, fontWeight: "600", color: "#000", textAlign: "center", marginBottom: 4 },
-  stepRow: { flexDirection: "row", alignItems: "center", gap: 14 },
-  stepNumber: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  stepNumberText: { fontSize: 13, fontWeight: "600", color: "#fff" },
-  stepText: { fontSize: 17, color: "#000", flex: 1 },
-
-  // Legacy (unused, kept for reference)
-  cosellCard: { backgroundColor: "#f5f5f5", borderRadius: 12, padding: 24, alignItems: "center", gap: 8, marginBottom: 16 },
-  cosellMotivation: { backgroundColor: "#f5f5f5", borderRadius: 12, padding: 24, alignItems: "center" },
-  cosellMotivationTitle: { fontSize: 22, fontWeight: "600", color: "#000", marginBottom: 8 },
-  cosellMotivationText: { fontSize: 16, color: "#737373", textAlign: "center", lineHeight: 24 },
 
   // Featured Listings
   featuredSection: { paddingVertical: 24 },
