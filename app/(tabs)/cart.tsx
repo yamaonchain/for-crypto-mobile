@@ -175,7 +175,7 @@ function CartItemRow({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFDFC",
+    backgroundColor: "#000",
   },
   header: {
     flexDirection: "row",

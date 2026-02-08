@@ -7,8 +7,8 @@ export default function ProductLayout() {
         name="[id]" 
         options={{
           title: "Listing",
-          headerStyle: { backgroundColor: "#fff" },
-          headerTintColor: "#000",
+          headerStyle: { backgroundColor: "#000" },
+          headerTintColor: "#fff",
           headerShadowVisible: false,
           headerBackTitle: "",
         }} 

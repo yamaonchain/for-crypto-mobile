@@ -360,7 +360,7 @@ function ListingCard({ item }: { item: any }) {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    backgroundColor: "#FFFDFC" 
+    backgroundColor: "#000" 
   },
   content: {
     paddingBottom: 40,
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 60,
-    backgroundColor: "#FFFDFC",
+    backgroundColor: "#000",
   },
   headerActions: {
     flexDirection: "row",
