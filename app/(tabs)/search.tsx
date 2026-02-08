@@ -611,16 +611,16 @@ const styles = StyleSheet.create({
     padding: 4,
   },
 
-  // Filter Bar (matching web layout)
+  // Filter Bar (matching web layout exactly)
   filterBar: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: "#f0f0f0",
   },
   filterButton: {
     flexDirection: "row",

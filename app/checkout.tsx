@@ -225,7 +225,7 @@ export default function CheckoutScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFDFC",
+    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
