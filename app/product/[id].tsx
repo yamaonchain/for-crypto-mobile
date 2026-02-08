@@ -238,14 +238,8 @@ export default function ProductDetailScreen() {
   };
 
   const handleBuy = () => {
-    Alert.alert(
-      "Purchase Listing",
-      `Buy "${selectedVariant?.name}" for ${price} USDC?`,
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Confirm", onPress: () => console.log("Process purchase") }
-      ]
-    );
+    // Navigate to checkout page
+    router.push("/checkout");
   };
 
   const averageRating = postMeta.ratings.average;
@@ -265,18 +259,8 @@ export default function ProductDetailScreen() {
 
   const handleBuyNow = () => {
     if (!post || !selectedVariant) return;
-    const price = selectedVariant.isPwyw && customPwywPrice 
-      ? customPwywPrice 
-      : parseFloat(selectedVariant.price || "0");
-    
-    Alert.alert(
-      "Purchase Listing",
-      `Buy "${selectedVariant.name}" for ${price} USDC?`,
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Confirm", onPress: () => console.log("Process purchase") }
-      ]
-    );
+    // Navigate to checkout page
+    router.push("/checkout");
   };
 
   if (loading) {

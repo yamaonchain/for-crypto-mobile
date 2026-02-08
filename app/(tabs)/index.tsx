@@ -9,7 +9,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useState, useRef, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -91,7 +91,8 @@ function Hero() {
   };
 
   const handleBuyPress = (listing: any) => {
-    console.log("Example listing only - Browse real listings in Search or create your own.");
+    // Navigate to product detail page with mock ID
+    router.push('/product/mock-listing');
   };
 
   const renderSlide = ({ item: slide, index }: { item: any; index: number }) => (
@@ -142,14 +143,11 @@ function Hero() {
         No banks. No middlemen. Just your wallet and the internet.
       </Text>
       <View style={styles.heroButtons}>
-        <Pressable 
-          style={styles.buttonOutline}
-          onPress={() => {
-            console.log("Browse button pressed!");
-          }}
-        >
-          <Text style={styles.buttonOutlineText}>Browse</Text>
-        </Pressable>
+        <Link href="/search" asChild>
+          <Pressable style={styles.buttonOutline}>
+            <Text style={styles.buttonOutlineText}>Browse</Text>
+          </Pressable>
+        </Link>
         <Link href="/posts/new" asChild>
           <Pressable style={styles.buttonFilled}>
             <Text style={styles.buttonFilledText}>Sell</Text>
