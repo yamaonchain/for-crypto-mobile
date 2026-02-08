@@ -1,17 +1,22 @@
-import { View, Text, StyleSheet, ScrollView, Pressable, Animated, Share, Alert } from "react-native";
-import { useLocalSearchParams, router, Link } from "expo-router";
-import { useState, useEffect, useRef } from "react";
+import { View, Text, StyleSheet, ScrollView, Pressable, Alert, ActivityIndicator } from "react-native";
+import { useLocalSearchParams, router } from "expo-router";
+import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
-// Mock types for the component
+
+// Mock types matching web app exactly
 interface Post {
   id: string;
   title: string;
   bio: string;
   description: string;
   categoryName: string;
+  categoryId: string;
   nickname: string;
+  avatarUrl: string;
   commission: string;
   payoutChain: string;
+  status: "draft" | "active";
+  userId: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -20,10 +25,10 @@ interface PostVariant {
   id: string;
   postId: string;
   name: string;
-  description: string;
-  price: string;
+  description: string | null;
+  price: string | null;
   quantity: number;
-  content: string;
+  content: string | null;
   position: number;
   isPwyw: boolean;
   suggestedPrice: string | null;
@@ -32,9 +37,9 @@ interface PostVariant {
 interface PostRating {
   userId: string;
   nickname: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
   rating: number;
-  comment: string;
+  comment: string | null;
   createdAt: string;
 }
 
@@ -126,7 +131,6 @@ const MOCK_POST_META: PostMeta = {
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { addToCart } = useCart();
   const [post, setPost] = useState<Post | null>(null);
   const [variants, setVariants] = useState<PostVariant[]>(MOCK_VARIANTS);
   const [selectedVariant, setSelectedVariant] = useState<PostVariant | null>(MOCK_VARIANTS[0]);
@@ -134,28 +138,39 @@ export default function ProductDetailScreen() {
   const [media, setMedia] = useState<Media[]>(MOCK_MEDIA);
   const [postMeta, setPostMeta] = useState<PostMeta>(MOCK_POST_META);
   const [loading, setLoading] = useState(true);
-  const [showAllDescription, setShowAllDescription] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [customPwywPrice, setCustomPwywPrice] = useState<number | null>(null);
 
   useEffect(() => {
-    // Always load mock data regardless of ID
     setTimeout(() => {
       const mockPost: Post = {
         id: id || "1",
         title: "No School 4 Week Bootcamp.",
         bio: "A 5-step video-based mindset reset for anyone building instead of waiting for permission.",
-        description: "Cosell it if you're done with degrees and ready to make real money online. Includes short videos, a playbook, and a community of builders. This comprehensive bootcamp challenges traditional education paths and provides practical tools for independent success in the digital economy.",
-        categoryName: "Education",
-        nickname: "builder_mindset",
+        description: "Cosell it if you're done with degrees and ready to make real money online. Includes short videos, a playbook, and a community of builders.\n\nThis comprehensive bootcamp challenges traditional education paths and provides practical tools for independent success in the digital economy.\n\n**What you get:**\n- 5 core video lessons\n- Digital playbook\n- Community access\n- Building frameworks\n- Real-world examples",
+        categoryName: "Product",
+        categoryId: "1",
+        nickname: "builder.eth",
+        avatarUrl: "",
         commission: "10",
         payoutChain: "base",
+        status: "active",
+        userId: "user1",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: "2024-01-01T00:00:00Z"
       };
       setPost(mockPost);
+      
+      // Set custom price for PWYW
+      if (selectedVariant?.isPwyw) {
+        const price = selectedVariant.suggestedPrice 
+          ? parseFloat(selectedVariant.suggestedPrice)
+          : parseFloat(selectedVariant.price || "0");
+        setCustomPwywPrice(price);
+      }
+      
       setLoading(false);
     }, 100);
-  }, [id]);
+  }, [id, selectedVariant]);
 
   if (loading) return <ProductSkeleton />;
 
@@ -234,143 +249,252 @@ export default function ProductDetailScreen() {
   const averageRating = postMeta.ratings.average;
   const totalRatings = postMeta.ratings.total;
 
-  return (
-    <View style={styles.container}>
-      {/* Custom Header */}
-      <View style={styles.header}>
-        <Pressable 
-          style={styles.backButton} 
-          onPress={() => router.back()}
-        >
-          <Ionicons name="arrow-back" size={24} color="#fff" />
-        </Pressable>
-        <View style={styles.headerActions}>
-          <Pressable style={styles.headerButton} onPress={handleShare}>
-            <Ionicons name="share-outline" size={20} color="#fff" />
-          </Pressable>
-          <Pressable style={styles.headerButton}>
-            <Ionicons name="heart-outline" size={20} color="#fff" />
-          </Pressable>
-          <Pressable style={styles.headerButton}>
-            <Ionicons name="ellipsis-horizontal" size={20} color="#fff" />
+  const handleVariantChange = (variant: PostVariant) => {
+    setSelectedVariant(variant);
+    if (variant.isPwyw) {
+      const price = variant.suggestedPrice 
+        ? parseFloat(variant.suggestedPrice)
+        : parseFloat(variant.price || "0");
+      setCustomPwywPrice(price);
+    } else {
+      setCustomPwywPrice(null);
+    }
+  };
+
+  const handleBuyNow = () => {
+    if (!post || !selectedVariant) return;
+    const price = selectedVariant.isPwyw && customPwywPrice 
+      ? customPwywPrice 
+      : parseFloat(selectedVariant.price || "0");
+    
+    Alert.alert(
+      "Purchase Listing",
+      `Buy "${selectedVariant.name}" for ${price} USDC?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Confirm", onPress: () => console.log("Process purchase") }
+      ]
+    );
+  };
+
+  const handleCosell = () => {
+    Alert.alert(
+      "Become a Coseller",
+      `Earn ${post?.commission}% commission on every sale through your link.`,
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Create Link", onPress: () => console.log("Create cosell link") }
+      ]
+    );
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#000" />
+        </View>
+      </View>
+    );
+  }
+
+  if (!post) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.notFoundContainer}>
+          <Ionicons name="alert-circle-outline" size={48} color="#d4d4d4" />
+          <Text style={styles.notFoundText}>Listing not found</Text>
+          <Pressable style={styles.backButton} onPress={() => router.back()}>
+            <Text style={styles.backButtonText}>Go back</Text>
           </Pressable>
         </View>
       </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      {/* Header with back button */}
+      <View style={styles.header}>
+        <Pressable style={styles.backButton} onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={24} color="#000" />
+        </Pressable>
+        <Pressable style={styles.moreButton}>
+          <Ionicons name="ellipsis-horizontal" size={20} color="#000" />
+        </Pressable>
+      </View>
       
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Breadcrumb */}
+        {/* Breadcrumb - matching web app */}
         <View style={styles.breadcrumb}>
-          <Link href="/search" asChild>
-            <Pressable>
-              <Text style={styles.breadcrumbLink}>{post.categoryName || "Browse"}</Text>
-            </Pressable>
-          </Link>
-          <Ionicons name="chevron-forward" size={16} color="#737373" />
+          <Pressable 
+            onPress={() => {
+              // Navigate to search with category filter like web app
+              router.push(`/search?category=${post.categoryName?.toLowerCase()}`);
+            }}
+          >
+            <Text style={styles.breadcrumbLink}>{post.categoryName}</Text>
+          </Pressable>
+          <Text style={styles.breadcrumbSeparator}> / </Text>
           <Text style={styles.breadcrumbCurrent} numberOfLines={1}>{post.title}</Text>
         </View>
 
-        {/* Status Badges (matching web app) */}
-        <View style={styles.statusBadges}>
-          {/* Placeholder for promoted/status badges */}
+        {/* Media Section - matching web app */}
+        <View style={styles.mediaSection}>
+          <View style={styles.mediaContainer}>
+            <Ionicons name="image-outline" size={80} color="#d4d4d4" />
+          </View>
         </View>
 
-        {/* Media Carousel */}
-        <View style={styles.mediaContainer}>
-          <View style={styles.mediaPlaceholder}>
-            <Ionicons name="image-outline" size={64} color="#d4d4d4" />
-          </View>
-          {media.length > 1 && (
-            <View style={styles.mediaIndicator}>
-              <Text style={styles.mediaIndicatorText}>
-                {currentImageIndex + 1} / {media.length}
-              </Text>
-            </View>
-          )}
-        </View>
-
-        {/* Product Info */}
-        <View style={styles.productInfo}>
-          {/* Title and Meta */}
-          <View style={styles.titleSection}>
-            <Text style={styles.productTitle}>{post.title}</Text>
-            <View style={styles.metaRow}>
-              <View style={styles.ratingContainer}>
-                <Ionicons name="star" size={16} color="#000" />
-                <Text style={styles.ratingText}>{averageRating.toFixed(1)}</Text>
-                <Text style={styles.ratingCount}>({totalRatings} reviews)</Text>
-              </View>
-              <Text style={styles.salesCount}>{postMeta.sales} sales</Text>
-            </View>
-          </View>
-
-          {/* Bio */}
-          <Text style={styles.productBio}>{post.bio}</Text>
-
-          {/* Seller Info */}
-          <View style={styles.sellerInfo}>
-            <View style={styles.sellerAvatar} />
-            <View style={styles.sellerDetails}>
-              <Text style={styles.sellerName}>{post.nickname}</Text>
-              <Text style={styles.sellerMeta}>Seller • {post.payoutChain.toUpperCase()}</Text>
-            </View>
-            <Pressable style={styles.followButton}>
-              <Text style={styles.followButtonText}>Follow</Text>
-            </Pressable>
-          </View>
-
-          {/* Variants (if multiple) */}
-          {variants.length > 1 && (
-            <View style={styles.variantsSection}>
-              <Text style={styles.variantsTitle}>Choose an option:</Text>
-              {variants.map((variant) => (
-                <Pressable
-                  key={variant.id}
-                  style={[
-                    styles.variantOption,
-                    selectedVariant?.id === variant.id && styles.variantOptionSelected
-                  ]}
-                  onPress={() => setSelectedVariant(variant)}
-                >
-                  <View style={styles.variantHeader}>
-                    <Text style={styles.variantName}>{variant.name}</Text>
-                    <Text style={styles.variantPrice}>{variant.price} USDC</Text>
+        {/* Main Content - two column layout like web */}
+        <View style={styles.mainContent}>
+          {/* Left Content */}
+          <View style={styles.leftContent}>
+            {/* User Banner - matching web app */}
+            <View style={styles.userBanner}>
+              <View style={styles.userAvatar} />
+              <View style={styles.userInfo}>
+                <Text style={styles.userName}>{post.nickname}</Text>
+                <View style={styles.userMeta}>
+                  <View style={styles.ratingRow}>
+                    <Ionicons name="star" size={14} color="#000" />
+                    <Text style={styles.ratingText}>
+                      {postMeta.ratings.average.toFixed(1)} ({postMeta.ratings.total})
+                    </Text>
                   </View>
-                  <Text style={styles.variantDescription}>{variant.description}</Text>
-                </Pressable>
-              ))}
-            </View>
-          )}
-
-          {/* Purchase Section */}
-          <View style={styles.purchaseSection}>
-            <View style={styles.priceRow}>
-              <Text style={styles.price}>{price} USDC</Text>
-              <Text style={styles.usdEquivalent}>≈ ${price} USD</Text>
-            </View>
-            
-            <View style={styles.buttonGroup}>
-              <Pressable style={styles.addToCartButton} onPress={handleAddToCart}>
-                <Ionicons name="bag-add" size={20} color="#000" />
-                <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-              </Pressable>
-              
-              <Pressable style={styles.buyButton} onPress={handleBuy}>
-                <Text style={styles.buyButtonText}>Buy Now</Text>
-              </Pressable>
-            </View>
-
-            {commission > 0 && (
-              <View style={styles.cosellSection}>
-                <View style={styles.cosellInfo}>
-                  <Text style={styles.cosellLabel}>Cosell For Crypto.</Text>
-                  <Text style={styles.cosellCommission}>{commission}% Commission</Text>
+                  <Text style={styles.salesText}>{postMeta.sales} sales</Text>
                 </View>
+              </View>
+            </View>
+
+            {/* Product Title and Category */}
+            <View style={styles.titleSection}>
+              <Text style={styles.productTitle}>{post.title}</Text>
+              {post.categoryName && (
+                <Pressable 
+                  style={styles.categoryButton}
+                  onPress={() => {
+                    router.push(`/search?category=${post.categoryName?.toLowerCase()}`);
+                  }}
+                >
+                  <Text style={styles.categoryButtonText}>{post.categoryName}</Text>
+                </Pressable>
+              )}
+            </View>
+
+            {/* Description - matching web editor view */}
+            <View style={styles.descriptionSection}>
+              <Text style={styles.description}>{post.description}</Text>
+            </View>
+          </View>
+
+          {/* Right Content */}
+          <View style={styles.rightContent}>
+            {/* Variants - matching web app */}
+            {variants.length > 1 && (
+              <View style={styles.variantsSection}>
+                <Text style={styles.variantsTitle}>Choose an option:</Text>
+                {variants.map((variant) => {
+                  const isSelected = selectedVariant?.id === variant.id;
+                  const priceDisplay = variant.isPwyw 
+                    ? (variant.price && parseFloat(variant.price) > 0 ? `$${parseFloat(variant.price).toFixed(2)}+` : "Name your price")
+                    : (variant.price && parseFloat(variant.price) > 0 ? `$${parseFloat(variant.price).toFixed(2)}` : "Free");
+                  
+                  return (
+                    <Pressable
+                      key={variant.id}
+                      style={[styles.variantOption, isSelected && styles.variantOptionSelected]}
+                      onPress={() => handleVariantChange(variant)}
+                    >
+                      <View style={styles.variantHeader}>
+                        <View style={styles.variantNameContainer}>
+                          <Text style={[styles.variantName, isSelected && styles.variantNameSelected]}>
+                            {variant.name}
+                          </Text>
+                          {variant.description && (
+                            <Text style={styles.variantDescription} numberOfLines={2}>
+                              {variant.description}
+                            </Text>
+                          )}
+                        </View>
+                        <Text style={[styles.variantPrice, isSelected && styles.variantPriceSelected]}>
+                          {priceDisplay}
+                        </Text>
+                      </View>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            )}
+
+            {/* Cosell Section - matching web app */}
+            <View style={styles.cosellSection}>
+              <View style={styles.cosellInfo}>
+                <View style={styles.cosellLeft}>
+                  <Text style={styles.cosellTitle}>Cosell For Crypto.</Text>
+                  <Text style={styles.cosellCommission}>{post.commission}% Commission</Text>
+                </View>
+                <View style={styles.cosellDivider} />
                 <Pressable style={styles.cosellButton} onPress={handleCosell}>
                   <Text style={styles.cosellButtonText}>Become a Coseller</Text>
                 </Pressable>
               </View>
+            </View>
+
+            {/* PWYW Price Input */}
+            {selectedVariant?.isPwyw && (
+              <View style={styles.pwywSection}>
+                <Text style={styles.pwywLabel}>Name your price</Text>
+                <Text style={styles.pwywNote}>
+                  Minimum: ${selectedVariant.price} USDC
+                  {selectedVariant.suggestedPrice && ` • Suggested: $${selectedVariant.suggestedPrice} USDC`}
+                </Text>
+                {/* Add price input component here */}
+              </View>
             )}
+
+            {/* Purchase Section */}
+            <View style={styles.purchaseSection}>
+              <Pressable style={styles.buyButton} onPress={handleBuyNow}>
+                <Text style={styles.buyButtonText}>
+                  Buy Now - {selectedVariant?.isPwyw && customPwywPrice 
+                    ? customPwywPrice 
+                    : selectedVariant?.price || "0"} USDC
+                </Text>
+              </Pressable>
+            </View>
+
+            {/* Ratings Section */}
+            <View style={styles.ratingsSection}>
+              <Text style={styles.sectionTitle}>Ratings</Text>
+              {ratings.slice(0, 3).map((rating, index) => (
+                <View key={index} style={styles.ratingCard}>
+                  <View style={styles.ratingHeader}>
+                    <View style={styles.reviewerAvatar} />
+                    <View style={styles.reviewerInfo}>
+                      <Text style={styles.reviewerName}>{rating.nickname}</Text>
+                      <View style={styles.ratingStars}>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Ionicons
+                            key={i}
+                            name={i < rating.rating ? "star" : "star-outline"}
+                            size={12}
+                            color={i < rating.rating ? "#000" : "#d4d4d4"}
+                          />
+                        ))}
+                      </View>
+                    </View>
+                  </View>
+                  {rating.comment && (
+                    <Text style={styles.ratingComment} numberOfLines={3}>
+                      {rating.comment}
+                    </Text>
+                  )}
+                </View>
+              ))}
+            </View>
           </View>
+        </View>
 
           {/* Description */}
           <View style={styles.descriptionSection}>
@@ -523,8 +647,29 @@ function ProductSkeleton() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
   },
+  
+  // Loading/Error states
+  loadingContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  notFoundContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 24,
+  },
+  notFoundText: {
+    fontSize: 18,
+    color: "#737373",
+    marginTop: 16,
+    marginBottom: 24,
+  },
+  
+  // Header - matching web app
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -532,7 +677,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 60,
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#f5f5f5",
   },
   backButton: {
     width: 40,
@@ -541,33 +688,38 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 20,
   },
-  headerActions: {
-    flexDirection: "row",
-    gap: 8,
+  backButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#000",
   },
-  headerButton: {
+  moreButton: {
     width: 40,
     height: 40,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 20,
   },
+  
+  // Content
   content: {
     paddingBottom: 40,
   },
 
-  // Breadcrumb
+  // Breadcrumb - matching web app
   breadcrumb: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
   },
   breadcrumbLink: {
     fontSize: 14,
-    color: "#fff",
+    color: "#000",
     textDecorationLine: "underline",
+  },
+  breadcrumbSeparator: {
+    fontSize: 14,
+    color: "#737373",
   },
   breadcrumbCurrent: {
     fontSize: 14,
@@ -575,51 +727,79 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // Status badges
-  statusBadges: {
-    flexDirection: "row",
-    gap: 8,
-    paddingHorizontal: 16,
-    paddingBottom: 8,
+  // Media section - matching web app
+  mediaSection: {
+    borderWidth: 1,
+    borderColor: "#e5e5e5",
+    marginHorizontal: 20,
   },
-
-  // Media
   mediaContainer: {
-    position: "relative",
     aspectRatio: 16 / 9,
     backgroundColor: "#f5f5f5",
-    marginHorizontal: 16,
-    borderRadius: 12,
-    overflow: "hidden",
-  },
-  mediaPlaceholder: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#f5f5f5",
   },
-  mediaIndicator: {
-    position: "absolute",
-    bottom: 12,
-    right: 12,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+  // Main content - two column like web app
+  mainContent: {
+    borderWidth: 1,
+    borderColor: "#e5e5e5",
+    borderTopWidth: 0,
+    marginHorizontal: 20,
   },
-  mediaIndicatorText: {
-    fontSize: 12,
-    color: "#fff",
-    fontWeight: "500",
+  
+  // Left content
+  leftContent: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
   },
-
-  // Product Info
-  productInfo: {
-    padding: 16,
-    gap: 20,
+  
+  // User banner - matching web app
+  userBanner: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+    backgroundColor: "#f9f9f9",
   },
+  userAvatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#e5e5e5",
+    marginRight: 12,
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+    marginBottom: 4,
+  },
+  userMeta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
+  ratingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  ratingText: {
+    fontSize: 14,
+    color: "#737373",
+  },
+  salesText: {
+    fontSize: 14,
+    color: "#737373",
+  },
+  
+  // Title section
   titleSection: {
-    gap: 8,
+    padding: 20,
   },
   productTitle: {
     fontSize: 24,
@@ -928,21 +1108,181 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 
-  // Not Found
-  notFound: {
+  // Variants section
+  variantsSection: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+  },
+  variantsTitle: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#737373",
+    marginBottom: 12,
+  },
+  variantOption: {
+    borderWidth: 2,
+    borderColor: "#e5e5e5",
+    borderRadius: 8,
+    marginBottom: 8,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  variantOptionSelected: {
+    borderColor: "#000",
+    backgroundColor: "#f9f9f9",
+  },
+  variantHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+  },
+  variantNameContainer: {
+    flex: 1,
+    marginRight: 12,
+  },
+  variantName: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#000",
+    marginBottom: 4,
+  },
+  variantNameSelected: {
+    color: "#000",
+  },
+  variantDescription: {
+    fontSize: 14,
+    color: "#737373",
+    lineHeight: 18,
+  },
+  variantPrice: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#000",
+  },
+  variantPriceSelected: {
+    color: "#000",
+  },
+
+  // Cosell section - matching web app
+  cosellSection: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+  },
+  cosellInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 12,
+    backgroundColor: "#e5e5e5",
+  },
+  cosellLeft: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    gap: 16,
   },
-  notFoundText: {
-    fontSize: 18,
+  cosellTitle: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#000",
+    marginBottom: 2,
+  },
+  cosellCommission: {
+    fontSize: 12,
+    color: "#737373",
+  },
+  cosellDivider: {
+    width: 1,
+    height: 44,
+    backgroundColor: "#e5e5e5",
+  },
+  cosellButton: {
+    flex: 1,
+    alignItems: "center",
+  },
+  cosellButtonText: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#000",
+  },
+
+  // PWYW section
+  pwywSection: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+  },
+  pwywLabel: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+    marginBottom: 8,
+  },
+  pwywNote: {
+    fontSize: 14,
+    color: "#737373",
+  },
+
+  // Purchase section
+  purchaseSection: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+  },
+  buyButton: {
+    backgroundColor: "#000",
+    paddingVertical: 16,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buyButtonText: {
+    fontSize: 16,
     fontWeight: "600",
     color: "#fff",
   },
-  backButtonText: {
-    fontSize: 16,
+
+  // Ratings section
+  ratingsSection: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#000",
+    marginBottom: 16,
+  },
+  ratingCard: {
+    marginBottom: 16,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f5f5f5",
+  },
+  ratingHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  reviewerAvatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "#e5e5e5",
+    marginRight: 12,
+  },
+  reviewerInfo: {
+    flex: 1,
+  },
+  reviewerName: {
+    fontSize: 14,
     fontWeight: "500",
-    color: "#fff",
+    color: "#000",
+    marginBottom: 2,
+  },
+  ratingStars: {
+    flexDirection: "row",
+    gap: 2,
+  },
+  ratingComment: {
+    fontSize: 14,
+    color: "#737373",
+    lineHeight: 20,
   },
 });
