@@ -67,7 +67,7 @@ export default function OrderConfirmationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
   },
   content: {
     flexGrow: 1,
@@ -86,30 +86,30 @@ const styles = StyleSheet.create({
   successTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#000',
     marginBottom: 16,
     textAlign: 'center',
   },
   successMessage: {
     fontSize: 16,
-    color: '#94a3b8',
+    color: '#737373',
     textAlign: 'center',
     lineHeight: 24,
     marginBottom: 32,
   },
   orderDetails: {
     width: '100%',
-    backgroundColor: '#111',
+    backgroundColor: '#f5f5f5',
     borderRadius: 12,
     padding: 20,
     marginBottom: 32,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: '#e5e5e5',
   },
   orderDetailsTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#fff',
+    color: '#000',
     marginBottom: 16,
   },
   orderDetailItem: {
@@ -120,11 +120,11 @@ const styles = StyleSheet.create({
   },
   orderDetailLabel: {
     fontSize: 14,
-    color: '#94a3b8',
+    color: '#737373',
   },
   orderDetailValue: {
     fontSize: 14,
-    color: '#fff',
+    color: '#000',
     fontWeight: '500',
   },
   statusCompleted: {
@@ -141,20 +141,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   primaryButton: {
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
   },
   primaryButtonText: {
-    color: '#000',
+    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
   secondaryButton: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: '#e5e5e5',
   },
   secondaryButtonText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 16,
     fontWeight: '500',
   },
