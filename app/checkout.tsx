@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     backgroundColor: "#0a0a0a",
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: "#262626",
   },
   backButton: {
     width: 40,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: "#262626",
     gap: 12,
   },
   itemImage: {
@@ -324,8 +324,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   paymentMethodSelected: {
-    borderColor: "#e5e5e5",
-    backgroundColor: "#f9f9f9",
+    borderColor: "#262626",
+    backgroundColor: "#171717",
   },
   paymentMethodLeft: {
     flexDirection: "row",
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     color: "#e5e5e5",
   },
   recommendedBadge: {
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
   },
 
   // Price Breakdown
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a0a0a",
   },
   confirmButton: {
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     paddingVertical: 16,
     borderRadius: 8,
     flexDirection: "row",
@@ -484,7 +484,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   shopButton: {
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 8,

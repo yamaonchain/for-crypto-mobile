@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     backgroundColor: "#0a0a0a",
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: "#262626",
   },
   filterButton: {
     flexDirection: "row",
@@ -634,7 +634,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a0a0a",
   },
   filterButtonActive: {
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
     backgroundColor: "#1a1a1a",
   },
   filterIconContainer: {
@@ -659,7 +659,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: "#0a0a0a",
     borderWidth: 1.5,
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
   },
   filterButtonText: {
     fontSize: 14,
@@ -747,7 +747,7 @@ const styles = StyleSheet.create({
     gap: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: "rgba(255,255,255,0.1)",
     borderRadius: 12,
     marginRight: 6,
   },
@@ -788,7 +788,7 @@ const styles = StyleSheet.create({
   },
   filterOptionActive: {
     backgroundColor: "#e5e5e5",
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
   },
   filterOptionText: {
     fontSize: 14,
@@ -796,7 +796,7 @@ const styles = StyleSheet.create({
     color: "#e5e5e5",
   },
   filterOptionTextActive: {
-    color: "#fff",
+    color: "#0a0a0a",
   },
   clearFiltersButton: {
     alignItems: "center",
@@ -828,7 +828,7 @@ const styles = StyleSheet.create({
     color: "#e5e5e5",
   },
   sortOptionTextActive: {
-    color: "#fff",
+    color: "#0a0a0a",
   },
 
   // Posts List
@@ -841,7 +841,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#f0f0f0",
+    borderColor: "#262626",
   },
   cardImage: {
     height: 200,

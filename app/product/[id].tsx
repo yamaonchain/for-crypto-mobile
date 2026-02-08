@@ -180,7 +180,7 @@ export default function ProductDetailScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.notFoundContainer}>
-          <Ionicons name="alert-circle-outline" size={48} color="#d4d4d4" />
+          <Ionicons name="alert-circle-outline" size={48} color="#737373" />
           <Text style={styles.notFoundText}>Listing not found</Text>
           <Pressable style={styles.backButton} onPress={() => router.back()}>
             <Text style={styles.backButtonText}>Go back</Text>
@@ -267,7 +267,7 @@ export default function ProductDetailScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#000" />
+          <ActivityIndicator size="large" color="#e5e5e5" />
         </View>
       </View>
     );
@@ -277,7 +277,7 @@ export default function ProductDetailScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.notFoundContainer}>
-          <Ionicons name="alert-circle-outline" size={48} color="#d4d4d4" />
+          <Ionicons name="alert-circle-outline" size={48} color="#737373" />
           <Text style={styles.notFoundText}>Listing not found</Text>
           <Pressable style={styles.backButton} onPress={() => router.back()}>
             <Text style={styles.backButtonText}>Go back</Text>
@@ -292,10 +292,10 @@ export default function ProductDetailScreen() {
       {/* Header with back button */}
       <View style={styles.header}>
         <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#000" />
+          <Ionicons name="arrow-back" size={24} color="#e5e5e5" />
         </Pressable>
         <Pressable style={styles.moreButton}>
-          <Ionicons name="ellipsis-horizontal" size={20} color="#000" />
+          <Ionicons name="ellipsis-horizontal" size={20} color="#e5e5e5" />
         </Pressable>
       </View>
       
@@ -317,7 +317,7 @@ export default function ProductDetailScreen() {
         {/* Media Section - matching web app */}
         <View style={styles.mediaSection}>
           <View style={styles.mediaContainer}>
-            <Ionicons name="image-outline" size={80} color="#d4d4d4" />
+            <Ionicons name="image-outline" size={80} color="#737373" />
           </View>
         </View>
 
@@ -332,7 +332,7 @@ export default function ProductDetailScreen() {
                 <Text style={styles.userName}>{post.nickname}</Text>
                 <View style={styles.userMeta}>
                   <View style={styles.ratingRow}>
-                    <Ionicons name="star" size={14} color="#000" />
+                    <Ionicons name="star" size={14} color="#e5e5e5" />
                     <Text style={styles.ratingText}>
                       {postMeta.ratings.average.toFixed(1)} ({postMeta.ratings.total})
                     </Text>
@@ -454,7 +454,7 @@ export default function ProductDetailScreen() {
                             key={i}
                             name={i < rating.rating ? "star" : "star-outline"}
                             size={12}
-                            color={i < rating.rating ? "#000" : "#d4d4d4"}
+                            color={i < rating.rating ? "#e5e5e5" : "#737373"}
                           />
                         ))}
                       </View>
@@ -490,7 +490,7 @@ function ProductSkeleton() {
   }, [opacity]);
 
   const line = (w: number | `${number}%`, h = 14) => (
-    <Animated.View style={{ opacity, width: w, height: h, backgroundColor: "#e5e5e5", borderRadius: 4 }} />
+    <Animated.View style={{ opacity, width: w, height: h, backgroundColor: "#262626", borderRadius: 4 }} />
   );
 
   return (
@@ -547,7 +547,7 @@ function ProductSkeleton() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFDFC",
+    backgroundColor: "#0a0a0a",
   },
   
   // Loading/Error states
@@ -564,7 +564,7 @@ const styles = StyleSheet.create({
   },
   notFoundText: {
     fontSize: 18,
-    color: "#737373",
+    color: "#a3a3a3",
     marginTop: 16,
     marginBottom: 24,
   },
@@ -577,9 +577,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 60,
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: "#262626",
   },
   backButton: {
     width: 40,
@@ -591,7 +591,7 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
   moreButton: {
     width: 40,
@@ -614,35 +614,35 @@ const styles = StyleSheet.create({
   },
   breadcrumbLink: {
     fontSize: 14,
-    color: "#000",
+    color: "#e5e5e5",
     textDecorationLine: "underline",
   },
   breadcrumbSeparator: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   breadcrumbCurrent: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
     flex: 1,
   },
 
   // Media section - matching web app
   mediaSection: {
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
     marginHorizontal: 20,
   },
   mediaContainer: {
     aspectRatio: 16 / 9,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#1a1a1a",
     alignItems: "center",
     justifyContent: "center",
   },
   // Main content - two column like web app
   mainContent: {
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
     borderTopWidth: 0,
     marginHorizontal: 20,
   },
@@ -650,7 +650,7 @@ const styles = StyleSheet.create({
   // Left content
   leftContent: {
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
   },
   
   // User banner - matching web app
@@ -659,14 +659,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
-    backgroundColor: "#f9f9f9",
+    borderBottomColor: "#262626",
+    backgroundColor: "#171717",
   },
   userAvatar: {
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     marginRight: 12,
   },
   userInfo: {
@@ -675,7 +675,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 4,
   },
   userMeta: {
@@ -690,11 +690,11 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   salesText: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   
   // Title section
@@ -724,15 +724,15 @@ const styles = StyleSheet.create({
   },
   ratingCount: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   salesCount: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   productBio: {
     fontSize: 16,
-    color: "#737373",
+    color: "#a3a3a3",
     lineHeight: 24,
   },
 
@@ -746,7 +746,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#1a1a1a",
   },
   sellerDetails: {
     flex: 1,
@@ -758,19 +758,19 @@ const styles = StyleSheet.create({
   },
   sellerMeta: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   followButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
   },
   followButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
 
   // Variants
@@ -786,12 +786,12 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#e5e5e5",
-    backgroundColor: "#fff",
+    borderColor: "#262626",
+    backgroundColor: "#0a0a0a",
   },
   variantOptionSelected: {
-    borderColor: "#000",
-    backgroundColor: "#f9f9f9",
+    borderColor: "#e5e5e5",
+    backgroundColor: "#171717",
   },
   variantHeader: {
     flexDirection: "row",
@@ -802,16 +802,16 @@ const styles = StyleSheet.create({
   variantName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
   variantPrice: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
   variantDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
 
   // Purchase
@@ -829,7 +829,7 @@ const styles = StyleSheet.create({
   },
   usdEquivalent: {
     fontSize: 16,
-    color: "#737373",
+    color: "#a3a3a3",
     marginTop: 4,
   },
   buttonGroup: {
@@ -845,17 +845,17 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: "#000",
-    backgroundColor: "#fff",
+    borderColor: "#e5e5e5",
+    backgroundColor: "#0a0a0a",
   },
   addToCartButtonText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
   buyButton: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#ff6000",
     paddingVertical: 16,
     borderRadius: 8,
     alignItems: "center",
@@ -869,7 +869,7 @@ const styles = StyleSheet.create({
   // Cosell
   cosellSection: {
     padding: 16,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     borderRadius: 8,
     gap: 12,
   },
@@ -881,24 +881,24 @@ const styles = StyleSheet.create({
   cosellLabel: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
   cosellCommission: {
     fontSize: 14,
-    color: "#525252",
+    color: "#a3a3a3",
   },
   cosellButton: {
     paddingVertical: 12,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#000",
-    backgroundColor: "#fff",
+    borderColor: "#e5e5e5",
+    backgroundColor: "#0a0a0a",
     alignItems: "center",
   },
   cosellButtonText: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
 
   // Sections
@@ -913,7 +913,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 16,
-    color: "#737373",
+    color: "#a3a3a3",
     lineHeight: 24,
   },
   showMoreText: {
@@ -928,7 +928,7 @@ const styles = StyleSheet.create({
   },
   contentText: {
     fontSize: 16,
-    color: "#737373",
+    color: "#a3a3a3",
     lineHeight: 24,
   },
 
@@ -948,13 +948,13 @@ const styles = StyleSheet.create({
   },
   reviewsSummaryText: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   reviewCard: {
     gap: 8,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: "#262626",
   },
   reviewHeader: {
     flexDirection: "row",
@@ -965,7 +965,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#1a1a1a",
   },
   reviewerInfo: {
     flex: 1,
@@ -982,11 +982,11 @@ const styles = StyleSheet.create({
   },
   reviewDate: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   reviewComment: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
     lineHeight: 20,
     paddingLeft: 40,
   },
@@ -1004,7 +1004,7 @@ const styles = StyleSheet.create({
   skeletonButton: {
     width: 40,
     height: 40,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     borderRadius: 20,
   },
 
@@ -1012,25 +1012,25 @@ const styles = StyleSheet.create({
   variantsSection: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
   },
   variantsTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#737373",
+    color: "#a3a3a3",
     marginBottom: 12,
   },
   variantOption: {
     borderWidth: 2,
-    borderColor: "#e5e5e5",
+    borderColor: "#262626",
     borderRadius: 8,
     marginBottom: 8,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#0a0a0a",
   },
   variantOptionSelected: {
-    borderColor: "#000",
-    backgroundColor: "#f9f9f9",
+    borderColor: "#e5e5e5",
+    backgroundColor: "#171717",
   },
   variantHeader: {
     flexDirection: "row",
@@ -1044,36 +1044,36 @@ const styles = StyleSheet.create({
   variantName: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 4,
   },
   variantNameSelected: {
-    color: "#000",
+    color: "#e5e5e5",
   },
   variantDescription: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
     lineHeight: 18,
   },
   variantPrice: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
   },
   variantPriceSelected: {
-    color: "#000",
+    color: "#e5e5e5",
   },
 
   // Cosell section - matching web app
   cosellSection: {
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
   },
   cosellInfo: {
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
   },
   cosellLeft: {
     flex: 1,
@@ -1082,17 +1082,17 @@ const styles = StyleSheet.create({
   cosellTitle: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 2,
   },
   cosellCommission: {
     fontSize: 12,
-    color: "#737373",
+    color: "#a3a3a3",
   },
   cosellDivider: {
     width: 1,
     height: 44,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
   },
   cosellButton: {
     flex: 1,
@@ -1101,34 +1101,34 @@ const styles = StyleSheet.create({
   cosellButtonText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
   },
 
   // PWYW section
   pwywSection: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
   },
   pwywLabel: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 8,
   },
   pwywNote: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
   },
 
   // Purchase section
   purchaseSection: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#e5e5e5",
+    borderBottomColor: "#262626",
   },
   buyButton: {
-    backgroundColor: "#000",
+    backgroundColor: "#ff6000",
     paddingVertical: 16,
     borderRadius: 8,
     alignItems: "center",
@@ -1146,14 +1146,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 16,
   },
   ratingCard: {
     marginBottom: 16,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#f5f5f5",
+    borderBottomColor: "#262626",
   },
   ratingHeader: {
     flexDirection: "row",
@@ -1164,7 +1164,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#262626",
     marginRight: 12,
   },
   reviewerInfo: {
@@ -1173,7 +1173,7 @@ const styles = StyleSheet.create({
   reviewerName: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#000",
+    color: "#e5e5e5",
     marginBottom: 2,
   },
   ratingStars: {
@@ -1182,7 +1182,7 @@ const styles = StyleSheet.create({
   },
   ratingComment: {
     fontSize: 14,
-    color: "#737373",
+    color: "#a3a3a3",
     lineHeight: 20,
   },
 });

@@ -9,29 +9,28 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   Image,
-  Linking,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useState, useRef, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const SLIDE_WIDTH = SCREEN_WIDTH - 32;
 const SLIDE_SPACING = 16;
-const BASE_URL = "https://forcrypto.fun";
 
-// Exact slides from web source
+const IMG = "https://forcrypto.fun";
+
 const slides = [
   {
-    fallback: `${BASE_URL}/homepage/product-001.gif`,
+    thumbnail: `${IMG}/homepage/product-001.gif`,
     title: "No School 4 Week Bootcamp.",
     description:
-      "A 5-step video-based mindset reset for anyone building instead of waiting for permission. Cosell it if you're done with degrees and ready to make real money online. Includes short videos, a playbook, and a community of builders.",
+      "A 5-step video-based mindset reset for anyone building instead of waiting for permission. Cosell it if you're done with degrees and ready to make real money online. Includes short videos, a playbook,",
     commission: 10,
     price: 875,
   },
   {
-    fallback: `${BASE_URL}/homepage/product-002.gif`,
+    thumbnail: `${IMG}/homepage/product-002.gif`,
     title: "Together Daily Spark.",
     description:
       "A daily drop of connection for couples who want to stay close, curious, and never bored. Cosell it if you believe love is built in the little moments. Includes daily ideas, prompts, and conversation starters to keep your relationship fresh and meaningful.",
@@ -39,7 +38,7 @@ const slides = [
     price: 7,
   },
   {
-    fallback: `${BASE_URL}/homepage/product-003.gif`,
+    thumbnail: `${IMG}/homepage/product-003.gif`,
     title: "Community Intake Kit for Divvvy.",
     description:
       "Collect wallet addresses and percentage distributions at scale. Export a clean CSV for upload to Divvvy. Perfect for DAOs, creators, nonprofits, large-scale distributions and more...",
@@ -47,15 +46,15 @@ const slides = [
     price: 2,
   },
   {
-    fallback: `${BASE_URL}/homepage/product-004.gif`,
+    thumbnail: `${IMG}/homepage/product-004.gif`,
     title: "Designer Gear for Shredders Game.",
     description:
-      "Look steezy while you send it. New outerwear, fresh colorways, and pro-level style for your rider. Cosell it if you believe looking good is half the game. Style isn't just cosmetic, it's confidence on the mountain.",
+      "Look steezy while you send it. New outerwear, fresh colorways, and pro-level style for your rider. Cosell it if you believe looking good is half the game. Style isn't just cosmetic, it's confidence on...",
     commission: 20,
     price: 50,
   },
   {
-    fallback: `${BASE_URL}/homepage/hero-001.gif`,
+    thumbnail: `${IMG}/homepage/hero-001.gif`,
     title: "Freckle Fade Lightroom Presets.",
     description:
       "Not born with freckles? No problem. This Lightroom preset pack adds natural-looking freckles and warm tones in one click. Made for soft edits, flirty textures, and scroll-stopping skin.",
@@ -74,102 +73,102 @@ const howSteps = [
   "Get paid instantly",
 ];
 
-const faqData = [
+const faqData: { question: string; answer: string }[] = [
   {
     question: "Why For Crypto?",
-    answer: "Most digital sales platforms were built for a different era. Slow payouts. High fees. Endless forms. Built for the platform, not the seller.\n\nCrypto changes the equation. Payments settle in seconds instead of days. There are no banks in the middle. And anyone in the world can buy or sell without signing up for another account.\n\nFor Crypto was built from the ground up for this new model. Direct. Instant. Global.",
+    answer: "The creator economy is evolving, but most platforms haven't caught up. Payout delays and legacy systems hold people back. For Crypto is the first crypto-native marketplace designed for wallet-connected commerce. Sell digital. Cosell with anyone. Get paid instantly in crypto. No middlemen. No waiting. Just create, list, and earn.",
   },
   {
     question: "What is For Crypto?",
-    answer: "For Crypto is a wallet-connected marketplace where anyone can list, sell, and Cosell anything digital.\n\nYou can sell solo or invite Cosellers and split earnings automatically using smart contracts (programs that handle payments for you).\n\nThink of it like a traditional sales platform, rebuilt for the internet.",
+    answer: "For Crypto is a wallet-native marketplace where anyone can list, sell, and Cosell anything digital. You can sell solo or invite Cosellers and split earnings automatically using smart contracts. Think of it like a traditional sales platform, rebuilt for the onchain era.",
   },
   {
     question: "Who is For Crypto for?",
-    answer: "Anyone with a wallet and something digital to sell.\n\nSome Examples:\n\u2022 Creators and artists sharing downloads or templates\n\u2022 Coaches offering classes or private sessions\n\u2022 Developers launching tools or code packs\n\u2022 Influencers sharing behind-the-scenes content\n\u2022 Communities hosting event signups or gated access\n\u2022 Founders testing ideas before full product launches\n\nIf you can create it, you can sell it For Crypto.",
+    answer: "For Crypto is for creators, builders, sellers, influencers, and anyone who wants to sell digital goods and get paid in crypto. Whether you're an artist selling presets, a developer selling templates, or a coach selling courses — if you want instant payouts and global reach, For Crypto is for you.",
   },
   {
     question: "What can I sell?",
-    answer: "Anything Digital\n\nThink:\n\u2022 Lightroom presets\n\u2022 Notion templates\n\u2022 Music packs\n\u2022 Fonts and typefaces\n\u2022 Digital art or wallpapers\n\u2022 PDFs, courses, or guides\n\u2022 Links to exclusive Discords or private access\n\nWe host the content. You get paid instantly in crypto.",
+    answer: "Anything digital. Courses, templates, presets, ebooks, guides, software, design assets, music, memberships, services, and more. If it can be delivered digitally, you can sell it on For Crypto.",
   },
   {
     question: 'What does "Cosell" mean?',
-    answer: "Cosell lets anyone earn real crypto by helping sell something they believe in.\n\nWhen a seller enables Cosell, they set a public commission rate. Anyone can click Cosell, generate a unique link, and start earning immediately.\n\nThe moment you Cosell, a smart contract is created that locks in your commission rate for 30 days.\n\n\u2022 If the seller raises the commission later, your rate increases right away\n\u2022 If the seller lowers the commission, your higher rate stays locked until your 30-day window ends\n\nEvery time someone makes a purchase through your link, you get paid instantly and directly to your wallet. No middlemen. No payout delays. No waiting period.\n\nThis is how marketing should work.\n\nYou don't get paid for fake clicks, empty impressions, or engagement from bots.\n\nYou only get paid for real sales. The clearest signal of value.\n\nIf you're a digital influencer, creator, or community builder, this is your moment.\n\nFor the first time, you can instantly earn from the things you promote.\n\nBrowse anything on For Crypto, Cosell what you believe in, and start earning right away.\n\nThis is the missing piece of the digital economy.\n\nOne link. One sale. Real value flows to everyone who helped make it happen.",
+    answer: "Cosell lets anyone earn real crypto by helping sell something they believe in. When a seller enables Cosell, they set a public commission rate. Anyone can click Cosell, generate a unique link, and start earning immediately. The moment you Cosell, a smart contract is created that locks in your commission rate for 30 days. Every time someone makes a purchase through your link, you get paid instantly and directly to your wallet. No middlemen. No payout delays. No waiting period.",
   },
   {
     question: "What are Sales Assets?",
-    answer: "Sales Assets are materials sellers provide to help cosellers promote their listing.\n\nThink:\n\u2022 Logos and banners\n\u2022 Product images\n\u2022 Video clips\n\u2022 Copy and talking points\n\nWhen you become a coseller, you unlock these assets instantly.\n\nThe more a seller provides, the easier it is for you to share and earn.",
+    answer: "Sales Assets are official promotional materials — logos, photos, videos, and creative content — uploaded by sellers and unlocked by Cosellers. When you become a Coseller, you get instant access to the seller's approved marketing materials so you can promote effectively and authentically.",
   },
   {
     question: "How does payout work?",
-    answer: "Buyers pay in USDC (a stablecoin worth $1), and funds are routed instantly to your wallet and any Cosellers' wallets.\n\nNo waiting. No withdrawal process. No payout requests.\n\nThe split is enforced by a smart contract, so everyone gets paid automatically.",
+    answer: "Payouts are instant and automatic. The moment a sale is made, the smart contract splits the payment between the seller and coseller (if applicable) and sends funds directly to their wallets. No invoicing. No waiting. No minimum thresholds. You get paid in USDC the second a transaction completes.",
   },
   {
     question: "What networks and wallets are supported?",
-    answer: "Buyers can pay with USDC on Base or Solana. Sellers choose whether to receive payouts on Base or Solana when they create a listing. Cross-chain payments are bridged automatically via Circle CCTP.\n\nYou can connect with:\n\u2022 Phantom (Base and Solana)\n\u2022 MetaMask (Base)\n\u2022 Coinbase Wallet (Base)\n\nAny Ethereum-compatible wallet works for Base. Solana wallets like Phantom, Solflare, and Backpack are supported for Solana payments.",
+    answer: "For Crypto runs on Base, a fast and low-cost Ethereum Layer 2. All payments are made in USDC. Payouts can be received on Base or Solana. You can connect with Phantom or MetaMask.",
   },
   {
     question: "Do I need to be technical?",
-    answer: "Not at all.\n\nIf you can:\n1. Connect a wallet\n2. Upload a file\n3. Paste a product description\n\nYou're good to go.\n\nThe Coseller flow is also simple. Just add their wallet and percentage. That's it.",
+    answer: "No. If you can connect a wallet and fill out a form, you can use For Crypto. Listing a product takes minutes. Coselling takes seconds. Everything is designed to be simple, fast, and intuitive — no coding or crypto experience required.",
   },
   {
     question: "How does authentication work?",
-    answer: "There are no usernames or passwords on For Crypto.\n\nInstead, you connect your wallet, and that becomes your login.\n\nIt's like signing in, but without giving up your email, name, or personal data.\n\nYour wallet proves who you are, and once you make a purchase, the content unlocks instantly.\n\nNo forms. No waiting. You stay in control.",
+    answer: "For Crypto uses wallet-based authentication. There are no emails, passwords, or accounts. You sign in by connecting your wallet. Your wallet is your identity, your login, and your payment method — all in one.",
   },
   {
     question: "What makes For Crypto different from Web2 platforms?",
-    answer: "\u2022 Wallet-native: No signups, just connect your wallet\n\u2022 Instant payouts: No withdrawal delays\n\u2022 Fair revenue splits: Set custom percentages with Cosellers\n\u2022 Built for creators: No gatekeeping, open to everyone\n\u2022 Stable payments: All transactions in USDC, a digital dollar pegged 1:1 to USD\n\u2022 Modular design: Your storefront grows and adapts with you\n\nWe're building a better system for value exchange that favors creators over platforms.",
+    answer: "Traditional platforms hold your money, take weeks to pay out, and lock you into their ecosystem. For Crypto is non-custodial — we never hold your funds. Payments go directly from buyer to seller via smart contracts. There are no payout delays, no account freezes, and no platform risk. You own your wallet, you own your money.",
   },
   {
     question: "What makes For Crypto culturally different?",
-    answer: "For Crypto is wallet-connected, open to anonymous creators, and built for the new internet.\n\nWe're not rebuilding old platforms with new tech. We're giving dreamers, builders, and side hustlers a new home where crypto is the default.\n\nThis isn't the next Etsy or Gumroad. It's the marketplace built for people who move fast and own their work.",
+    answer: "For Crypto isn't a tech company pretending to care about creators. It's built by people who believe the internet should pay people directly. No gatekeepers. No algorithms deciding who wins. Just a level playing field where anyone with a wallet and a product can earn.",
   },
   {
     question: "Can I embed or share my listings?",
-    answer: "Yes. Each product has its own public page with a shareable link.\n\nYou can also embed a checkout button directly on your own website or landing page. Just copy the embed code from your listing and paste it in. No dev work required.",
+    answer: "Yes. Every listing has a shareable link that works anywhere on the internet. You can also use Embed Checkout to embed a buy button directly on your own website, blog, or landing page — so customers can purchase without ever leaving your site.",
   },
   {
     question: "Can I track my sales?",
-    answer: "Yes.\n\nYour metrics area shows:\n\u2022 Total sales\n\u2022 Total Profit\n\nWe also show earnings per product, buyer wallet activity, and other blockchain stats.",
+    answer: "Yes. Your dashboard shows real-time sales data, including total revenue, individual transactions, Coseller performance, and payout history. Everything is also verifiable onchain.",
   },
   {
     question: "Can I make edits after publishing?",
-    answer: "Yes. You can edit the description, price, preview image, and the listing.",
+    answer: "Yes. You can update your listing title, description, price, media, and sales assets at any time. Changes take effect immediately. Active Cosell contracts are not affected by listing edits.",
   },
   {
     question: "Is For Crypto non-custodial?",
-    answer: "Yes. We never touch your funds.\n\nPayments go straight to your wallet and your Cosellers' wallets through smart contract splits.",
+    answer: "Yes. For Crypto never holds your funds. All payments are processed through smart contracts that route funds directly to wallets. We cannot freeze, withhold, or access your money at any point.",
   },
   {
     question: "Is it safe?",
-    answer: "Yes. All transactions are on the blockchain, transparent, and verifiable.\n\nWe use audited infrastructure and never store your assets or private keys.",
+    answer: "Yes. For Crypto is built on Base, a secure Ethereum Layer 2 network. All transactions are processed through audited smart contracts. Your wallet is your identity — we don't store passwords or sensitive data. You maintain full control of your funds at all times.",
   },
   {
     question: "What about copyright or stolen content?",
-    answer: "Sellers are responsible for the content they upload. By listing, you confirm you have the rights to distribute them.\n\nIf you see stolen content or copyright infringement, you can report it directly through our platform. We review each case and will take appropriate action.",
+    answer: "For Crypto takes intellectual property seriously. If you believe content on the platform infringes your copyright, you can report it and we'll review and take action. Sellers are responsible for ensuring they have the rights to sell what they list.",
   },
   {
     question: "Can I offer refunds?",
-    answer: "Crypto payments are final by default.\n\nHowever, you can handle customer support or issue manual refunds at your discretion.",
+    answer: "Refund policies are set by individual sellers. Because payments are processed onchain and are instant, For Crypto does not process refunds directly. Sellers and buyers can arrange refunds independently if needed.",
   },
   {
     question: "How do I get started?",
-    answer: "1. Connect your wallet - This is your login. No email, no password.\n\n2. Click \"Sell\" - Start a new listing from the top nav at any time.\n\n3. Add details - Title, description, price, the basics.\n\n4. Set Coseller Commission - Set a percentage others earn when they help sell.\n\n5. Add What Buyers Get - Upload your files, access links, or whatever you're offering.\n\n6. Add Sales Assets - Drop in a logo, banner, or images to give cosellers what they need to help you sell.\n\n7. Publish - Your listing goes live instantly and is ready to be sold.\n\nThat's it. It's simple, fast, and you're given all the tools to succeed in today's online world.",
+    answer: "Connect your wallet, create a listing, set your price, upload your content, and hit publish. That's it. Your listing is live and ready to sell. If you want to Cosell instead, just find a listing you like, click Cosell, and share your unique link.",
   },
   {
     question: "How does For Crypto sustain itself?",
-    answer: "For Crypto charges a fee based on how a sale happens.\n\n\u2022 30% if someone discovers and purchases your listing directly through the For Crypto site\n\u2022 10% if the sale comes from your own shared link (like from your YouTube, X, or personal site)\n\u2022 10% if a coseller makes the sale, plus whatever commission percentage you set for them\n\nThis model rewards creators for promoting their own work and empowers cosellers to earn alongside you.\n\nOur fee helps fund the platform, cover infrastructure, and keep the system open to everyone. It allows For Crypto to grow independently while giving creators and communities more ownership, reach, and control.",
+    answer: "For Crypto takes a small platform fee on each transaction. The fee structure is transparent: 30% on organic discovery, 10% on the seller's own link, and 10% plus the coseller commission on Cosell sales. These fees are built into the smart contract and deducted automatically.",
   },
   {
     question: "What is the Bot API?",
-    answer: "The Bot API lets you automate sales on For Crypto. You can create listings, manage inventory, and process payments programmatically.\n\nBots are first-class citizens on For Crypto. They get their own profile, can list and sell just like any other user, and earn instant payouts to their connected wallet.\n\nUse cases include:\n\u2022 Automated storefronts that list and sell without manual work\n\u2022 Integrations with external platforms or services\n\u2022 Dynamic pricing or inventory management\n\u2022 Programmatic content delivery at scale",
+    answer: "The Bot API lets developers programmatically create listings, manage inventory, and process sales. You can build automated storefronts, integrate with existing tools, or create entirely new commerce experiences — all powered by For Crypto's onchain infrastructure.",
   },
   {
     question: "What is Embed Checkout?",
-    answer: "Embed Checkout lets you add a \"Buy with Crypto\" button to any website. Your visitors can purchase directly without leaving your page.\n\nJust paste a small script tag and a div on your site. The button handles wallet connection, payment, and content delivery automatically.\n\nIt works on:\n\u2022 Personal websites and landing pages\n\u2022 Blog posts and articles\n\u2022 Notion pages and link-in-bio tools\n\u2022 Any site where you can add HTML",
+    answer: "Embed Checkout lets you place a buy button on any website. When a customer clicks it, they can complete the purchase without leaving your site. It's the easiest way to sell crypto-native products from your own platform, blog, or landing page.",
   },
   {
     question: "Have more questions?",
-    answer: "Reach out on X (@forcryptomarket) or email us at feedback@forcrypto.market.\n\nYou can also suggest new features or integrations directly on the site.",
+    answer: "We'd love to hear from you. Use the Feedback button above to send us your questions, ideas, or feature requests. We read everything.",
   },
 ];
 
@@ -179,7 +178,7 @@ export default function HomeScreen() {
       <Hero />
       <Why />
       <How />
-      <CosellSection />
+      <Cosell />
       <Assets />
       <BackedNetwork />
       <FAQs />
@@ -191,54 +190,47 @@ function Hero() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const scrollRef = useRef<FlatList>(null);
 
-  const handleScroll = useCallback(
-    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-      const container = e.nativeEvent;
-      const containerCenter =
-        container.contentOffset.x + container.layoutMeasurement.width / 2;
-      let closestIndex = 0;
-      let closestDistance = Infinity;
+  const handleScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const container = e.nativeEvent;
+    const containerCenter = container.contentOffset.x + container.layoutMeasurement.width / 2;
+    let closestIndex = 0;
+    let closestDistance = Infinity;
 
-      slides.forEach((_, index) => {
-        const slideCenter =
-          index * (SLIDE_WIDTH + SLIDE_SPACING) + SLIDE_WIDTH / 2;
-        const distance = Math.abs(containerCenter - slideCenter);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = index;
-        }
-      });
+    slides.forEach((_, index) => {
+      const slideCenter = index * (SLIDE_WIDTH + SLIDE_SPACING) + SLIDE_WIDTH / 2;
+      const distance = Math.abs(containerCenter - slideCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
 
-      setSelectedIndex(closestIndex);
-    },
-    []
-  );
+    setSelectedIndex(closestIndex);
+  }, []);
 
   const handleDotClick = useCallback((index: number) => {
     scrollRef.current?.scrollToIndex({ index, animated: true });
   }, []);
 
-  const renderSlide = ({ item: slide }: { item: (typeof slides)[0] }) => (
+  const renderSlide = ({ item: slide, index }: { item: (typeof slides)[0]; index: number }) => (
     <View style={[styles.carouselSlide, { width: SLIDE_WIDTH }]}>
       <View style={styles.carouselBorder}>
         <View style={styles.exampleLabel}>
           <Text style={styles.exampleLabelText}>Example Listing</Text>
         </View>
-
+        
         <Image
-          source={{ uri: slide.fallback }}
+          source={{ uri: slide.thumbnail }}
           style={styles.slideImage}
           resizeMode="cover"
         />
-
+        
         <View style={styles.cosellFooter}>
           <View style={styles.cosellInfoSection}>
             <Text style={styles.cosellTitle}>Cosell For Crypto.</Text>
             <View style={styles.cosellCommissionRow}>
-              <Text style={styles.cosellCommissionText}>
-                {slide.commission}% Commission
-              </Text>
-              <Text style={styles.cosellInfoIcon}>\u24D8</Text>
+              <Text style={styles.cosellCommissionText}>{slide.commission}% Commission</Text>
+              <Text style={styles.cosellInfoIcon}>ⓘ</Text>
             </View>
           </View>
           <View style={styles.cosellDivider} />
@@ -248,19 +240,17 @@ function Hero() {
             </Pressable>
           </View>
         </View>
-
+        
         <Pressable style={styles.buyNowButton}>
           <Text style={styles.buyNowText}>Buy Now</Text>
         </Pressable>
-
+        
         <View style={styles.priceRow}>
           <Text style={styles.priceText}>{slide.price} USDC</Text>
         </View>
-
+        
         <View style={styles.contentSection}>
-          <Text style={styles.slideTitle} numberOfLines={2}>
-            {slide.title}
-          </Text>
+          <Text style={styles.slideTitle}>{slide.title}</Text>
           <Text style={styles.slideDescription} numberOfLines={3}>
             {slide.description}
           </Text>
@@ -279,11 +269,11 @@ function Hero() {
           banks. No middlemen. Just your wallet and the internet.
         </Text>
         <View style={styles.heroButtonsContainer}>
-          <Pressable style={styles.outlineButton}>
-            <Text style={styles.outlineButtonText}>Learn More</Text>
+          <Pressable style={styles.learnMoreButton}>
+            <Text style={styles.learnMoreText}>Learn More</Text>
           </Pressable>
-          <Pressable style={styles.foregroundButton}>
-            <Text style={styles.foregroundButtonText}>Sell</Text>
+          <Pressable style={styles.sellButton}>
+            <Text style={styles.sellButtonText}>Sell</Text>
           </Pressable>
         </View>
       </View>
@@ -300,18 +290,16 @@ function Hero() {
           contentContainerStyle={styles.carouselContent}
           onScroll={handleScroll}
           scrollEventThrottle={16}
+          style={styles.carouselFlatList}
         />
-
+        
         <View style={styles.dotsContainer}>
           {slides.map((_, index) => (
             <Pressable
               key={index}
               style={[
                 styles.dot,
-                {
-                  backgroundColor:
-                    index === selectedIndex ? "#e5e5e5" : "#1a1a1a",
-                },
+                { backgroundColor: index === selectedIndex ? "#e5e5e5" : "#1a1a1a" },
               ]}
               onPress={() => handleDotClick(index)}
             />
@@ -322,33 +310,99 @@ function Hero() {
   );
 }
 
+function FAQs() {
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+
+  return (
+    <View style={styles.faqsWrapper}>
+      <Container>
+        <View style={styles.faqsContainer}>
+          <View style={styles.faqsHeader}>
+            <Text style={styles.faqsTitle}>Frequently Asked Questions</Text>
+            <Text style={styles.faqsSubtitle}>
+              Everything you need to know about For Crypto.
+            </Text>
+            <Text style={styles.faqsSubtitle}>
+              And if you have an idea, feedback, or want to request a feature,
+              let us know.
+            </Text>
+            <Pressable style={styles.feedbackButton}>
+              <Text style={styles.feedbackButtonText}>Feedback</Text>
+            </Pressable>
+          </View>
+          
+          <View style={styles.faqItemsList}>
+            {faqData.map((faq, index) => (
+              <FaqItem
+                key={index}
+                question={faq.question}
+                expanded={expandedFAQ === index}
+                onToggle={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
+              >
+                <Text style={styles.faqAnswerText}>{faq.answer}</Text>
+              </FaqItem>
+            ))}
+          </View>
+        </View>
+      </Container>
+    </View>
+  );
+}
+
+function FaqItem({
+  question,
+  expanded,
+  onToggle,
+  children,
+}: {
+  question: string;
+  expanded: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <View style={styles.faqItem}>
+      <Pressable style={styles.faqQuestionButton} onPress={onToggle}>
+        <Text style={styles.faqQuestionText}>{question}</Text>
+        <Ionicons
+          name={expanded ? "chevron-up" : "chevron-down"}
+          size={24}
+          color="#fff"
+          style={styles.faqChevron}
+        />
+      </Pressable>
+      {expanded && <View style={styles.faqAnswerContainer}>{children}</View>}
+    </View>
+  );
+}
+
 function Why() {
   return (
     <Container>
       <View style={styles.whySection}>
         <SectionHeader
           title="Why Crypto?"
-          subtitle="Payments that just work."
-          description="No waiting for payouts. No platform lock-in. No chargebacks. Just direct, wallet-to-wallet payments that are global, instant, and built for anyone."
+          subtitle="It's better in every way."
+          description="No waiting for payouts. No platform lock-in. No chargebacks or third-party control. Just direct, wallet-to-wallet commerce that's global, instant, and built for anyone."
         />
-        <View style={styles.cardsGrid}>
+        <View style={styles.whyCardsGrid}>
           <WhyCard
-            image={`${BASE_URL}/homepage/why-001.gif`}
+            thumbnail={`${IMG}/homepage/why-001.gif`}
             title="Instant Payouts"
             description="Get paid the moment something sells. No delays, no waiting, just crypto in your wallet."
           />
           <WhyCard
-            image={`${BASE_URL}/homepage/why-002.gif`}
+            thumbnail={`${IMG}/homepage/why-002.gif`}
             title="Self-Custody"
             description="You own the wallet, you control the money. No platforms holding your funds."
           />
           <WhyCard
-            image={`${BASE_URL}/homepage/why-003.gif`}
+            thumbnail={`${IMG}/homepage/why-003.gif`}
             title="Global by Default"
             description="Sell and cosell to anyone, anywhere. No banks, no borders, no currency restrictions."
           />
           <WhyCard
-            image={`${BASE_URL}/homepage/why-004.gif`}
+            thumbnail={`${IMG}/homepage/why-004.gif`}
             title="Smart Splits"
             description="Revenue is split automatically between sellers and cosellers. No chasing payments."
           />
@@ -359,55 +413,103 @@ function Why() {
 }
 
 function WhyCard({
-  image,
+  thumbnail,
   title,
   description,
 }: {
-  image: string;
+  thumbnail: string;
   title: string;
   description: string;
 }) {
   return (
-    <View style={styles.card}>
+    <View style={styles.whyCard}>
       <Image
-        source={{ uri: image }}
-        style={styles.cardImage}
+        source={{ uri: thumbnail }}
+        style={styles.whyCardImage}
         resizeMode="cover"
       />
-      <Text style={styles.cardTitle}>{title}</Text>
-      <Text style={styles.cardDescription}>{description}</Text>
+      <Text style={styles.whyCardTitle}>{title}</Text>
+      <Text style={styles.whyCardDescription}>{description}</Text>
+    </View>
+  );
+}
+
+function Container({ children }: { children: React.ReactNode }) {
+  return <View style={styles.containerWrapper}>{children}</View>;
+}
+
+function SectionHeader({
+  title,
+  subtitle,
+  description,
+}: {
+  title: string;
+  subtitle: string | string[];
+  description: string;
+}) {
+  return (
+    <View style={styles.sectionHeaderContainer}>
+      <View style={styles.sectionHeaderContent}>
+        <Text style={styles.sectionHeaderTitle}>{title}</Text>
+        {Array.isArray(subtitle) ? (
+          subtitle.map((sub, index) => (
+            <Text key={index} style={styles.sectionHeaderSubtitle}>
+              {sub}
+            </Text>
+          ))
+        ) : (
+          <Text style={styles.sectionHeaderSubtitle}>{subtitle}</Text>
+        )}
+        <Text style={styles.sectionHeaderDescription}>{description}</Text>
+      </View>
+      <ButtonsCTA />
+    </View>
+  );
+}
+
+function ButtonsCTA() {
+  return (
+    <View style={styles.buttonsCTA}>
+      <Pressable style={styles.learnMoreButton}>
+        <Text style={styles.learnMoreText}>Learn More</Text>
+      </Pressable>
+      <Pressable style={styles.sellButton}>
+        <Text style={styles.sellButtonText}>Sell</Text>
+      </Pressable>
     </View>
   );
 }
 
 function How() {
   return (
-    <View style={styles.sectionBg}>
+    <View style={styles.howWrapper}>
       <Container>
-        <View style={styles.sectionPadding}>
+        <View style={styles.howSection}>
           <SectionHeader
             title="How it works."
             subtitle={["Instant transactions.", "No banks. No delays."]}
-            description="From wallet connect to payout, everything happens directly. No signups, no waiting, no middlemen."
+            description="Simple, secure, and built for the way you create. From wallet connect to payout, everything happens directly. No signups, no waiting, no middlemen."
           />
-          <View style={styles.card}>
+          <View style={styles.howCard}>
             <View style={styles.howCardContent}>
-              <Text style={styles.howCardTitle}>
-                Getting started is simple
-              </Text>
-              <View style={styles.howStepsList}>
-                {howSteps.map((step, index) => (
-                  <Text key={index} style={styles.howStepText}>
-                    {index + 1}. {step}
-                  </Text>
-                ))}
+              <View style={styles.howCardTextSection}>
+                <Text style={styles.howCardTitle}>Getting started is simple</Text>
+                <View style={styles.howStepsList}>
+                  {howSteps.map((step, index) => (
+                    <Text key={index} style={styles.howStepText}>
+                      {index + 1}. {step}
+                    </Text>
+                  ))}
+                </View>
               </View>
             </View>
-            <Image
-              source={{ uri: `${BASE_URL}/homepage/how.png` }}
-              style={styles.howImage}
-              resizeMode="contain"
-            />
+            <View style={styles.howIllustrationSection}>
+              <Image
+                source={{ uri: `${IMG}/homepage/how.png` }}
+                style={styles.howImage}
+                resizeMode="contain"
+              />
+            </View>
           </View>
         </View>
       </Container>
@@ -415,47 +517,37 @@ function How() {
   );
 }
 
-function CosellSection() {
+function Cosell() {
   return (
-    <View style={styles.sectionBorder}>
+    <View style={styles.cosellWrapper}>
       <Container>
-        <View style={styles.sectionPadding}>
+        <View style={styles.cosellSection}>
           <SectionHeader
             title="Cosell."
             subtitle="Unlock the Internet."
-            description="Cosell is not an affiliate link. It's a contract. A payout. A share of every sale. It turns attention into income for anyone, anywhere."
+            description="Cosell is not an affiliate link. It's a contract. A payout. A piece of the upside. It turns attention into income for anyone, anywhere."
           />
           <View style={styles.cosellGrid}>
-            <View style={styles.card}>
+            <View style={styles.cosellVideoCard}>
               <View style={styles.cosellVideoPlaceholder}>
                 <Ionicons name="play-circle-outline" size={48} color="#a3a3a3" />
               </View>
             </View>
-            <View style={[styles.card, styles.cosellTextCard]}>
+            <View style={styles.cosellTextCard}>
               <View style={styles.cosellPointsContainer}>
-                <Text style={styles.cosellPointText}>
-                  The seller sets the commission.
-                </Text>
-                <Text style={styles.cosellPointText}>
-                  A Coseller activates the contract.
-                </Text>
-                <Text style={styles.cosellPointText}>
-                  Sales are tracked on the blockchain.
-                </Text>
-                <Text style={styles.cosellPointText}>
-                  Payouts happen instantly.
-                </Text>
+                <Text style={styles.cosellPointText}>The seller sets the commission.</Text>
+                <Text style={styles.cosellPointText}>A Coseller activates the contract.</Text>
+                <Text style={styles.cosellPointText}>Sales are tracked onchain.</Text>
+                <Text style={styles.cosellPointText}>Payouts happen instantly.</Text>
               </View>
-              <Pressable style={styles.outlineButton}>
-                <Text style={styles.outlineButtonText}>
-                  Become a Coseller
-                </Text>
+              <Pressable style={styles.cosellActionButton}>
+                <Text style={styles.cosellActionButtonText}>Become a Coseller</Text>
               </Pressable>
             </View>
           </View>
-          <View style={[styles.card, { alignItems: "center" }]}>
+          <View style={styles.cosellBigCard}>
             <Image
-              source={{ uri: `${BASE_URL}/homepage/cosell.png` }}
+              source={{ uri: `${IMG}/homepage/cosell.png` }}
               style={styles.cosellHeroImage}
               resizeMode="contain"
             />
@@ -473,53 +565,53 @@ function CosellSection() {
 
 function Assets() {
   return (
-    <View style={styles.sectionPadding}>
+    <View style={styles.assetsWrapper}>
       <Container>
         <SectionHeader
           title="Sales Assets."
           subtitle="Give Cosellers the tools to sell."
-          description="Official photos, videos, and creative material uploaded by sellers and unlocked by Cosellers. Quality promotion that scales with you."
+          description="Official photos, videos, and creative material uploaded by sellers and unlocked by Cosellers. Aligned promotion at internet scale."
         />
       </Container>
+      
       <Image
-        source={{ uri: `${BASE_URL}/homepage/assets.png` }}
+        source={{ uri: `${IMG}/homepage/assets.png` }}
         style={styles.assetsHeroImage}
         resizeMode="cover"
       />
+
       <Container>
         <View style={styles.assetsDescSection}>
-          <Text style={styles.assetsDescTitle}>
-            Your sales materials, your way
-          </Text>
-          <Text style={styles.mutedText}>
+          <Text style={styles.assetsDescTitle}>Your sales materials, your way</Text>
+          <Text style={styles.assetsDescText}>
             Every listing includes a dedicated sales assets section: a space to
             upload the logos, videos, and creative tools that help your product
             sell.
           </Text>
-          <Text style={styles.mutedText}>
+          <Text style={styles.assetsDescText}>
             Sellers upload. Cosellers get access the moment they create a
             contract.
           </Text>
-          <Text style={styles.mutedText}>
+          <Text style={styles.assetsDescText}>
             The result is aligned promotion and wider reach from day one.
           </Text>
         </View>
 
-        <View style={styles.cardsGrid}>
+        <View style={styles.assetsGrid}>
           <AssetCard
             title="Logos, Marks, Tags..."
             description="The scroll stops when you stand out. Upload clean logos, badges, and marks Cosellers can drop into any format. Whether you're selling or Coselling, identity matters."
-            image={`${BASE_URL}/homepage/assets-001.png`}
+            thumbnail={`${IMG}/homepage/assets-001.png`}
           />
           <AssetCard
             title="Films, Ads, Interviews..."
             description="Let the story do the selling. Trailers, interviews, edits, and reels. Built by Sellers or remixable by Cosellers. The better the content, the further it travels."
-            image={`${BASE_URL}/homepage/assets-002.png`}
+            thumbnail={`${IMG}/homepage/assets-002.png`}
           />
           <AssetCard
             title="Photos, Text, Documentation..."
             description="Everything needed to list, describe, and post. Product shots. Specs. Descriptions. Quotes. Clear tools for anyone helping push the product forward."
-            image={`${BASE_URL}/homepage/assets-003.png`}
+            thumbnail={`${IMG}/homepage/assets-003.png`}
           />
         </View>
       </Container>
@@ -530,52 +622,52 @@ function Assets() {
 function AssetCard({
   title,
   description,
-  image,
+  thumbnail,
 }: {
   title: string;
   description: string;
-  image: string;
+  thumbnail: string;
 }) {
   return (
-    <View style={styles.card}>
+    <View style={styles.assetCard}>
       <Image
-        source={{ uri: image }}
+        source={{ uri: thumbnail }}
         style={styles.assetCardImage}
         resizeMode="cover"
       />
-      <Text style={styles.cardTitle}>{title}</Text>
-      <Text style={styles.cardDescription}>{description}</Text>
+      <Text style={styles.assetCardTitle}>{title}</Text>
+      <Text style={styles.assetCardDescription}>{description}</Text>
     </View>
   );
 }
 
 function BackedNetwork() {
   return (
-    <View style={styles.sectionBorder}>
+    <View style={styles.backedNetworkWrapper}>
       <Container>
         <View style={styles.backedNetworkContainer}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.sectionTitle}>
-              Backed by leading networks.
+          <View style={styles.backedNetworkContent}>
+            <Text style={styles.backedNetworkTitle}>
+              Backed by the leading Networks.
             </Text>
-            <Text style={styles.mutedText}>
+            <Text style={styles.backedNetworkDescription}>
               Built on Base, a faster and cheaper network powered by Ethereum,
               with automatic payouts to Solana. Fast, low-cost, and built for
               global commerce.
             </Text>
-            <View style={styles.networkLogos}>
+            <View style={styles.backedNetworkLogos}>
               <Image
-                source={{ uri: `${BASE_URL}/homepage/eth-logo.png` }}
+                source={{ uri: `${IMG}/homepage/eth-logo.png` }}
                 style={styles.networkLogo}
                 resizeMode="contain"
               />
               <Image
-                source={{ uri: `${BASE_URL}/homepage/base-logo.png` }}
+                source={{ uri: `${IMG}/homepage/base-logo.png` }}
                 style={styles.networkLogo}
                 resizeMode="contain"
               />
               <Image
-                source={{ uri: `${BASE_URL}/homepage/solana-logo.png` }}
+                source={{ uri: `${IMG}/homepage/solana-logo.png` }}
                 style={styles.networkLogo}
                 resizeMode="contain"
               />
@@ -588,113 +680,7 @@ function BackedNetwork() {
   );
 }
 
-function FAQs() {
-  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
-
-  return (
-    <View style={styles.faqsWrapper}>
-      <Container>
-        <View style={styles.faqsHeader}>
-          <Text style={styles.faqsTitle}>Frequently Asked Questions</Text>
-          <Text style={styles.faqsSubtitle}>
-            Everything you need to know about For Crypto.
-          </Text>
-          <Text style={styles.faqsSubtitle}>
-            And if you have an idea, feedback, or want to request a feature, let
-            us know.
-          </Text>
-          <Pressable
-            style={styles.feedbackButton}
-            onPress={() =>
-              Linking.openURL("mailto:feedback@forcrypto.market")
-            }
-          >
-            <Text style={styles.feedbackButtonText}>Feedback</Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.faqItemsList}>
-          {faqData.map((faq, index) => (
-            <Pressable
-              key={index}
-              style={styles.faqItem}
-              onPress={() =>
-                setExpandedFAQ(expandedFAQ === index ? null : index)
-              }
-            >
-              <View style={styles.faqQuestionRow}>
-                <Text style={styles.faqQuestionText}>{faq.question}</Text>
-                <Ionicons
-                  name={
-                    expandedFAQ === index ? "chevron-up" : "chevron-down"
-                  }
-                  size={20}
-                  color="#fff"
-                />
-              </View>
-              {expandedFAQ === index && (
-                <Text style={styles.faqAnswerText}>{faq.answer}</Text>
-              )}
-            </Pressable>
-          ))}
-        </View>
-      </Container>
-    </View>
-  );
-}
-
-// Shared components
-
-function Container({ children }: { children: React.ReactNode }) {
-  return <View style={styles.containerWrapper}>{children}</View>;
-}
-
-function SectionHeader({
-  title,
-  subtitle,
-  description,
-}: {
-  title: string;
-  subtitle: string | string[];
-  description: string;
-}) {
-  return (
-    <View style={styles.sectionHeaderContainer}>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.sectionTitle}>{title}</Text>
-        {Array.isArray(subtitle) ? (
-          subtitle.map((sub, index) => (
-            <Text key={index} style={styles.sectionTitle}>
-              {sub}
-            </Text>
-          ))
-        ) : (
-          <Text style={styles.sectionTitle}>{subtitle}</Text>
-        )}
-        <Text style={[styles.mutedText, { marginTop: 10 }]}>
-          {description}
-        </Text>
-      </View>
-      <ButtonsCTA />
-    </View>
-  );
-}
-
-function ButtonsCTA() {
-  return (
-    <View style={styles.buttonsCTA}>
-      <Pressable style={styles.outlineButton}>
-        <Text style={styles.outlineButtonText}>Learn More</Text>
-      </Pressable>
-      <Pressable style={styles.foregroundButton}>
-        <Text style={styles.foregroundButtonText}>Sell</Text>
-      </Pressable>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
-  // Base
   container: {
     flex: 1,
     backgroundColor: "#0a0a0a",
@@ -703,40 +689,26 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
 
-  // Container
-  containerWrapper: {
-    width: "100%",
-    paddingHorizontal: 16,
-  },
-
-  // Section backgrounds
-  sectionBg: {
-    backgroundColor: "#0a0a0a",
-  },
-  sectionBorder: {
-    backgroundColor: "#262626",
-  },
-  sectionPadding: {
-    paddingVertical: 40,
-  },
-
   // Hero
   heroSection: {
     paddingTop: 40,
-    paddingBottom: 40,
+    paddingBottom: 80,
     backgroundColor: "#0a0a0a",
   },
   heroTextContainer: {
+    maxWidth: 768,
+    alignSelf: "center",
     alignItems: "center",
     paddingHorizontal: 16,
   },
   heroTitle: {
-    fontSize: 30,
+    fontSize: 36,
     fontWeight: "500",
     textAlign: "center",
     color: "#e5e5e5",
-    lineHeight: 36,
+    lineHeight: 43,
     marginBottom: 12,
+    maxWidth: 672,
   },
   heroSubtitle: {
     fontSize: 18,
@@ -749,12 +721,11 @@ const styles = StyleSheet.create({
   heroButtonsContainer: {
     flexDirection: "row",
     gap: 16,
+    maxWidth: 512,
     width: "100%",
     paddingHorizontal: 16,
   },
-
-  // Buttons
-  outlineButton: {
+  learnMoreButton: {
     flex: 1,
     borderWidth: 1,
     borderColor: "#262626",
@@ -762,19 +733,19 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignItems: "center",
   },
-  outlineButtonText: {
+  learnMoreText: {
     fontSize: 16,
     fontWeight: "500",
     color: "#e5e5e5",
   },
-  foregroundButton: {
+  sellButton: {
     flex: 1,
     backgroundColor: "#e5e5e5",
     paddingVertical: 14,
     borderRadius: 6,
     alignItems: "center",
   },
-  foregroundButtonText: {
+  sellButtonText: {
     fontSize: 16,
     fontWeight: "500",
     color: "#0a0a0a",
@@ -782,19 +753,24 @@ const styles = StyleSheet.create({
 
   // Carousel
   carouselWrapper: {
+    position: "relative",
     marginTop: 40,
+  },
+  carouselFlatList: {
+    paddingBottom: 16,
   },
   carouselContent: {
     paddingHorizontal: 16,
     gap: 16,
   },
   carouselSlide: {
-    // width set dynamically
+    marginRight: 16,
   },
   carouselBorder: {
     borderWidth: 1,
     borderColor: "#262626",
-    overflow: "hidden",
+    position: "relative",
+    backgroundColor: "#0a0a0a",
   },
   exampleLabel: {
     position: "absolute",
@@ -812,8 +788,9 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   slideImage: {
-    width: "100%",
     aspectRatio: 16 / 9,
+    width: "100%",
+    backgroundColor: "#1a1a1a",
   },
   cosellFooter: {
     padding: 12,
@@ -824,6 +801,7 @@ const styles = StyleSheet.create({
   cosellInfoSection: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   cosellTitle: {
     fontSize: 14,
@@ -835,6 +813,7 @@ const styles = StyleSheet.create({
   cosellCommissionRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 6,
   },
   cosellCommissionText: {
@@ -849,11 +828,12 @@ const styles = StyleSheet.create({
   cosellDivider: {
     width: 1,
     height: 44,
-    backgroundColor: "#262626",
+    backgroundColor: "#737373",
   },
   cosellButtonSection: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   cosellButton: {
     borderWidth: 1,
@@ -872,6 +852,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e5e5e5",
     paddingVertical: 14,
     alignItems: "center",
+    borderRadius: 0,
   },
   buyNowText: {
     fontSize: 16,
@@ -893,7 +874,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   slideTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "500",
     color: "#e5e5e5",
     marginBottom: 8,
@@ -903,7 +884,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#a3a3a3",
     textAlign: "center",
-    lineHeight: 26,
+    lineHeight: 24,
+    maxWidth: 512,
   },
   dotsContainer: {
     flexDirection: "row",
@@ -918,62 +900,108 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
 
-  // Section header
-  sectionHeaderContainer: {
-    marginBottom: 32,
-    gap: 24,
+  // Container
+  containerWrapper: {
+    maxWidth: 1200,
+    width: "100%",
+    alignSelf: "center",
+    paddingHorizontal: 16,
   },
-  sectionTitle: {
+
+  // Section Header
+  sectionHeaderContainer: {
+    flexDirection: "column",
+    gap: 32,
+    justifyContent: "space-between",
+    marginBottom: 32,
+  },
+  sectionHeaderContent: {
+    flex: 1,
+  },
+  sectionHeaderTitle: {
     fontSize: 30,
     fontWeight: "500",
     color: "#e5e5e5",
-    marginBottom: 4,
+    marginBottom: 8,
+  },
+  sectionHeaderSubtitle: {
+    fontSize: 30,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 10,
     lineHeight: 36,
   },
-  mutedText: {
+  sectionHeaderDescription: {
     fontSize: 18,
     color: "#a3a3a3",
     lineHeight: 29,
-    marginBottom: 16,
+    maxWidth: 600,
+  },
+  buttonsCTA: {
+    flexDirection: "row",
+    gap: 16,
+    maxWidth: 512,
+    width: "100%",
+    alignSelf: "flex-start",
   },
 
-  // Cards
-  cardsGrid: {
+  // Why
+  whySection: {
+    marginVertical: 40,
+  },
+  whyCardsGrid: {
     gap: 24,
   },
-  card: {
+  whyCard: {
     backgroundColor: "#1a1a1a",
     borderRadius: 12,
     padding: 24,
+    marginBottom: 16,
   },
-  cardImage: {
+  whyCardImage: {
     width: "100%",
     aspectRatio: 16 / 9,
-    borderRadius: 8,
     marginBottom: 24,
+    borderRadius: 8,
+    backgroundColor: "#262626",
   },
-  cardTitle: {
+  whyCardTitle: {
     fontSize: 20,
     fontWeight: "500",
     color: "#e5e5e5",
     marginBottom: 6,
   },
-  cardDescription: {
+  whyCardDescription: {
     fontSize: 18,
     color: "#a3a3a3",
     lineHeight: 29,
-  },
-
-  // Why
-  whySection: {
-    paddingVertical: 40,
+    maxWidth: 600,
   },
 
   // How
+  howWrapper: {
+    backgroundColor: "#0a0a0a",
+  },
+  howSection: {
+    paddingVertical: 40,
+  },
+  howCard: {
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    flexDirection: "column",
+    overflow: "hidden",
+  },
   howCardContent: {
+    flex: 1,
     alignItems: "center",
-    paddingTop: 32,
+    justifyContent: "center",
+    paddingTop: 40,
+    maxWidth: 768,
     paddingHorizontal: 16,
+  },
+  howCardTextSection: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   howCardTitle: {
     fontSize: 24,
@@ -984,39 +1012,59 @@ const styles = StyleSheet.create({
   },
   howStepsList: {
     gap: 16,
-    marginBottom: 24,
   },
   howStepText: {
     fontSize: 18,
     color: "#e5e5e5",
-    textAlign: "center",
     lineHeight: 29,
+    textAlign: "center",
+  },
+  howIllustrationSection: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+    paddingRight: 0,
   },
   howImage: {
     width: "100%",
     aspectRatio: 1,
-    marginTop: 16,
   },
 
   // Cosell
+  cosellWrapper: {
+    backgroundColor: "#262626",
+  },
+  cosellSection: {
+    marginVertical: 40,
+  },
   cosellGrid: {
     gap: 24,
-    marginBottom: 24,
+    marginBottom: 40,
+  },
+  cosellVideoCard: {
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    padding: 24,
   },
   cosellVideoPlaceholder: {
     width: "100%",
     aspectRatio: 16 / 9,
     backgroundColor: "#171717",
-    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 8,
   },
   cosellTextCard: {
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    padding: 24,
     alignItems: "center",
     justifyContent: "center",
   },
   cosellPointsContainer: {
     gap: 8,
+    alignItems: "center",
     marginBottom: 32,
   },
   cosellPointText: {
@@ -1024,10 +1072,30 @@ const styles = StyleSheet.create({
     color: "#e5e5e5",
     textAlign: "center",
   },
+  cosellActionButton: {
+    borderWidth: 1,
+    borderColor: "transparent",
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 8,
+    backgroundColor: "transparent",
+  },
+  cosellActionButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#e5e5e5",
+  },
+  cosellBigCard: {
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    padding: 24,
+    alignItems: "center",
+  },
   cosellHeroImage: {
     width: "100%",
     height: 200,
     marginBottom: 32,
+    borderRadius: 8,
   },
   cosellBigTitle: {
     fontSize: 24,
@@ -1041,49 +1109,98 @@ const styles = StyleSheet.create({
     color: "#a3a3a3",
     textAlign: "center",
     lineHeight: 29,
+    maxWidth: 600,
   },
 
   // Assets
+  assetsWrapper: {
+    marginVertical: 40,
+  },
   assetsHeroImage: {
     width: "100%",
     height: 200,
+    backgroundColor: "#1a1a1a",
   },
   assetsDescSection: {
-    paddingVertical: 32,
+    marginVertical: 32,
   },
   assetsDescTitle: {
     fontSize: 24,
-    fontWeight: "500",
     color: "#e5e5e5",
+    fontWeight: "500",
     marginBottom: 10,
+    lineHeight: 29,
+  },
+  assetsDescText: {
+    fontSize: 18,
+    color: "#a3a3a3",
+    lineHeight: 29,
+    marginBottom: 20,
+    maxWidth: 600,
+  },
+  assetsGrid: {
+    gap: 24,
+  },
+  assetCard: {
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    padding: 24,
   },
   assetCardImage: {
     width: "100%",
     height: 120,
-    borderRadius: 8,
     marginBottom: 24,
+    borderRadius: 8,
+    backgroundColor: "#262626",
+  },
+  assetCardTitle: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 6,
+  },
+  assetCardDescription: {
+    fontSize: 18,
+    color: "#a3a3a3",
+    lineHeight: 29,
+    maxWidth: 600,
   },
 
   // Backed Network
-  backedNetworkContainer: {
+  backedNetworkWrapper: {
     paddingVertical: 40,
-    gap: 32,
+    backgroundColor: "#1a1a1a",
   },
-  networkLogos: {
+  backedNetworkContainer: {
+    flexDirection: "column",
+    gap: 32,
+    justifyContent: "space-between",
+  },
+  backedNetworkContent: {
+    flex: 1,
+  },
+  backedNetworkTitle: {
+    fontSize: 30,
+    fontWeight: "500",
+    color: "#e5e5e5",
+    marginBottom: 10,
+    lineHeight: 36,
+  },
+  backedNetworkDescription: {
+    fontSize: 18,
+    color: "#a3a3a3",
+    lineHeight: 29,
+    maxWidth: 896,
+    marginBottom: 24,
+  },
+  backedNetworkLogos: {
     flexDirection: "row",
     gap: 16,
     alignItems: "center",
   },
   networkLogo: {
-    width: 24,
-    height: 24,
-  },
-
-  // Buttons CTA
-  buttonsCTA: {
-    flexDirection: "row",
-    gap: 16,
-    width: "100%",
+    width: 32,
+    height: 32,
   },
 
   // FAQs
@@ -1091,8 +1208,15 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     backgroundColor: "#0a0a0a",
   },
+  faqsContainer: {
+    maxWidth: 1024,
+    alignSelf: "center",
+    width: "100%",
+  },
   faqsHeader: {
     alignItems: "center",
+    maxWidth: 768,
+    alignSelf: "center",
     marginBottom: 40,
   },
   faqsTitle: {
@@ -1109,14 +1233,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 29,
     marginBottom: 8,
+    maxWidth: 768,
   },
   feedbackButton: {
     borderWidth: 1,
     borderColor: "#fff",
-    paddingVertical: 14,
+    paddingVertical: 16,
     paddingHorizontal: 32,
-    borderRadius: 6,
-    marginTop: 24,
+    borderRadius: 8,
+    backgroundColor: "transparent",
+    marginTop: 32,
   },
   feedbackButtonText: {
     fontSize: 16,
@@ -1130,13 +1256,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#737373",
     borderRadius: 6,
-    paddingHorizontal: 16,
-    paddingVertical: 20,
+    overflow: "hidden",
   },
-  faqQuestionRow: {
+  faqQuestionButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    padding: 16,
   },
   faqQuestionText: {
     fontSize: 18,
@@ -1145,10 +1271,15 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 8,
   },
+  faqChevron: {},
+  faqAnswerContainer: {
+    padding: 16,
+    paddingTop: 0,
+  },
   faqAnswerText: {
     fontSize: 18,
-    color: "#d4d4d4",
+    color: "#d1d5db",
     lineHeight: 31,
-    marginTop: 12,
+    marginBottom: 8,
   },
 });
