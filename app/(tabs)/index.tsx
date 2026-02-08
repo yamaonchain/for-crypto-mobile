@@ -252,8 +252,66 @@ function Why() {
   );
 }
 
-function How() { return <View />; }
-function Cosell() { return <View />; }
+function How() {
+  return (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>How It Works</Text>
+      <Text style={styles.sectionDescription}>
+        From listing to payout in minutes, not months.
+      </Text>
+      
+      <View style={styles.stepsContainer}>
+        {howSteps.map((step, index) => (
+          <View key={index} style={styles.stepItem}>
+            <View style={styles.stepNumberContainer}>
+              <Text style={styles.stepNumber}>{index + 1}</Text>
+            </View>
+            <Text style={styles.stepText}>{step}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+function Cosell() {
+  return (
+    <View style={styles.cosellSection}>
+      <Text style={styles.cosellTitle}>Cosell lets anyone earn real crypto by helping sell something they believe in.</Text>
+      
+      <Text style={styles.cosellDescription}>
+        When a seller enables Cosell, they set a public commission rate. Anyone can click Cosell, generate a unique link, and start earning immediately.
+      </Text>
+      
+      <Text style={styles.cosellDescription}>
+        The moment you Cosell, a smart contract is created that locks in your commission rate for 30 days.
+      </Text>
+      
+      <View style={styles.cosellFeatures}>
+        <View style={styles.featureItem}>
+          <Text style={styles.featureText}>
+            If the seller raises the commission later, your rate increases right away
+          </Text>
+        </View>
+        <View style={styles.featureItem}>
+          <Text style={styles.featureText}>
+            If the seller lowers the commission, your higher rate stays locked until your 30-day window ends
+          </Text>
+        </View>
+      </View>
+      
+      <Text style={styles.cosellPayment}>
+        Every time someone makes a purchase through your link, you get paid instantly and directly to your wallet. No middlemen. No payout delays. No waiting period.
+      </Text>
+      
+      <Text style={styles.cosellTagline}>This is how marketing should work.</Text>
+      
+      <Text style={styles.cosellValueProp}>
+        You don't get paid for fake clicks, empty impressions, or engagement from bots.
+        You only get paid for real sales. The clearest signal of value.
+      </Text>
+    </View>
+  );
+}
 function Assets() { return <View />; }
 function BackedNetwork() { return <View />; }
 function FAQSection() { return <View />; }
@@ -354,4 +412,31 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 28, fontWeight: "600", color: "#000", marginBottom: 4 },
   sectionSubtitle: { fontSize: 28, fontWeight: "600", color: "#000", marginBottom: 12 },
   sectionDescription: { fontSize: 16, color: "#737373", lineHeight: 24, marginBottom: 20 },
+
+  // Cosell Section
+  cosellSection: { padding: 24, paddingVertical: 40, backgroundColor: "#fafafa" },
+  cosellTitle: { fontSize: 24, fontWeight: "600", color: "#000", lineHeight: 32, marginBottom: 20 },
+  cosellDescription: { fontSize: 16, color: "#525252", lineHeight: 24, marginBottom: 16 },
+  cosellFeatures: { marginVertical: 20 },
+  featureItem: { flexDirection: "row", marginBottom: 12, paddingLeft: 16 },
+  featureText: { fontSize: 16, color: "#525252", lineHeight: 24, flex: 1 },
+  cosellPayment: { fontSize: 16, color: "#525252", lineHeight: 24, marginBottom: 20, fontWeight: "500" },
+  cosellTagline: { fontSize: 20, fontWeight: "600", color: "#000", marginBottom: 16 },
+  cosellValueProp: { fontSize: 16, color: "#525252", lineHeight: 24 },
+
+  // How Section
+  stepsContainer: { gap: 20, marginTop: 8 },
+  stepItem: { flexDirection: "row", alignItems: "flex-start", gap: 16 },
+  stepNumberContainer: { 
+    backgroundColor: "#000", 
+    width: 28, 
+    height: 28, 
+    borderRadius: 14, 
+    alignItems: "center", 
+    justifyContent: "center",
+    flexShrink: 0,
+    marginTop: 2
+  },
+  stepNumber: { fontSize: 14, fontWeight: "600", color: "#fff" },
+  stepText: { fontSize: 16, color: "#525252", lineHeight: 24, flex: 1 },
 });
