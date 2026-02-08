@@ -12,12 +12,13 @@ import {
 import { Link, router } from "expo-router";
 import { useState, useRef, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { Colors, Typography, Spacing } from "../../constants/theme";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const SLIDE_WIDTH = SCREEN_WIDTH - 48;
 const SLIDE_SPACING = 12;
 
-// Real For Crypto products from the web app
+// UPDATED: Real For Crypto products with actual design/images
 const REAL_LISTINGS = [
   {
     title: "No School 4 Week Bootcamp.",
@@ -177,7 +178,7 @@ function Hero() {
               key={index}
               style={[
                 styles.dot,
-                { backgroundColor: index === activeIndex ? '#000' : '#ccc' }
+                { backgroundColor: index === activeIndex ? Colors.primary : Colors.muted }
               ]}
               onPress={() => handleDotPress(index)}
             />
@@ -442,7 +443,7 @@ const styles = StyleSheet.create({
 
   // Hero
   hero: { paddingTop: 40, paddingBottom: 20, alignItems: "center", paddingHorizontal: 16 },
-  heroTitle: { fontSize: 32, fontWeight: "500", textAlign: "center", color: "#000", lineHeight: 40, marginBottom: 12 },
+  heroTitle: { fontSize: 32, fontWeight: "500", textAlign: "center", color: Colors.foreground, lineHeight: 40, marginBottom: 12 },
   heroSubtitle: {
     fontSize: 18,
     color: "#737373",
@@ -453,8 +454,8 @@ const styles = StyleSheet.create({
   },
   heroButtons: { flexDirection: "row", gap: 16, width: "100%", maxWidth: 320 },
   buttonOutline: { flex: 1, borderWidth: 1, borderColor: "#e5e5e5", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
-  buttonOutlineText: { fontSize: 16, fontWeight: "500", color: "#000" },
-  buttonFilled: { flex: 1, backgroundColor: "#000", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
+  buttonOutlineText: { fontSize: 16, fontWeight: "500", color: Colors.foreground },
+  buttonFilled: { flex: 1, backgroundColor: Colors.primary, paddingVertical: 14, borderRadius: 6, alignItems: "center" },
   buttonFilledText: { fontSize: 16, fontWeight: "500", color: "#fff" },
 
   // Bot Quick Start
@@ -511,17 +512,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#e5e5e5",
   },
   cosellInfo: { flex: 1, alignItems: "center" },
-  cosellTitle: { fontSize: 14, fontWeight: "500", color: "#000", marginBottom: 2 },
+  cosellTitle: { fontSize: 14, fontWeight: "500", color: Colors.foreground, marginBottom: 2 },
   cosellCommission: { fontSize: 12, color: "#737373" },
   divider: { width: 1, height: 24, backgroundColor: "#e5e5e5" },
   becomeCoseller: { flex: 1, alignItems: "center" },
-  becomeCosellerText: { fontSize: 12, fontWeight: "500", color: "#000" },
-  buyButton: { backgroundColor: "#000", paddingVertical: 14, alignItems: "center" },
+  becomeCosellerText: { fontSize: 12, fontWeight: "500", color: Colors.foreground },
+  buyButton: { backgroundColor: Colors.primary, paddingVertical: 14, alignItems: "center" },
   buyButtonText: { fontSize: 16, fontWeight: "600", color: "#fff" },
   priceSection: { paddingVertical: 12, alignItems: "center", borderBottomWidth: 1, borderBottomColor: "#e5e5e5" },
-  price: { fontSize: 15, color: "#000" },
+  price: { fontSize: 15, color: Colors.foreground },
   slideContent: { padding: 24, alignItems: "center" },
-  slideTitle: { fontSize: 22, fontWeight: "600", color: "#000", textAlign: "center", marginBottom: 8, lineHeight: 28 },
+  slideTitle: { fontSize: 22, fontWeight: "600", color: Colors.foreground, textAlign: "center", marginBottom: 8, lineHeight: 28 },
   slideDescription: { fontSize: 16, color: "#737373", textAlign: "center", lineHeight: 24 },
   dotContainer: { flexDirection: "row", justifyContent: "center", gap: 10, marginTop: 16 },
   dot: { width: 14, height: 14, borderRadius: 7 },
@@ -529,26 +530,26 @@ const styles = StyleSheet.create({
 
   // Sections
   section: { padding: 24, paddingVertical: 40 },
-  sectionTitle: { fontSize: 28, fontWeight: "600", color: "#000", marginBottom: 4 },
-  sectionSubtitle: { fontSize: 28, fontWeight: "600", color: "#000", marginBottom: 12 },
+  sectionTitle: { fontSize: 28, fontWeight: "600", color: Colors.foreground, marginBottom: 4 },
+  sectionSubtitle: { fontSize: 28, fontWeight: "600", color: Colors.foreground, marginBottom: 12 },
   sectionDescription: { fontSize: 16, color: "#737373", lineHeight: 24, marginBottom: 20 },
 
   // Cosell Section
   cosellSection: { padding: 24, paddingVertical: 40, backgroundColor: "#fafafa" },
-  cosellTitle: { fontSize: 24, fontWeight: "600", color: "#000", lineHeight: 32, marginBottom: 20 },
+  cosellTitle: { fontSize: 24, fontWeight: "600", color: Colors.foreground, lineHeight: 32, marginBottom: 20 },
   cosellDescription: { fontSize: 16, color: "#525252", lineHeight: 24, marginBottom: 16 },
   cosellFeatures: { marginVertical: 20 },
   featureItem: { flexDirection: "row", marginBottom: 12, paddingLeft: 16 },
   featureText: { fontSize: 16, color: "#525252", lineHeight: 24, flex: 1 },
   cosellPayment: { fontSize: 16, color: "#525252", lineHeight: 24, marginBottom: 20, fontWeight: "500" },
-  cosellTagline: { fontSize: 20, fontWeight: "600", color: "#000", marginBottom: 16 },
+  cosellTagline: { fontSize: 20, fontWeight: "600", color: Colors.foreground, marginBottom: 16 },
   cosellValueProp: { fontSize: 16, color: "#525252", lineHeight: 24 },
 
   // How Section
   stepsContainer: { gap: 20, marginTop: 8 },
   stepItem: { flexDirection: "row", alignItems: "flex-start", gap: 16 },
   stepNumberContainer: { 
-    backgroundColor: "#000", 
+    backgroundColor: Colors.primary, 
     width: 28, 
     height: 28, 
     borderRadius: 14, 
@@ -564,7 +565,7 @@ const styles = StyleSheet.create({
   assetsGrid: { flexDirection: "row", flexWrap: "wrap", gap: 16, marginTop: 8 },
   assetItem: { flex: 1, minWidth: "45%", alignItems: "center", padding: 20, backgroundColor: "#fafafa", borderRadius: 8 },
   assetIcon: { marginBottom: 12 },
-  assetTitle: { fontSize: 16, fontWeight: "600", color: "#000", marginBottom: 4, textAlign: "center" },
+  assetTitle: { fontSize: 16, fontWeight: "600", color: Colors.foreground, marginBottom: 4, textAlign: "center" },
   assetDescription: { fontSize: 14, color: "#737373", textAlign: "center", lineHeight: 20 },
 
   // Network Section
@@ -584,7 +585,7 @@ const styles = StyleSheet.create({
     padding: 16, 
     backgroundColor: "#fafafa" 
   },
-  faqQuestionText: { fontSize: 16, fontWeight: "500", color: "#000", flex: 1, paddingRight: 8 },
+  faqQuestionText: { fontSize: 16, fontWeight: "500", color: Colors.foreground, flex: 1, paddingRight: 8 },
   faqAnswer: { 
     fontSize: 14, 
     color: "#525252", 
