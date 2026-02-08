@@ -330,9 +330,9 @@ export default function SearchScreen() {
               <View style={[styles.filterLine, { top: 2 }]} />
               <View style={[styles.filterLine, { top: 10 }]} />
               <View style={[styles.filterLine, { top: 18 }]} />
-              <View style={[styles.filterSlider, { top: -1, left: 3 }]} />
-              <View style={[styles.filterSlider, { top: 7, left: 14 }]} />
-              <View style={[styles.filterSlider, { top: 15, left: 3 }]} />
+              <View style={[styles.filterSlider, { top: 0, left: 3 }]} />
+              <View style={[styles.filterSlider, { top: 8, left: 14 }]} />
+              <View style={[styles.filterSlider, { top: 16, left: 3 }]} />
             </View>
           </View>
           <Text style={[styles.filterButtonText, hasActiveFilters && styles.filterButtonTextActive]}>
@@ -365,8 +365,8 @@ export default function SearchScreen() {
         >
           <Text style={styles.sortButtonText}>Sort</Text>
           <View style={styles.sortIcon}>
-            <Ionicons name="chevron-up" size={12} color="#000" />
-            <Ionicons name="chevron-down" size={12} color="#000" />
+            <Ionicons name="chevron-up" size={12} color="#000" style={{ marginBottom: -2 }} />
+            <Ionicons name="chevron-down" size={12} color="#000" style={{ marginTop: -2 }} />
           </View>
         </Pressable>
       </View>
@@ -638,17 +638,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   filterIconContainer: {
-    width: 20,
-    height: 18,
+    width: 25,
+    height: 22,
   },
   filterIcon: {
     position: "relative",
-    width: 20,
-    height: 18,
+    width: 25,
+    height: 22,
   },
   filterLine: {
     position: "absolute",
-    width: 20,
+    width: 25,
     height: 2,
     backgroundColor: "#000",
   },
