@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { api } from "../../src/api/client";
 import type { Post, PostVariant, PostRating, Media, PostMeta } from "../../src/api/types";
 import { formatDate } from "date-fns";
+import { useCart } from "../../src/context/CartContext";
 
 // Mock variants for example listings
 const MOCK_VARIANTS: PostVariant[] = [
@@ -69,6 +70,7 @@ const MOCK_POST_META: PostMeta = {
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { addToCart } = useCart();
   const [post, setPost] = useState<Post | null>(null);
   const [variants, setVariants] = useState<PostVariant[]>(MOCK_VARIANTS);
   const [selectedVariant, setSelectedVariant] = useState<PostVariant | null>(MOCK_VARIANTS[0]);
@@ -125,6 +127,28 @@ export default function ProductDetailScreen() {
       [
         { text: "Cancel", style: "cancel" },
         { text: "Create Link", onPress: () => console.log("Create cosell link") }
+      ]
+    );
+  };
+
+  const handleAddToCart = () => {
+    if (!post || !selectedVariant) return;
+    
+    addToCart({
+      id: post.id,
+      title: post.title,
+      price: price,
+      categoryName: post.categoryName,
+      sellerNickname: post.nickname,
+      commission: post.commission,
+    });
+
+    Alert.alert(
+      "Added to Cart",
+      `"${post.title}" has been added to your cart.`,
+      [
+        { text: "Continue Shopping", style: "cancel" },
+        { text: "View Cart", onPress: () => router.push("/(tabs)/cart") }
       ]
     );
   };
@@ -236,9 +260,16 @@ export default function ProductDetailScreen() {
               <Text style={styles.usdEquivalent}>≈ ${price} USD</Text>
             </View>
             
-            <Pressable style={styles.buyButton} onPress={handleBuy}>
-              <Text style={styles.buyButtonText}>Buy Now</Text>
-            </Pressable>
+            <View style={styles.buttonGroup}>
+              <Pressable style={styles.addToCartButton} onPress={handleAddToCart}>
+                <Ionicons name="bag-add" size={20} color="#000" />
+                <Text style={styles.addToCartButtonText}>Add to Cart</Text>
+              </Pressable>
+              
+              <Pressable style={styles.buyButton} onPress={handleBuy}>
+                <Text style={styles.buyButtonText}>Buy Now</Text>
+              </Pressable>
+            </View>
 
             {commission > 0 && (
               <View style={styles.cosellSection}>
@@ -633,14 +664,36 @@ const styles = StyleSheet.create({
     color: "#737373",
     marginTop: 4,
   },
+  buttonGroup: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  addToCartButton: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingVertical: 16,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: "#000",
+    backgroundColor: "#fff",
+  },
+  addToCartButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#000",
+  },
   buyButton: {
+    flex: 1,
     backgroundColor: "#000",
     paddingVertical: 16,
     borderRadius: 8,
     alignItems: "center",
   },
   buyButtonText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "600",
     color: "#fff",
   },
