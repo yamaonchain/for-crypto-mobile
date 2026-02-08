@@ -102,6 +102,23 @@ export default function ProductDetailScreen() {
           </Pressable>
         </View>
 
+        {/* What's Included */}
+        <View style={styles.includedSection}>
+          <Text style={styles.includedTitle}>What's Included</Text>
+          <View style={styles.includedItem}>
+            <Ionicons name="download-outline" size={20} color="#525252" />
+            <Text style={styles.includedText}>Digital download included</Text>
+          </View>
+          <View style={styles.includedItem}>
+            <Ionicons name="infinite-outline" size={20} color="#525252" />
+            <Text style={styles.includedText}>Lifetime access</Text>
+          </View>
+          <View style={styles.includedItem}>
+            <Ionicons name="flash-outline" size={20} color="#525252" />
+            <Text style={styles.includedText}>Instant delivery after purchase</Text>
+          </View>
+        </View>
+
         {/* Ratings */}
         <View style={styles.ratingsSection}>
           <View style={styles.ratingsHeader}>
@@ -231,6 +248,11 @@ const styles = StyleSheet.create({
   actionButton: { flex: 1, paddingVertical: 14, alignItems: "center", flexDirection: "row", justifyContent: "center", gap: 6 },
   actionText: { fontSize: 15, color: "#737373" },
   actionDivider: { width: 0.5, backgroundColor: "#e5e5e5" },
+
+  includedSection: { padding: 20, borderBottomWidth: 0.5, borderBottomColor: "#e5e5e5" },
+  includedTitle: { fontSize: 16, fontWeight: "600", color: "#000", marginBottom: 14 },
+  includedItem: { flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 12 },
+  includedText: { fontSize: 14, color: "#525252" },
 
   ratingsSection: { padding: 20 },
   ratingsHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 16 },
