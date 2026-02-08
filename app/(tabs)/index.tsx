@@ -382,46 +382,66 @@ function Cosell() {
   );
 }
 function Assets() {
+  const assetCards = [
+    {
+      image: "https://picsum.photos/300/200?random=assets1",
+      title: "Logos, Marks, Tags...",
+      description: "The scroll stops when you stand out. Upload clean logos, badges, and marks Cosellers can drop into any format. Whether you're selling or Coselling, identity matters."
+    },
+    {
+      image: "https://picsum.photos/300/200?random=assets2", 
+      title: "Films, Ads, Interviews...",
+      description: "Let the story do the selling. Trailers, interviews, edits, and reels. Built by Sellers or remixable by Cosellers. The better the content, the further it travels."
+    },
+    {
+      image: "https://picsum.photos/300/200?random=assets3",
+      title: "Photos, Text, Documentation...",
+      description: "Everything needed to list, describe, and post. Product shots. Specs. Descriptions. Quotes. Clear tools for anyone helping push the product forward."
+    }
+  ];
+
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Sales Assets</Text>
+      <Text style={styles.sectionTitle}>Sales Assets.</Text>
+      <Text style={styles.sectionSubtitle}>Give Cosellers the tools to sell.</Text>
       <Text style={styles.sectionDescription}>
-        Upload logos, videos, and creative assets. Cosellers unlock them when they create a contract.
-        Give your network the tools they need to sell effectively.
+        Official photos, videos, and creative material uploaded by sellers and unlocked by Cosellers. Quality promotion that scales with you.
       </Text>
       
+      {/* Large assets overview image */}
+      <Image 
+        source={{ uri: "https://picsum.photos/800/400?random=assetsoverview" }}
+        style={styles.assetsHeroImage}
+        resizeMode="cover"
+      />
+      
+      {/* Description section */}
+      <View style={styles.assetsDescSection}>
+        <Text style={styles.assetsDescTitle}>Your sales materials, your way</Text>
+        <Text style={styles.assetsDescText}>
+          Every listing includes a dedicated sales assets section: a space to upload the logos, videos, and creative tools that help your product sell.
+        </Text>
+        <Text style={styles.assetsDescText}>
+          Sellers upload. Cosellers get access the moment they create a contract.
+        </Text>
+        <Text style={styles.assetsDescText}>
+          The result is aligned promotion and wider reach from day one.
+        </Text>
+      </View>
+      
+      {/* Asset cards */}
       <View style={styles.assetsGrid}>
-        <View style={styles.assetItem}>
-          <View style={styles.assetIcon}>
-            <Ionicons name="image" size={24} color="#525252" />
+        {assetCards.map((card, index) => (
+          <View key={index} style={styles.assetCard}>
+            <Image 
+              source={{ uri: card.image }}
+              style={styles.assetCardImage}
+              resizeMode="cover"
+            />
+            <Text style={styles.assetCardTitle}>{card.title}</Text>
+            <Text style={styles.assetCardDescription}>{card.description}</Text>
           </View>
-          <Text style={styles.assetTitle}>Product Images</Text>
-          <Text style={styles.assetDescription}>High-res photos and screenshots</Text>
-        </View>
-        
-        <View style={styles.assetItem}>
-          <View style={styles.assetIcon}>
-            <Ionicons name="videocam" size={24} color="#525252" />
-          </View>
-          <Text style={styles.assetTitle}>Demo Videos</Text>
-          <Text style={styles.assetDescription}>Show your product in action</Text>
-        </View>
-        
-        <View style={styles.assetItem}>
-          <View style={styles.assetIcon}>
-            <Ionicons name="document-text" size={24} color="#525252" />
-          </View>
-          <Text style={styles.assetTitle}>Copy & Messaging</Text>
-          <Text style={styles.assetDescription}>Ready-to-use sales copy</Text>
-        </View>
-        
-        <View style={styles.assetItem}>
-          <View style={styles.assetIcon}>
-            <Ionicons name="color-palette" size={24} color="#525252" />
-          </View>
-          <Text style={styles.assetTitle}>Brand Assets</Text>
-          <Text style={styles.assetDescription}>Logos, colors, and style guides</Text>
-        </View>
+        ))}
       </View>
     </View>
   );
@@ -750,11 +770,54 @@ const styles = StyleSheet.create({
   stepText: { fontSize: 18, color: Colors.foreground, lineHeight: 24, textAlign: "center" },
 
   // Assets Section
-  assetsGrid: { flexDirection: "row", flexWrap: "wrap", gap: 16, marginTop: 8 },
-  assetItem: { flex: 1, minWidth: "45%", alignItems: "center", padding: 20, backgroundColor: "#fafafa", borderRadius: 8 },
-  assetIcon: { marginBottom: 12 },
-  assetTitle: { fontSize: 16, fontWeight: "600", color: Colors.foreground, marginBottom: 4, textAlign: "center" },
-  assetDescription: { fontSize: 14, color: "#737373", textAlign: "center", lineHeight: 20 },
+  assetsHeroImage: { 
+    width: "100%", 
+    height: 200, 
+    marginTop: 24, 
+    marginBottom: 32, 
+    borderRadius: 12 
+  },
+  assetsDescSection: { 
+    marginBottom: 32 
+  },
+  assetsDescTitle: { 
+    fontSize: 28, 
+    fontWeight: "500", 
+    color: Colors.foreground, 
+    marginBottom: 16 
+  },
+  assetsDescText: { 
+    fontSize: 18, 
+    color: Colors.mutedForeground, 
+    lineHeight: 24, 
+    marginBottom: 12 
+  },
+  assetsGrid: { 
+    gap: 24 
+  },
+  assetCard: { 
+    backgroundColor: Colors.card, 
+    borderRadius: 12, 
+    padding: 24, 
+    marginBottom: 16 
+  },
+  assetCardImage: { 
+    width: "100%", 
+    height: 120, 
+    borderRadius: 8, 
+    marginBottom: 16 
+  },
+  assetCardTitle: { 
+    fontSize: 20, 
+    fontWeight: "500", 
+    color: Colors.foreground, 
+    marginBottom: 8 
+  },
+  assetCardDescription: { 
+    fontSize: 16, 
+    color: Colors.mutedForeground, 
+    lineHeight: 22 
+  },
 
   // Network Section
   networkSection: { padding: 24, paddingVertical: 40, backgroundColor: "#000" },
