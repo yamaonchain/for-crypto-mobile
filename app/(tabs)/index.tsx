@@ -522,12 +522,12 @@ function AssetCard({ title, description, icon }: { title: string; description: s
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#000" },
+  container: { flex: 1, backgroundColor: "#fff" },
   content: { paddingBottom: 40 },
 
   // Hero
   hero: { paddingTop: 40, paddingBottom: 20, alignItems: "center" },
-  heroTitle: { fontSize: 32, fontWeight: "700", textAlign: "center", color: "#fff", lineHeight: 40 },
+  heroTitle: { fontSize: 32, fontWeight: "700", textAlign: "center", color: "#000", lineHeight: 40 },
   heroSubtitle: {
     fontSize: 16,
     color: "#737373",
@@ -537,10 +537,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   heroButtons: { flexDirection: "row", gap: 12, marginTop: 24, paddingHorizontal: 24, width: "100%" },
-  buttonOutline: { flex: 1, borderWidth: 1, borderColor: "#fff", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
-  buttonOutlineText: { fontSize: 16, fontWeight: "500", color: "#fff" },
-  buttonFilled: { flex: 1, backgroundColor: "#fff", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
-  buttonFilledText: { fontSize: 16, fontWeight: "500", color: "#000" },
+  buttonOutline: { flex: 1, borderWidth: 1, borderColor: "#000", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
+  buttonOutlineText: { fontSize: 16, fontWeight: "500", color: "#000" },
+  buttonFilled: { flex: 1, backgroundColor: "#000", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
+  buttonFilledText: { fontSize: 16, fontWeight: "500", color: "#fff" },
 
   // Carousel
   carouselContainer: { marginTop: 32, width: "100%" },
@@ -664,11 +664,11 @@ const styles = StyleSheet.create({
   networkDivider: { width: 1, height: 24, backgroundColor: "#d4d4d4" },
 
   // FAQs
-  faqSection: { paddingHorizontal: 24, paddingVertical: 32, backgroundColor: "#0a0a0a" },
-  faqItem: { borderBottomWidth: 0.5, borderBottomColor: "#333", paddingVertical: 16 },
+  faqSection: { paddingHorizontal: 24, paddingVertical: 32, backgroundColor: "#f5f5f5" },
+  faqItem: { borderBottomWidth: 0.5, borderBottomColor: "#e5e5e5", paddingVertical: 16 },
   faqHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  faqQuestion: { fontSize: 15, fontWeight: "600", color: "#fff", flex: 1, marginRight: 12 },
-  faqAnswer: { fontSize: 14, color: "#a3a3a3", lineHeight: 22, marginTop: 10 },
-  feedbackButton: { backgroundColor: "transparent", borderWidth: 1, borderColor: "#fff", paddingVertical: 12, paddingHorizontal: 20, borderRadius: 6, alignItems: "center", marginBottom: 20 },
-  feedbackButtonText: { fontSize: 14, fontWeight: "500", color: "#fff" },
+  faqQuestion: { fontSize: 15, fontWeight: "600", color: "#000", flex: 1, marginRight: 12 },
+  faqAnswer: { fontSize: 14, color: "#737373", lineHeight: 22, marginTop: 10 },
+  feedbackButton: { backgroundColor: "transparent", borderWidth: 1, borderColor: "#000", paddingVertical: 12, paddingHorizontal: 20, borderRadius: 6, alignItems: "center", marginBottom: 20 },
+  feedbackButtonText: { fontSize: 14, fontWeight: "500", color: "#000" },
 });

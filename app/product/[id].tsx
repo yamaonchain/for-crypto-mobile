@@ -2,10 +2,66 @@ import { View, Text, StyleSheet, ScrollView, Pressable, Animated, Share, Alert }
 import { useLocalSearchParams, router, Link } from "expo-router";
 import { useState, useEffect, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { apiClient } from "../../src/api/client";
-import type { Post, PostVariant, PostRating, Media, PostMeta } from "../../src/api/types";
-import { formatDate } from "date-fns";
-import { useCart } from "../../src/context/CartContext";
+// Mock types for the component
+interface Post {
+  id: string;
+  title: string;
+  bio: string;
+  description: string;
+  categoryName: string;
+  nickname: string;
+  commission: string;
+  payoutChain: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface PostVariant {
+  id: string;
+  postId: string;
+  name: string;
+  description: string;
+  price: string;
+  quantity: number;
+  content: string;
+  position: number;
+  isPwyw: boolean;
+  suggestedPrice: string | null;
+}
+
+interface PostRating {
+  userId: string;
+  nickname: string;
+  avatarUrl: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
+interface Media {
+  id: string;
+  url: string;
+  code: string;
+  position: number;
+}
+
+interface PostMeta {
+  ratings: {
+    average: number;
+    total: number;
+  };
+  sales: number;
+}
+// Simple date formatter
+const formatDate = (date: Date, format: string) => {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${months[date.getMonth()]} ${date.getDate()}`;
+};
+// Mock cart functionality for now
+const useCart = () => ({
+  addToCart: (item: any) => console.log('Added to cart:', item)
+});
 
 // Mock variants for example listings
 const MOCK_VARIANTS: PostVariant[] = [
@@ -84,7 +140,7 @@ export default function ProductDetailScreen() {
   useEffect(() => {
     // Always load mock data regardless of ID
     setTimeout(() => {
-      setPost({
+      const mockPost: Post = {
         id: id || "1",
         title: "No School 4 Week Bootcamp.",
         bio: "A 5-step video-based mindset reset for anyone building instead of waiting for permission.",
@@ -95,7 +151,8 @@ export default function ProductDetailScreen() {
         payoutChain: "base",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: "2024-01-01T00:00:00Z"
-      } as any);
+      };
+      setPost(mockPost);
       setLoading(false);
     }, 100);
   }, [id]);
