@@ -32,6 +32,19 @@ export function HomeScreen({ navigation }: any) {
           </TouchableOpacity>
         </View>
 
+        {/* Getting Started */}
+        <View style={styles.section}>
+          <TouchableOpacity
+            style={styles.learnButton}
+            onPress={() => navigation.navigate('Learn')}
+          >
+            <Text style={styles.learnButtonText}>📚 Getting Started Guide</Text>
+            <Text style={styles.learnButtonSubtext}>
+              Learn about crypto wallets, USDC, and how to start coselling
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         {/* How It Works */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>How It Works</Text>
@@ -129,5 +142,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#cccccc',
     flex: 1,
+  },
+  learnButton: {
+    backgroundColor: '#1a1a1a',
+    borderWidth: 1,
+    borderColor: '#333333',
+    borderRadius: 12,
+    padding: 16,
+  },
+  learnButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#f97316',
+    marginBottom: 4,
+  },
+  learnButtonSubtext: {
+    fontSize: 14,
+    color: '#cccccc',
+    lineHeight: 18,
   },
 });
