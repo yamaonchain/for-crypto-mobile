@@ -201,7 +201,7 @@ class MockApiClient implements ApiClient {
 import { HttpApiClient } from "./http-client";
 
 // Configuration for API client
-const USE_REAL_API = false; // Set to true once API endpoints are deployed
+const USE_REAL_API = true; // Set to true once API endpoints are deployed
 const API_BASE_URL = "https://for-crypto.vercel.app"; // Production API
 
 export const api: ApiClient = USE_REAL_API 
