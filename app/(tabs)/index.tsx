@@ -212,24 +212,24 @@ function BotQuickStart() {
       
       <View style={styles.botSteps}>
         <View style={styles.botStep}>
-          <View style={styles.stepNumber}>
+          <View style={styles.botStepNumber}>
             <Text style={styles.stepNumberText}>1</Text>
           </View>
-          <Text style={styles.stepText}>Register bot</Text>
+          <Text style={styles.botStepText}>Register bot</Text>
         </View>
         <Text style={styles.stepArrow}>→</Text>
         <View style={styles.botStep}>
-          <View style={styles.stepNumber}>
+          <View style={styles.botStepNumber}>
             <Text style={styles.stepNumberText}>2</Text>
           </View>
-          <Text style={styles.stepText}>Get API key</Text>
+          <Text style={styles.botStepText}>Get API key</Text>
         </View>
         <Text style={styles.stepArrow}>→</Text>
         <View style={styles.botStep}>
-          <View style={styles.stepNumber}>
+          <View style={styles.botStepNumber}>
             <Text style={styles.stepNumberText}>3</Text>
           </View>
-          <Text style={styles.stepText}>Start earning</Text>
+          <Text style={styles.botStepText}>Start earning</Text>
         </View>
       </View>
     </View>
@@ -469,9 +469,9 @@ const styles = StyleSheet.create({
   copyButton: { position: "absolute", top: 12, right: 12, padding: 8, backgroundColor: "#404040", borderRadius: 4 },
   botSteps: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 24 },
   botStep: { flexDirection: "row", alignItems: "center", gap: 8 },
-  stepNumber: { backgroundColor: "#262626", width: 20, height: 20, borderRadius: 10, alignItems: "center", justifyContent: "center" },
+  botStepNumber: { backgroundColor: "#262626", width: 20, height: 20, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   stepNumberText: { fontSize: 12, fontWeight: "500", color: "#d4d4d4" },
-  stepText: { fontSize: 14, color: "#a3a3a3" },
+  botStepText: { fontSize: 14, color: "#a3a3a3" },
   stepArrow: { fontSize: 14, color: "#525252" },
 
   // Carousel
