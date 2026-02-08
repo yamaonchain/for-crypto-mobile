@@ -506,11 +506,14 @@ function FAQSection() {
   ];
 
   return (
-    <View style={styles.section}>
-      <Text style={styles.sectionTitle}>FAQ</Text>
-      <Text style={styles.sectionDescription}>
-        Common questions about selling and coselling for crypto.
-      </Text>
+    <View style={styles.faqSection}>
+      <Text style={styles.faqTitle}>Frequently Asked Questions</Text>
+      <Text style={styles.faqSubtitle}>Everything you need to know about For Crypto.</Text>
+      <Text style={styles.faqSubtitle}>And if you have an idea, feedback, or want to request a feature, let us know.</Text>
+      
+      <Pressable style={styles.feedbackButton}>
+        <Text style={styles.feedbackButtonText}>Feedback</Text>
+      </Pressable>
       
       <View style={styles.faqContainer}>
         {faqs.map((faq, index) => (
@@ -523,7 +526,7 @@ function FAQSection() {
               <Ionicons
                 name={expandedFAQ === index ? "chevron-up" : "chevron-down"}
                 size={20}
-                color="#525252"
+                color="#ffffff"
               />
             </Pressable>
             {expandedFAQ === index && (
@@ -863,22 +866,55 @@ const styles = StyleSheet.create({
   },
 
   // FAQ Section
-  faqContainer: { gap: 12, marginTop: 16 },
-  faqItem: { borderWidth: 1, borderColor: "#e5e5e5", borderRadius: 8, overflow: "hidden" },
+  faqSection: { 
+    padding: 24, 
+    paddingVertical: 40, 
+    backgroundColor: "#0a0a0a" 
+  },
+  faqTitle: { 
+    fontSize: 32, 
+    fontWeight: "500", 
+    color: "#ffffff", 
+    marginBottom: 16, 
+    textAlign: "center" 
+  },
+  faqSubtitle: { 
+    fontSize: 18, 
+    color: "#f5f5f5", 
+    textAlign: "center", 
+    lineHeight: 24, 
+    marginBottom: 8 
+  },
+  feedbackButton: { 
+    borderWidth: 1, 
+    borderColor: "#ffffff", 
+    paddingVertical: 16, 
+    paddingHorizontal: 32, 
+    borderRadius: 8, 
+    marginVertical: 32, 
+    alignSelf: "center" 
+  },
+  feedbackButtonText: { 
+    fontSize: 16, 
+    fontWeight: "500", 
+    color: "#ffffff" 
+  },
+  faqContainer: { gap: 24, marginTop: 16 },
+  faqItem: { borderWidth: 1, borderColor: "#737373", borderRadius: 8, overflow: "hidden" },
   faqQuestion: { 
     flexDirection: "row", 
     justifyContent: "space-between", 
     alignItems: "center", 
     padding: 16, 
-    backgroundColor: "#fafafa" 
+    backgroundColor: "transparent" 
   },
-  faqQuestionText: { fontSize: 16, fontWeight: "500", color: Colors.foreground, flex: 1, paddingRight: 8 },
+  faqQuestionText: { fontSize: 18, fontWeight: "500", color: "#ffffff", flex: 1, paddingRight: 8 },
   faqAnswer: { 
-    fontSize: 14, 
-    color: "#525252", 
-    lineHeight: 20, 
+    fontSize: 16, 
+    color: "#d4d4d4", 
+    lineHeight: 24, 
     padding: 16, 
     paddingTop: 12,
-    backgroundColor: "#fff" 
+    backgroundColor: "transparent" 
   },
 });
