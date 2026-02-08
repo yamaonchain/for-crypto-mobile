@@ -8,6 +8,7 @@ import {
   FlatList,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  Image,
 } from "react-native";
 import { Link, router } from "expo-router";
 import { useState, useRef, useCallback } from "react";
@@ -103,8 +104,12 @@ function Hero() {
           <Text style={styles.exampleLabelText}>Example Listing</Text>
         </View>
         
-        {/* Placeholder for video/image - using gray background */}
-        <View style={styles.slideImage} />
+        {/* Real product image placeholder */}
+        <Image 
+          source={{ uri: `https://picsum.photos/600/340?random=${index}` }}
+          style={styles.slideImage}
+          resizeMode="cover"
+        />
         
         <View style={styles.slideFooter}>
           <View style={styles.cosellInfo}>
@@ -143,6 +148,12 @@ function Hero() {
         instant payouts in USDC, a digital dollar that's always worth $1.
         No banks. No middlemen. Just your wallet and the internet.
       </Text>
+      
+      {/* COSELLING IS THE NEW NEW - Large Typography Section */}
+      <View style={styles.cosellingHero}>
+        <Text style={styles.cosellingHeroText}>COSELLING IS THE NEW NEW</Text>
+      </View>
+      
       <View style={styles.heroButtons}>
         <Link href="/search" asChild>
           <Pressable style={styles.buttonOutline}>
@@ -453,6 +464,22 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   heroButtons: { flexDirection: "row", gap: 16, width: "100%", maxWidth: 320 },
+  cosellingHero: { 
+    paddingVertical: 40, 
+    paddingHorizontal: 16, 
+    alignItems: "center",
+    backgroundColor: Colors.surface,
+    marginVertical: 32,
+    borderRadius: 12,
+  },
+  cosellingHeroText: { 
+    fontSize: 32, 
+    fontWeight: "700", 
+    textAlign: "center", 
+    color: Colors.foreground,
+    letterSpacing: 1,
+    lineHeight: 40,
+  },
   buttonOutline: { flex: 1, borderWidth: 1, borderColor: "#e5e5e5", paddingVertical: 14, borderRadius: 6, alignItems: "center" },
   buttonOutlineText: { fontSize: 16, fontWeight: "500", color: Colors.foreground },
   buttonFilled: { flex: 1, backgroundColor: Colors.primary, paddingVertical: 14, borderRadius: 6, alignItems: "center" },
@@ -500,9 +527,7 @@ const styles = StyleSheet.create({
   exampleLabelText: { fontSize: 11, color: "#fff", fontWeight: "500" },
   slideImage: {
     aspectRatio: 16 / 9,
-    backgroundColor: "#f5f5f5",
-    alignItems: "center",
-    justifyContent: "center",
+    width: "100%",
   },
   slideFooter: {
     flexDirection: "row",
