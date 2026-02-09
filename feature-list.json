@@ -1,0 +1,218 @@
+[
+  {
+    "id": "feat-001",
+    "category": "theme",
+    "description": "Dark theme matches web app exactly: bg #0a0a0a, fg #e5e5e5, primary #ff6000, card #1a1a1a, border #262626",
+    "steps": ["Open app", "Verify background is #0a0a0a", "Verify text is light", "Verify orange accents are #ff6000", "Compare side-by-side with forcrypto.fun"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-002",
+    "category": "navigation",
+    "description": "Tab bar with Home, Search, Cart, Profile tabs - icons and labels match web nav",
+    "steps": ["Open app", "Verify 4 tabs visible", "Tap each tab", "Verify correct screen loads", "Verify active tab highlight is orange"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-003",
+    "category": "homepage",
+    "description": "Homepage hero section: tagline 'Sell. Cosell. For Crypto.' with subtitle and CTA buttons",
+    "steps": ["Open app to Home tab", "Verify hero text matches web exactly", "Verify CTA buttons present", "Verify layout/spacing reasonable for mobile"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-004",
+    "category": "homepage",
+    "description": "Homepage features section: How It Works, Cosell explanation, For Sellers, For Cosellers",
+    "steps": ["Scroll past hero", "Verify How It Works section", "Verify Cosell section", "Verify seller/coseller sections", "Compare content with web"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-005",
+    "category": "homepage",
+    "description": "Homepage FAQ section: all 24 FAQs from web app, expandable/collapsible",
+    "steps": ["Scroll to FAQ section", "Count FAQ items (should be 24)", "Tap to expand one", "Verify answer text matches web", "Tap to collapse"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-006",
+    "category": "homepage",
+    "description": "Homepage footer with links matching web app footer",
+    "steps": ["Scroll to bottom", "Verify footer links present", "Verify styling matches dark theme"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-007",
+    "category": "homepage",
+    "description": "Homepage images load from forcrypto.fun (not placeholders or broken paths)",
+    "steps": ["Open Home tab", "Scroll through page", "Verify all images load (no broken image icons)", "Verify images are from forcrypto.fun domain"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-008",
+    "category": "search",
+    "description": "Search/Browse page with category filters and product grid",
+    "steps": ["Tap Search tab", "Verify search input visible", "Verify category filters visible", "Verify product cards display in grid", "Verify dark theme applied"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-009",
+    "category": "search",
+    "description": "Search filtering and sorting works",
+    "steps": ["Enter search term", "Verify results filter", "Try category filter", "Try sort option", "Verify results update"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-010",
+    "category": "product",
+    "description": "Product detail page shows all info: title, price, description, seller, images, cosell info",
+    "steps": ["Tap a product card", "Verify product title and price", "Verify description", "Verify seller info", "Verify cosell commission info", "Verify images load"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-011",
+    "category": "product",
+    "description": "Product detail has Buy and Cosell action buttons",
+    "steps": ["Open product detail", "Verify Buy button visible", "Verify Cosell button visible", "Verify buttons styled correctly (orange primary)"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-012",
+    "category": "product",
+    "description": "Product detail shows ratings/reviews section",
+    "steps": ["Open product detail", "Scroll to ratings section", "Verify star rating display", "Verify review count", "Verify review content if available"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-013",
+    "category": "cart",
+    "description": "Cart page shows added items with quantities and total",
+    "steps": ["Add item to cart", "Tap Cart tab", "Verify item appears", "Verify quantity display", "Verify price total", "Verify dark theme"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-014",
+    "category": "cart",
+    "description": "Cart allows removing items and updating quantities",
+    "steps": ["Add item to cart", "Go to cart", "Remove item", "Verify it disappears", "Add again", "Change quantity", "Verify total updates"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-015",
+    "category": "checkout",
+    "description": "Checkout flow from cart to order confirmation",
+    "steps": ["Add item to cart", "Tap checkout", "Verify checkout screen loads", "Verify order summary", "Verify payment info section"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-016",
+    "category": "checkout",
+    "description": "Order confirmation page shows order details",
+    "steps": ["Complete checkout flow", "Verify confirmation screen", "Verify order number/details", "Verify items listed"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-017",
+    "category": "profile",
+    "description": "Profile page shows user info and auth states (logged in vs logged out)",
+    "steps": ["Tap Profile tab while logged out", "Verify login/connect prompt", "Verify dark theme", "Verify layout matches web profile page structure"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-018",
+    "category": "profile",
+    "description": "Profile page has tabbed content (listings, purchases, settings)",
+    "steps": ["Open profile", "Verify tabs visible", "Tap each tab", "Verify content changes"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-019",
+    "category": "general",
+    "description": "All text uses Figtree font (or system font fallback that looks clean)",
+    "steps": ["Open any page", "Verify font rendering", "Compare with web app typography"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-020",
+    "category": "general",
+    "description": "App loads without crashes on iOS simulator",
+    "steps": ["Launch app in simulator", "Navigate all tabs", "Open product detail", "Go to cart", "Go to checkout", "No crashes or red screens"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-021",
+    "category": "general",
+    "description": "Navigation back buttons work correctly throughout the app",
+    "steps": ["Navigate to product detail", "Press back", "Verify returns to previous screen", "Navigate to checkout", "Press back", "Verify returns to cart"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-022",
+    "category": "general",
+    "description": "Scrolling is smooth on all pages with long content",
+    "steps": ["Open homepage", "Scroll to bottom", "Verify smooth scrolling", "Open search with many results", "Scroll", "Verify no jank"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-023",
+    "category": "api",
+    "description": "App fetches real product data from API (not hardcoded mock data)",
+    "steps": ["Open search", "Verify products match live site", "Open product detail", "Verify price/description match live site"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  },
+  {
+    "id": "feat-024",
+    "category": "api",
+    "description": "App handles API errors gracefully (loading states, error messages)",
+    "steps": ["Disable network", "Open search", "Verify loading indicator", "Verify error message (not crash)", "Re-enable network", "Verify recovery"],
+    "passes": false,
+    "testedAt": null,
+    "testedBy": null
+  }
+]

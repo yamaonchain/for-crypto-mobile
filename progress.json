@@ -1,0 +1,39 @@
+{
+  "project": "for-crypto-mobile",
+  "startedAt": "2026-02-07",
+  "lastUpdatedBy": "kikai",
+  "lastUpdatedAt": "2026-02-09T23:40:00Z",
+  "currentPhase": "phase-1-visual-parity",
+  "summary": "Mobile app scaffolded with Expo + React Native. Dark theme applied. Basic screens exist (Home, Search, Product Detail, Cart, Checkout, Profile, Order Confirmation). Previous work was rejected for not matching web app. Full rebuild in progress.",
+  "completedFeatures": [],
+  "inProgress": null,
+  "blocked": [
+    {
+      "id": "feat-023",
+      "reason": "Web app uses TanStack server functions, not REST. Mobile needs API endpoints. WJP to decide on approach."
+    }
+  ],
+  "sessionLog": [
+    {
+      "date": "2026-02-07",
+      "agent": "yama",
+      "summary": "Initial scaffold, 4 screens, light theme (wrong)"
+    },
+    {
+      "date": "2026-02-08",
+      "agent": "kikai",
+      "summary": "Dark theme rebuild, all 24 FAQs, real images. Rejected again for not matching closely enough."
+    },
+    {
+      "date": "2026-02-09",
+      "agent": "kikai",
+      "summary": "System audit. Created project harness (feature-list.json, progress.json, init.sh). Ready for clean rebuild."
+    }
+  ],
+  "rules": {
+    "oneFeaturePerSession": true,
+    "commitAfterEachFeature": true,
+    "testBeforeMarkingPassing": true,
+    "compareAgainstLiveSite": "https://for-crypto.vercel.app"
+  }
+}
